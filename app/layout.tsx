@@ -13,10 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Srivatsav',
-  description:
-    'Professional portfolio of Srivatsav Karamala featuring premium iOS and web products, including FactRead, Holdboard, Pureclick, CodeClarity, and QuickCV.',
-};
+  title: 'Srivatsav Portfolio',
 
 export default function RootLayout({
   children,
