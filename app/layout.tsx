@@ -13,7 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Srivatsav Portfolio',
+  title: 'Srivatsav',
+  description:
+    'Professional portfolio of Srivatsav featuring mobile and web products, including FactRead, Holdboard, Pureclick, CodeClarity, and QuickCV.',
+};
 
 export default function RootLayout({
   children,
