@@ -19,6 +19,20 @@ type Project = {
 export default function Work() {
   const projects: Project[] = [
     {
+      title: 'Holdboard',
+      category: 'iOS Clipboard Utility',
+      description:
+        'A secure clipboard manager for iPhone that organizes copied content instantly and protects sensitive clips with Face ID.',
+      screenshots: ['/holdboard/holdboard-cover.jpg'],
+      link: 'https://apps.apple.com/us/app/holdboard/id6761117827',
+      linkLabel: 'View Product',
+      type: 'mobile',
+      visual: 'poster',
+      tech: ['SwiftUI', 'Core Data', 'LocalAuthentication', 'UIPasteboard'],
+      impact: 'Improves retrieval speed for repeated copy workflows while maintaining privacy controls.',
+      privacyLink: '/privacy/holdboard',
+    },
+    {
       title: 'FactRead',
       category: 'iOS Application',
       description:
@@ -58,20 +72,6 @@ export default function Work() {
       tech: ['SwiftUI', 'Core Data', 'Formula Engine', 'Search'],
       impact: 'Gives users clear financial outputs quickly and keeps recurring calculations easy to revisit.',
       privacyLink: '/privacy/moneyformula',
-    },
-    {
-      title: 'Holdboard',
-      category: 'iOS Clipboard Utility',
-      description:
-        'A secure clipboard manager for iPhone that organizes copied content instantly and protects sensitive clips with Face ID.',
-      screenshots: ['/holdboard/holdboard-cover.jpg'],
-      link: 'https://apps.apple.com/us/app/holdboard/id6761117827',
-      linkLabel: 'View Product',
-      type: 'mobile',
-      visual: 'poster',
-      tech: ['SwiftUI', 'Core Data', 'LocalAuthentication', 'UIPasteboard'],
-      impact: 'Improves retrieval speed for repeated copy workflows while maintaining privacy controls.',
-      privacyLink: '/privacy/holdboard',
     },
     {
       title: 'Pureclick Walls',
@@ -127,7 +127,14 @@ export default function Work() {
 
           return (
             <div key={index} className="space-y-6">
-              <h3 className="text-4xl md:text-5xl font-bold tracking-tight text-black">{project.title}</h3>
+              <div className="flex items-center gap-3">
+                <h3 className="text-4xl md:text-5xl font-bold tracking-tight text-black">{project.title}</h3>
+                {project.title === 'Holdboard' && (
+                  <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.12em] bg-black text-white">
+                    Best App
+                  </span>
+                )}
+              </div>
 
               <div
                 className={`group relative overflow-hidden rounded-[36px] p-7 md:p-10 transition-all duration-500 min-h-[420px] flex flex-col justify-between shadow-[0_24px_70px_-38px_rgba(0,0,0,0.45)] ${

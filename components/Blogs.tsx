@@ -5,6 +5,16 @@ import Link from 'next/link';
 export default function Blogs() {
   const posts = [
     {
+      title: 'Holdboard: Clipboard, Reimagined',
+      excerpt:
+        'Engineering a secure clipboard vault with Face ID protection, structured folders, and low-friction retrieval for real workflows.',
+      date: 'Apr 2026',
+      project: 'iOS / Utility',
+      image: '/holdboard/holdboard-icon.png',
+      href: '/blog/holdboard',
+      readTime: '8 min read',
+    },
+    {
       title: 'FactRead: Swipe.Read.Wonder',
       excerpt:
         'Building an iOS reading app with Liquid Glass-inspired surfaces, multilingual narration, and adaptive readability controls.',
@@ -21,19 +31,9 @@ export default function Blogs() {
         'How MoneyFormula simplifies daily finance calculations with fast inputs, clean results, saved history, and instant category search.',
       date: 'Apr 2026',
       project: 'iOS / Finance',
-      image: '/moneyformula/moneyformula-1.png',
+      image: '/moneyformula/moneyformula-icon.png',
       href: '/blog/moneyformula',
       readTime: '6 min read',
-    },
-    {
-      title: 'Holdboard: Clipboard, Reimagined',
-      excerpt:
-        'Engineering a secure clipboard vault with Face ID protection, structured folders, and low-friction retrieval for real workflows.',
-      date: 'Apr 2026',
-      project: 'iOS / Utility',
-      image: '/holdboard/holdboard-icon.png',
-      href: '/blog/holdboard',
-      readTime: '8 min read',
     },
     {
       title: 'Design of Pureclick Walls',
@@ -96,7 +96,14 @@ export default function Blogs() {
                 </span>
               </div>
 
-              <h4 className="text-3xl md:text-4xl font-bold tracking-tight text-black text-balance">{post.title}</h4>
+              <div className="flex flex-wrap items-center gap-2">
+                <h4 className="text-3xl md:text-4xl font-bold tracking-tight text-black text-balance">{post.title}</h4>
+                {post.title.startsWith('Holdboard') && (
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.12em] bg-black text-white">
+                    Best App
+                  </span>
+                )}
+              </div>
               <p className="text-zinc-600 text-lg leading-relaxed max-w-2xl">{post.excerpt}</p>
 
               <Link href={post.href} className="inline-flex items-center gap-3 pt-2 text-[12px] font-black uppercase tracking-widest text-black">
