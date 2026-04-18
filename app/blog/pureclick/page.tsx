@@ -20,7 +20,7 @@ export default function PureClickBlog() {
 
       <div className="max-w-6xl mx-auto px-6 mb-16">
         <div className="relative aspect-[16/9] rounded-3xl overflow-hidden border border-zinc-200 shadow-sm">
-          <Image src="/pureclick1.png" alt="Pureclick preview" fill className="object-cover" priority />
+          <Image src="/pureclick/pureclick-1.png" alt="Pureclick preview" fill className="object-cover" priority />
         </div>
       </div>
 

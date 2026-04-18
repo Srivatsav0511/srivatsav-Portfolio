@@ -38,12 +38,33 @@ export default function Work() {
       impact: 'Transforms passive scrolling into active daily learning with readable, audio-enabled fact cards.',
       privacyLink: '/privacy/factread',
     },
+
+    {
+      title: 'MoneyFormula',
+      category: 'iOS Finance Utility',
+      description:
+        'A practical money calculator app with investment, taxation, and planning formulas, plus search and history for fast reuse.',
+      screenshots: [
+        '/moneyformula/moneyformula-1.png',
+        '/moneyformula/moneyformula-2.png',
+        '/moneyformula/moneyformula-3.png',
+        '/moneyformula/moneyformula-4.png',
+        '/moneyformula/moneyformula-5.png',
+      ],
+      link: 'https://apps.apple.com/us/search?term=MoneyFormula',
+      linkLabel: 'View Product',
+      type: 'mobile',
+      visual: 'phones',
+      tech: ['SwiftUI', 'Core Data', 'Formula Engine', 'Search'],
+      impact: 'Gives users clear financial outputs quickly and keeps recurring calculations easy to revisit.',
+      privacyLink: '/privacy/moneyformula',
+    },
     {
       title: 'Holdboard',
       category: 'iOS Clipboard Utility',
       description:
         'A secure clipboard manager for iPhone that organizes copied content instantly and protects sensitive clips with Face ID.',
-      screenshots: ['/holdboard.jpg'],
+      screenshots: ['/holdboard/holdboard-cover.jpg'],
       link: 'https://apps.apple.com/us/app/holdboard/id6761117827',
       linkLabel: 'View Product',
       type: 'mobile',
@@ -57,7 +78,7 @@ export default function Work() {
       category: 'Android Application',
       description:
         "A high-fidelity wallpaper platform with curated collections and native 'Live Preview' functionality.",
-      screenshots: ['/pureclick1.png', '/pureclick2.png', '/pureclick3.png', '/pureclick4.png'],
+      screenshots: ['/pureclick/pureclick-1.png', '/pureclick/pureclick-2.png', '/pureclick/pureclick-3.png', '/pureclick/pureclick-4.png'],
       link: 'https://play.google.com/store/apps/details?id=com.pureclickwalls.app&hl=en',
       linkLabel: 'View Product',
       type: 'mobile',
@@ -71,7 +92,7 @@ export default function Work() {
       category: 'Web Application',
       description:
         'An AI-powered developer tool that converts complex snippets into clear, structured reasoning and actionable suggestions.',
-      screenshots: ['/codeclarity.png'],
+      screenshots: ['/codeclarity/codeclarity-cover.png'],
       link: 'https://codeclarity-ai.vercel.app/',
       linkLabel: 'View Product',
       type: 'web',
@@ -83,7 +104,7 @@ export default function Work() {
       category: 'Web Application',
       description:
         'A professional resume builder with real-time preview and ATS-optimized templates for modern job seekers.',
-      screenshots: ['/quickcv.png'],
+      screenshots: ['/quickcv/quickcv-cover.png'],
       link: 'https://quickcv1.netlify.app/',
       linkLabel: 'View Product',
       type: 'web',

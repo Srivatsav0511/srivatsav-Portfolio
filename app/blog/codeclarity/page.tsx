@@ -20,7 +20,7 @@ export default function CodeClarityBlog() {
 
       <div className="max-w-6xl mx-auto px-6 mb-16">
         <div className="relative aspect-[16/9] rounded-3xl overflow-hidden border border-zinc-200 shadow-sm">
-          <Image src="/codeclarity.png" alt="CodeClarity dashboard" fill className="object-cover" priority />
+          <Image src="/codeclarity/codeclarity-cover.png" alt="CodeClarity dashboard" fill className="object-cover" priority />
         </div>
       </div>
 
