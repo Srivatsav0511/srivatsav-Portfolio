@@ -1,95 +1,106 @@
+'use client';
+
 import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import { AppStoreBadge } from '@/components/StoreBadges';
+
+const screenshots = [
+  '/factread/factread-1.png',
+  '/factread/factread-2.png',
+  '/factread/factread-3.png',
+  '/factread/factread-4.png',
+];
 
 export default function FactReadBlog() {
+  const mediaRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({ target: mediaRef, offset: ['start end', 'end start'] });
+  const mediaY = useTransform(scrollYProgress, [0, 1], [28, -28]);
+
   return (
-    <article className="min-h-screen bg-white text-zinc-900 selection:bg-zinc-200">
+    <article className="min-h-screen bg-zinc-50 text-zinc-900 selection:bg-zinc-200">
+
       <div className="fixed top-4 left-4 md:top-8 md:left-8 z-50">
-        <Link href="/#blogs" className="group flex items-center gap-2 bg-white/80 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black transition-all shadow-sm">
+        <Link href="/#blogs" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-xs md:text-sm font-bold">Back</span>
         </Link>
       </div>
 
-      <header className="max-w-4xl mx-auto px-5 md:px-6 pt-24 md:pt-28 pb-8 md:pb-10 text-center md:text-left">
-        <p className="text-xs uppercase tracking-[0.25em] text-zinc-500 font-bold">By Srivatsav</p>
-        <h1 className="mt-4 text-4xl md:text-7xl font-bold tracking-tight text-black">FactRead</h1>
-        <p className="mt-3 md:mt-4 text-base md:text-xl text-zinc-600">Built for fun, designed to help people learn one useful fact at a time.</p>
+      <header className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 pt-24 md:pt-28 pb-8 md:pb-10 text-center">
+        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="text-center">
+          <div className="mx-auto mb-5 inline-flex rounded-2xl border border-zinc-200 bg-white p-2.5 shadow-sm">
+            <Image src="/factread/factreadIcon.png" alt="FactRead icon" width={64} height={64} className="rounded-xl" />
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-black">FactRead</h1>
+          <p className="mx-auto mt-3 max-w-2xl text-base md:text-lg text-zinc-600 leading-relaxed">
+            FactRead helps users learn one useful insight at a time with a clean swipe flow.
+            It supports readable typography, multilingual content, and built-in narration.
+            The experience stays fast and focused for short daily learning sessions.
+          </p>
+
+          <div className="mt-6">
+            <AppStoreBadge href="https://apps.apple.com/us/app/factread-swipe-to-read/id6762402891" />
+          </div>
+        </motion.div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-5 md:px-6 mb-12 md:mb-16">
-        <div className="relative aspect-[16/9] rounded-3xl overflow-hidden border border-zinc-200 shadow-sm bg-zinc-50">
-          <Image src="/factread/factread-blog-cover.png" alt="FactRead showcase" fill className="object-contain" priority />
+      <section ref={mediaRef} className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 mb-12 md:mb-16">
+        <div className="mb-5">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-black">App Screenshots</p>
         </div>
-      </div>
 
-      <main className="max-w-3xl mx-auto px-5 md:px-6 pb-16 md:pb-20 space-y-10 md:space-y-12">
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-black">Detailed overview</h2>
-          <p className="text-zinc-700 leading-relaxed">
-            FactRead is an iOS reading app built around one clear interaction: swipe and continue learning. Instead of presenting users with endless feeds and scattered article fragments,
-            the app focuses on one complete fact card at a time. Every screen decision was made to keep cognitive load low, so users can stay in flow without losing context.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            The product combines readable typography, language flexibility, and built-in narration. Users can switch reading styles, increase contrast, and listen to facts when they do not
-            want to stare at a screen. In practice, this makes FactRead useful during short breaks, travel, or quick study sessions where people want value in minutes, not long sessions.
-          </p>
-        </section>
+        <div className="flex gap-4 md:gap-5 overflow-x-auto pb-1 snap-x snap-mandatory">
+          {screenshots.map((src, index) => (
+            <motion.div
+              key={src}
+              style={{ y: mediaY }}
+              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.42, delay: index * 0.05 }}
+              className="relative w-[78%] sm:w-[48%] md:w-[24%] shrink-0 snap-start aspect-[9/19.5] rounded-3xl overflow-hidden border border-zinc-200 bg-white shadow-sm"
+            >
+              <Image src={src} alt={`FactRead screenshot ${index + 1}`} fill className="object-cover" priority={index < 2} />
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-black">Why I built this app</h2>
-          <p className="text-zinc-700 leading-relaxed">
-            I built FactRead because I wanted a better way to consume small pieces of knowledge without opening heavy apps full of distractions. Most content products are designed to maximize
-            screen time, but my goal here was the opposite: help users learn quickly and move on.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            I also wanted to prove that educational apps can feel modern and personal without becoming complicated. By keeping the interaction model simple and the visual language calm,
-            FactRead became both a personal experiment and a practical tool that people can actually use every day.
-          </p>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-black">Problems I faced while building</h2>
-          <p className="text-zinc-700 leading-relaxed">
-            The first major challenge was readability across multiple visual styles. Light themes, quiet themes, and higher-contrast themes all had to preserve hierarchy and text clarity,
-            especially for longer facts. I iterated on spacing, line height, and weight combinations until each mode stayed comfortable for continuous reading.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            The second challenge was narration quality. Different languages produce very different pacing, and a voice experience that sounds acceptable in one language can feel abrupt in another.
-            I had to tune playback defaults and card transitions so users do not feel interruption between reading and listening modes.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            The third challenge was performance consistency. Swipe-first interfaces only work when every gesture feels immediate. I had to optimize content preparation and state transitions so the
-            app stays fluid while handling long paragraphs and mode changes.
-          </p>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-black">AI tools used to enhance work</h2>
-          <p className="text-zinc-700 leading-relaxed">
-            For FactRead, I used <strong>Codex</strong> to speed up implementation and improve development quality. Codex helped with refactoring UI structure, tightening component logic,
-            and reviewing rough technical drafts into cleaner, production-ready versions.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            I still validated all behavior manually on top of that, especially for typography, transitions, and narration flow. Codex accelerated the process, but final product decisions,
-            UX tradeoffs, and quality checks were handled directly by me.
-          </p>
-        </section>
-
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <a
-            href="https://apps.apple.com/us/search?term=FactRead"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex w-full sm:w-auto justify-center items-center gap-2 px-6 py-3 rounded-full bg-black text-white font-bold hover:bg-zinc-800 transition-colors"
+      <main className="relative z-10 max-w-3xl mx-auto px-5 md:px-6 pb-16 md:pb-20 space-y-10">
+        {[
+          {
+            title: 'Why I built FactRead',
+            body: 'I built FactRead to make learning small, consistent, and distraction-free. Instead of long feeds and content clutter, users get one complete fact card at a time with a clear reading flow.',
+          },
+          {
+            title: 'How it helps users',
+            body: 'Users can read quickly, change readability settings, and switch to audio mode when they don’t want to stare at a screen. This makes the app useful during short breaks, commute, or focused study.',
+          },
+          {
+            title: 'What was hard to build',
+            body: 'The toughest parts were theme readability across long text, multilingual narration pacing, and swipe responsiveness. Every transition had to feel immediate for the app to stay enjoyable.',
+          },
+          {
+            title: 'AI tools used',
+            body: 'I used Codex to speed up refactoring and implementation quality. Final UX decisions and behavior validation were done manually on real app flows.',
+          },
+        ].map((item, index) => (
+          <motion.section
+            key={item.title}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.28 }}
+            transition={{ duration: 0.45, delay: index * 0.04 }}
+            className="space-y-3 border-b border-zinc-200 pb-8 last:border-b-0 last:pb-0"
           >
-            Download now
-          </a>
-          <Link href="/privacy/factread" className="inline-flex w-full sm:w-auto justify-center items-center gap-2 px-6 py-3 rounded-full border border-zinc-300 text-zinc-800 font-bold hover:bg-zinc-100 transition-colors">
-            Privacy Policy
-          </Link>
-        </div>
+            <h2 className="text-xl font-bold text-black">{item.title}</h2>
+            <p className="text-zinc-700 leading-relaxed">{item.body}</p>
+          </motion.section>
+        ))}
       </main>
     </article>
   );

@@ -1,111 +1,104 @@
+'use client';
+
 import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import { AppStoreBadge } from '@/components/StoreBadges';
+
+const screenshots = ['/holdboard/holdboard-cover.jpg'];
 
 export default function HoldboardBlog() {
+  const mediaRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({ target: mediaRef, offset: ['start end', 'end start'] });
+  const mediaY = useTransform(scrollYProgress, [0, 1], [26, -26]);
+
   return (
-    <article className="min-h-screen bg-white text-zinc-900 selection:bg-zinc-200">
+    <article className="min-h-screen bg-zinc-50 text-zinc-900 selection:bg-zinc-200">
       <div className="fixed top-4 left-4 md:top-8 md:left-8 z-50">
-        <Link href="/#blogs" className="group flex items-center gap-2 bg-white/85 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black transition-all shadow-sm">
+        <Link href="/#blogs" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-xs md:text-sm font-bold">Back</span>
         </Link>
       </div>
 
-      <header className="max-w-4xl mx-auto px-5 md:px-6 pt-24 md:pt-28 pb-8 md:pb-10 text-center md:text-left">
-        <p className="text-xs uppercase tracking-[0.25em] text-zinc-500 font-bold">By Srivatsav</p>
-        <h1 className="mt-4 text-4xl md:text-7xl font-bold tracking-tight text-black">Holdboard</h1>
-        <p className="mt-3 md:mt-4 text-base md:text-xl text-zinc-600">Built for fun, crafted to help people keep their clipboard clean, organized, and safe.</p>
+      <header className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 pt-24 md:pt-28 pb-8 md:pb-10 text-center">
+        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="text-center">
+          <div className="mx-auto mb-5 inline-flex rounded-2xl border border-zinc-200 bg-white p-2.5 shadow-sm">
+            <Image src="/holdboard/holdboardicon.png" alt="Holdboard icon" width={64} height={64} className="rounded-xl" />
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-black">Holdboard</h1>
+          <p className="mx-auto mt-3 max-w-2xl text-base md:text-lg text-zinc-600 leading-relaxed">
+            Holdboard keeps copied content organized so important clips are always easy to reuse.
+            It combines secure storage, Face ID protection, and quick retrieval while typing.
+            The workflow is designed for speed without sacrificing privacy.
+          </p>
+
+          <div className="mt-6">
+            <AppStoreBadge href="https://apps.apple.com/us/app/holdboard/id6761117827" />
+          </div>
+        </motion.div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-5 md:px-6 mb-12 md:mb-16">
-        <div className="relative aspect-[16/9] rounded-3xl overflow-hidden border border-zinc-200 shadow-sm">
-          <Image src="/holdboard/holdboard-cover.jpg" alt="Holdboard showcase" fill className="object-cover" priority />
+      <section ref={mediaRef} className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 mb-12 md:mb-16">
+        <div className="mb-5">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-black">App Screenshots</p>
         </div>
-      </div>
 
-      <main className="max-w-3xl mx-auto px-5 md:px-6 pb-16 md:pb-20 space-y-10 md:space-y-12">
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-black">What Holdboard is</h2>
-          <p className="text-zinc-700 leading-relaxed">
-            Holdboard is an iOS clipboard manager built for people who copy a lot of data every day and need to retrieve it quickly.
-            Instead of losing important snippets after one paste, users can keep clips, group them, and reopen them later with context.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            The app supports multiple clip types, quick categorization, and security-focused storage for sensitive entries.
-            The main idea is simple: turn temporary clipboard actions into a clean, searchable personal workspace.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            Holdboard also includes a custom keyboard, so saved clips can be accessed anywhere, anytime while typing in other apps.
-            This removes app-switching friction and makes reuse instant.
-          </p>
-        </section>
+        <div className="grid grid-cols-1 gap-4 md:gap-5">
+          {screenshots.map((src, index) => (
+            <motion.div
+              key={src}
+              style={{ y: mediaY }}
+              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.42, delay: index * 0.05 }}
+              className="relative aspect-[16/9] rounded-3xl overflow-hidden border border-zinc-200 bg-white shadow-sm"
+            >
+              <Image src={src} alt={`Holdboard screenshot ${index + 1}`} fill className="object-cover" priority />
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-black">How Holdboard works</h2>
-          <p className="text-zinc-700 leading-relaxed">
-            Users copy content as usual, then Holdboard helps organize those clips into meaningful groups. The home layer surfaces recent and useful data,
-            while folders and bookmarks provide long-term structure for repeated tasks.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            Sensitive clips can be protected with Face ID-based access controls, so private data stays private even when other content remains instantly accessible.
-            This split model is what keeps the app both secure and fast.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            The keyboard extension is the most practical part of the workflow. Users can open Holdboard directly from the keyboard bar in any app, filter by type,
-            and insert or copy clips without leaving the current screen.
-          </p>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-black">How we built it</h2>
-          <p className="text-zinc-700 leading-relaxed">
-            We built Holdboard with a clean data model first, then designed interfaces around everyday user flows: save, search, reopen, and protect.
-            SwiftUI was used for responsive UI composition, while local storage and indexing were tuned for fast retrieval.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            The UX system was designed to stay minimal on the surface but powerful underneath. That means core actions are one tap away,
-            while advanced behavior like grouping and lock controls remains intuitive and unobtrusive.
-          </p>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-black">Problems faced during building</h2>
-          <p className="text-zinc-700 leading-relaxed">
-            The first challenge was de-duplication quality. Clipboard data can change slightly and frequently, and storing everything makes history noisy.
-            We refined duplicate handling so users keep meaningful entries without clutter.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            The second challenge was balancing security and speed. Too many lock prompts damage usability, while too few reduce protection.
-            We tuned lock boundaries so sensitive data is gated while regular workflows stay fast.
-          </p>
-          <p className="text-zinc-700 leading-relaxed">
-            The third challenge was consistency across mixed clip types. Text, links, and media each need different rendering rules,
-            but the interface still has to feel like one unified system.
-          </p>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-black">AI tools used</h2>
-          <p className="text-zinc-700 leading-relaxed">
-            We used <strong>Codex</strong> to accelerate implementation, refactoring, and code cleanup during fast iteration cycles.
-            Final behavior, privacy boundaries, and UX decisions were manually reviewed and validated.
-          </p>
-        </section>
-
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <a
-            href="https://apps.apple.com/us/app/holdboard/id6761117827"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex w-full sm:w-auto justify-center items-center gap-2 px-6 py-3 rounded-full bg-black text-white font-bold hover:bg-zinc-800 transition-colors"
+      <main className="relative z-10 max-w-3xl mx-auto px-5 md:px-6 pb-16 md:pb-20 space-y-10">
+        {[
+          {
+            title: 'Why I built Holdboard',
+            body: 'I built Holdboard to solve a daily problem: valuable clipboard content disappears too quickly and becomes hard to reuse. I wanted a system that keeps copied content available, structured, and fast to access without interrupting ongoing work.',
+          },
+          {
+            title: 'How the product works',
+            body: 'Holdboard captures and organizes saved clips into clear groups. Users can bookmark important items, protect sensitive entries with Face ID, and quickly retrieve clips when needed. The workflow is optimized for repeat usage, not one-time storage.',
+          },
+          {
+            title: 'Keyboard-first experience',
+            body: 'The Holdboard keyboard extension makes the app practical in real life. You can open your clips while typing in other apps, filter by content type, and insert or copy instantly without switching context.',
+          },
+          {
+            title: 'Problems faced while building',
+            body: 'The hardest parts were duplicate handling, mixed content rendering, and balancing security with speed. I had to tune lock boundaries carefully so private data stayed protected while normal usage remained frictionless.',
+          },
+          {
+            title: 'AI tools used',
+            body: 'I used Codex to accelerate refactoring and implementation quality during development. Final product behavior, privacy boundaries, and UX decisions were reviewed and validated manually.',
+          },
+        ].map((item, index) => (
+          <motion.section
+            key={item.title}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.28 }}
+            transition={{ duration: 0.45, delay: index * 0.04 }}
+            className="space-y-3 border-b border-zinc-200 pb-8 last:border-b-0 last:pb-0"
           >
-            Download now
-          </a>
-          <Link href="/privacy/holdboard" className="inline-flex w-full sm:w-auto justify-center items-center gap-2 px-6 py-3 rounded-full border border-zinc-300 text-zinc-800 font-bold hover:bg-zinc-100 transition-colors">
-            Privacy Policy
-          </Link>
-        </div>
+            <h2 className="text-xl font-bold text-black">{item.title}</h2>
+            <p className="text-zinc-700 leading-relaxed">{item.body}</p>
+          </motion.section>
+        ))}
       </main>
     </article>
   );

@@ -1,10 +1,11 @@
 'use client';
 
-import { ArrowUpRight, Smartphone, Globe, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Globe, Smartphone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
 import SectionHeading from './SectionHeading';
+import { triggerSubtleHaptic } from './subtleHaptics';
 
 type Project = {
   title: string;
@@ -16,129 +17,174 @@ type Project = {
   type: 'mobile' | 'web';
   visual?: 'phones' | 'poster';
   tech: string[];
-  impact: string;
   role: string;
   year: string;
-  privacyLink?: string;
+  blogLink: string;
 };
 
-function InteractiveCard({ project }: { project: Project }) {
-  const isExternal = project.link.startsWith('http');
-  const mobileGridClass = project.screenshots.length > 4 ? 'grid-cols-2 md:grid-cols-5' : 'grid-cols-2 md:grid-cols-4';
-
-  const rx = useMotionValue(0);
-  const ry = useMotionValue(0);
-  const sx = useSpring(rx, { stiffness: 140, damping: 18 });
-  const sy = useSpring(ry, { stiffness: 140, damping: 18 });
-  const rotateX = useTransform(sy, [-12, 12], [6, -6]);
-  const rotateY = useTransform(sx, [-12, 12], [-6, 6]);
+function ProjectMedia({ project }: { project: Project }) {
+  if (project.type === 'mobile' && project.visual === 'phones') {
+    const previews = project.screenshots.slice(0, 3);
+    return (
+      <div className="grid grid-cols-3 gap-3">
+        {previews.map((src, idx) => (
+          <div key={src} className="relative aspect-[9/18] rounded-[18px] overflow-hidden border border-zinc-200 bg-zinc-50 shadow-sm">
+            <Image src={src} alt={`${project.title} screenshot ${idx + 1}`} fill className="object-cover" />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <motion.div
-      className={`group relative overflow-hidden rounded-[36px] p-7 md:p-10 min-h-[420px] flex flex-col justify-between shadow-[0_24px_70px_-38px_rgba(0,0,0,0.45)] ${
-        project.type === 'mobile'
-          ? 'bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 text-white border border-white/10'
-          : 'bg-white/80 backdrop-blur-xl border border-white text-black'
-      }`}
-      style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-      whileInView={{ opacity: [0, 1], y: [24, 0] }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.45 }}
-      onMouseMove={(e) => {
-        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) / 30;
-        const y = (e.clientY - rect.top - rect.height / 2) / 30;
-        rx.set(x);
-        ry.set(y);
+    <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-50 shadow-sm">
+      <Image
+        src={project.screenshots[0]}
+        alt={`${project.title} preview`}
+        fill
+        className={project.visual === 'poster' ? 'object-cover' : 'object-cover'}
+      />
+    </div>
+  );
+}
+
+function WorkCard({ project, index }: { project: Project; index: number }) {
+  const isExternal = project.link.startsWith('http');
+  const reduceMotion = useReducedMotion();
+  const cursorX = useMotionValue(0);
+  const cursorY = useMotionValue(0);
+  const glowX = useMotionValue(160);
+  const glowY = useMotionValue(160);
+
+  const rotateX = useTransform(cursorY, [-45, 45], [6, -6]);
+  const rotateY = useTransform(cursorX, [-45, 45], [-6, 6]);
+  const springRotateX = useSpring(rotateX, { stiffness: 220, damping: 24, mass: 0.6 });
+  const springRotateY = useSpring(rotateY, { stiffness: 220, damping: 24, mass: 0.6 });
+  const springGlowX = useSpring(glowX, { stiffness: 170, damping: 28 });
+  const springGlowY = useSpring(glowY, { stiffness: 170, damping: 28 });
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 32, scale: 0.985, filter: 'blur(6px)' }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+      whileHover={reduceMotion ? undefined : { y: -8, scale: 1.012 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+      onViewportEnter={() => triggerSubtleHaptic()}
+      onMouseMove={(event) => {
+        if (reduceMotion) return;
+        const rect = event.currentTarget.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        cursorX.set(((x - centerX) / centerX) * 45);
+        cursorY.set(((y - centerY) / centerY) * 45);
+        glowX.set(x);
+        glowY.set(y);
       }}
       onMouseLeave={() => {
-        rx.set(0);
-        ry.set(0);
+        cursorX.set(0);
+        cursorY.set(0);
       }}
+      style={reduceMotion ? undefined : { rotateX: springRotateX, rotateY: springRotateY, transformPerspective: 1200 }}
+      className="group relative overflow-hidden glass-surface rounded-[28px] p-5 md:p-6"
     >
-      <div className="pointer-events-none absolute inset-y-0 -left-24 w-24 bg-white/20 blur-2xl opacity-0 group-hover:opacity-100 group-hover:left-[105%] transition-all duration-1000" />
-
-      <div className="space-y-8 relative z-10" style={{ transform: 'translateZ(20px)' }}>
-        <div className="flex flex-wrap justify-between items-center gap-4">
-          <div className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest ${project.type === 'mobile' ? 'opacity-60' : 'text-zinc-400'}`}>
-            {project.type === 'mobile' ? <Smartphone size={14} /> : <Globe size={14} />}
-            {project.category}
-          </div>
-
-          <div className="flex items-center gap-3">
-            {project.privacyLink && (
-              <Link href={project.privacyLink} data-cursor="Open" data-magnetic className="flex items-center gap-2 px-4 py-2.5 rounded-full font-bold text-xs transition-all bg-white/10 border border-white/25 text-white hover:bg-white/20">
-                Privacy
-                <ShieldCheck size={13} />
-              </Link>
-            )}
-
-            {isExternal ? (
-              <a href={project.link} target="_blank" data-cursor="View" data-magnetic className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm transition-all ${project.type === 'mobile' ? 'bg-white text-black hover:bg-zinc-200' : 'bg-black text-white hover:bg-zinc-800'}`}>
-                {project.linkLabel}
-                <ArrowUpRight size={16} />
-              </a>
-            ) : (
-              <Link href={project.link} data-cursor="Open" data-magnetic className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm transition-all ${project.type === 'mobile' ? 'bg-white text-black hover:bg-zinc-200' : 'bg-black text-white hover:bg-zinc-800'}`}>
-                {project.linkLabel}
-                <ArrowUpRight size={16} />
-              </Link>
-            )}
-          </div>
-        </div>
-
-        <div className="max-w-3xl space-y-5">
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-[10px] uppercase tracking-[0.2em] font-black text-zinc-400 flex gap-3">
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -inset-20 opacity-0 blur-3xl transition-opacity duration-300 group-hover:opacity-90"
+        style={{
+          background: 'radial-gradient(circle at center, rgba(255,255,255,0.85), rgba(255,255,255,0) 58%)',
+          left: springGlowX,
+          top: springGlowY,
+          width: 280,
+          height: 280,
+          translateX: '-50%',
+          translateY: '-50%',
+        }}
+      />
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+        <motion.div
+          className="md:col-span-5 space-y-4"
+          initial={{ opacity: 0, x: -16 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.45 }}
+          transition={{ duration: 0.45, delay: 0.08 }}
+        >
+          <div className="flex flex-wrap items-center gap-2.5 text-[10px] font-black uppercase tracking-[0.18em] text-zinc-500">
+            <span className="inline-flex items-center gap-1.5">
+              {project.type === 'mobile' ? <Smartphone size={13} /> : <Globe size={13} />}
+              {project.category}
+            </span>
+            <span className="w-1 h-1 rounded-full bg-zinc-300" />
             <span>{project.year}</span>
-            <span>•</span>
+            <span className="w-1 h-1 rounded-full bg-zinc-300" />
             <span>{project.role}</span>
           </div>
 
-          <p className={`text-2xl md:text-[2rem] leading-[1.2] tracking-tight font-medium ${project.type === 'mobile' ? 'text-zinc-200' : 'text-zinc-700'}`}>
-            {project.description}
-          </p>
-
-          <div className={`rounded-2xl px-5 py-4 border ${project.type === 'mobile' ? 'bg-white/5 border-white/10' : 'bg-zinc-50 border-zinc-200'}`}>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 flex items-center gap-2 opacity-75">
-              <Sparkles size={12} />
-              Product Impact
-            </p>
-            <p className={`text-sm ${project.type === 'mobile' ? 'text-zinc-200' : 'text-zinc-700'}`}>{project.impact}</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-zinc-900">{project.title}</h3>
+            {project.title === 'Holdboard' ? (
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.12em] bg-zinc-900 text-white">
+                Best App
+              </span>
+            ) : null}
           </div>
 
+          <p className="text-zinc-600 text-sm md:text-base leading-relaxed">{project.description}</p>
+
           <div className="flex flex-wrap gap-2">
-            {project.tech.map((item) => (
-              <span key={item} className={`text-xs px-3 py-1.5 rounded-full border ${project.type === 'mobile' ? 'border-white/20 bg-white/5 text-zinc-200' : 'border-zinc-200 bg-white text-zinc-700'}`}>
+            {project.tech.slice(0, 4).map((item) => (
+              <span key={item} className="text-[11px] px-2.5 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700">
                 {item}
               </span>
             ))}
           </div>
-        </div>
-      </div>
 
-      <div className="mt-10 relative z-10" style={{ transform: 'translateZ(32px)' }}>
-        {project.type === 'mobile' && project.visual === 'phones' ? (
-          <div className={`grid ${mobileGridClass} gap-4`}>
-            {project.screenshots.map((src, idx) => (
-              <div key={idx} className="relative aspect-[9/19] rounded-[18px] overflow-hidden border border-white/10 shadow-2xl transition-all duration-700 group-hover:even:-translate-y-5 group-hover:odd:translate-y-2">
-                <Image src={src} alt={`${project.title} screenshot ${idx + 1}`} fill className="object-cover" />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className={`relative w-full aspect-[16/9] rounded-3xl overflow-hidden border shadow-2xl transition-transform duration-700 group-hover:scale-[1.015] ${project.type === 'mobile' ? 'border-white/15' : 'border-zinc-100'}`}>
-            <Image src={project.screenshots[0]} alt={`${project.title} preview`} fill className="object-cover" />
-          </div>
-        )}
-      </div>
+          <div className="flex flex-wrap items-center gap-2.5 pt-1">
+            {isExternal ? (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 text-white text-xs font-bold hover:bg-zinc-700 transition-colors"
+              >
+                {project.linkLabel}
+                <ArrowUpRight size={14} />
+              </a>
+            ) : (
+              <Link
+                href={project.link}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 text-white text-xs font-bold hover:bg-zinc-700 transition-colors"
+              >
+                {project.linkLabel}
+                <ArrowUpRight size={14} />
+              </Link>
+            )}
 
-      {project.type === 'mobile' && (
-        <>
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-white/10 blur-[120px] rounded-full pointer-events-none" />
-          <div className="absolute -top-24 -right-24 w-80 h-80 bg-zinc-400/10 blur-[120px] rounded-full pointer-events-none" />
-        </>
-      )}
-    </motion.div>
+            <Link
+              href={project.blogLink}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-zinc-200 text-zinc-700 text-xs font-bold hover:bg-zinc-100 transition-colors"
+            >
+              Read Blog
+              <ArrowUpRight size={13} />
+            </Link>
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="md:col-span-7"
+          initial={{ opacity: 0, x: 18, scale: 0.98 }}
+          whileInView={{ opacity: 1, x: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.45 }}
+          transition={{ duration: 0.5, delay: 0.12 }}
+        >
+          <ProjectMedia project={project} />
+        </motion.div>
+      </div>
+    </motion.article>
   );
 }
 
@@ -155,9 +201,8 @@ export default function Work() {
       type: 'mobile',
       visual: 'poster',
       tech: ['SwiftUI', 'Core Data', 'LocalAuthentication', 'UIPasteboard'],
-      impact: 'Improves retrieval speed for repeated copy workflows while maintaining privacy controls.',
-      privacyLink: '/privacy/holdboard',
-      role: 'Lead Product + Engineering',
+      blogLink: '/blog/holdboard',
+      role: 'Lead Product',
       year: '2026',
     },
     {
@@ -172,14 +217,13 @@ export default function Work() {
         '/factread/factread-4.png',
         '/factread/factread-5.png',
       ],
-      link: 'https://apps.apple.com/us/search?term=FactRead',
+      link: 'https://apps.apple.com/us/app/factread-swipe-to-read/id6762402891',
       linkLabel: 'View Product',
       type: 'mobile',
       visual: 'phones',
       tech: ['SwiftUI', 'AVFoundation', 'Localization', 'Liquid Glass'],
-      impact: 'Transforms passive scrolling into active daily learning with readable, audio-enabled fact cards.',
-      privacyLink: '/privacy/factread',
-      role: 'Product + Interaction Design',
+      blogLink: '/blog/factread',
+      role: 'Product + Design',
       year: '2026',
     },
     {
@@ -199,24 +243,21 @@ export default function Work() {
       type: 'mobile',
       visual: 'phones',
       tech: ['SwiftUI', 'Core Data', 'Formula Engine', 'Search'],
-      impact: 'Gives users clear financial outputs quickly and keeps recurring calculations easy to revisit.',
-      privacyLink: '/privacy/moneyformula',
+      blogLink: '/blog/moneyformula',
       role: 'Product + Motion UI',
       year: '2026',
     },
     {
       title: 'Pureclick Walls',
       category: 'Android Application',
-      description:
-        "A high-fidelity wallpaper platform with curated collections and native 'Live Preview' functionality.",
+      description: "A high-fidelity wallpaper platform with curated collections and native 'Live Preview' functionality.",
       screenshots: ['/pureclick/pureclick-1.png', '/pureclick/pureclick-2.png', '/pureclick/pureclick-3.png', '/pureclick/pureclick-4.png'],
       link: 'https://play.google.com/store/apps/details?id=com.pureclickwalls.app&hl=en',
       linkLabel: 'View Product',
       type: 'mobile',
       visual: 'phones',
       tech: ['React Native', 'Kotlin', 'Firebase'],
-      impact: 'Delivers premium wallpapers without ad-heavy flow or visual quality loss.',
-      privacyLink: '/privacy/pureclick-walls',
+      blogLink: '/blog/pureclick',
       role: 'Mobile Engineering',
       year: '2026',
     },
@@ -230,8 +271,8 @@ export default function Work() {
       linkLabel: 'View Product',
       type: 'web',
       tech: ['React', 'Node.js', 'TypeScript', 'Tailwind'],
-      impact: 'Shortens debugging and onboarding time by making code intent understandable in seconds.',
-      role: 'Frontend + AI Workflow',
+      blogLink: '/blog/codeclarity',
+      role: 'Frontend + AI',
       year: '2025',
     },
     {
@@ -244,29 +285,19 @@ export default function Work() {
       linkLabel: 'View Product',
       type: 'web',
       tech: ['React', 'JavaScript'],
-      impact: 'Helps users ship professional resumes quickly without design or formatting friction.',
+      blogLink: '/blog/quickcv',
       role: 'Product + Frontend',
       year: '2025',
     },
   ];
 
   return (
-    <section id="work" className="py-28 px-6 max-w-7xl mx-auto">
-      <SectionHeading title="Work" subtitle="Interactive products built across mobile and web." />
+    <section id="work" className="py-24 md:py-28 px-6 max-w-7xl mx-auto">
+      <SectionHeading title="Work" subtitle="Selected products with focused visual storytelling and clean interaction design." />
 
-      <div className="space-y-16">
-        {projects.map((project) => (
-          <div key={project.title} className="space-y-6">
-            <div className="flex items-center gap-3">
-              <h3 className="text-4xl md:text-5xl font-bold tracking-tight text-black">{project.title}</h3>
-              {project.title === 'Holdboard' && (
-                <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.12em] bg-black text-white">
-                  Best App
-                </span>
-              )}
-            </div>
-            <InteractiveCard project={project} />
-          </div>
+      <div className="space-y-5 md:space-y-6">
+        {projects.map((project, index) => (
+          <WorkCard key={project.title} project={project} index={index} />
         ))}
       </div>
     </section>

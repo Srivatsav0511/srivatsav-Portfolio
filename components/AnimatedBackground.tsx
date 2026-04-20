@@ -1,16 +1,31 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 
 export default function AnimatedBackground() {
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, -120]);
 
   return (
     <motion.div className="pointer-events-none absolute inset-0 overflow-hidden" style={{ y }}>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(255,255,255,0.9),transparent_28%),radial-gradient(circle_at_80%_12%,rgba(228,228,231,0.46),transparent_30%),radial-gradient(circle_at_50%_95%,rgba(244,244,245,0.8),transparent_34%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,rgba(255,255,255,0.92),transparent_30%),radial-gradient(circle_at_84%_14%,rgba(228,228,231,0.52),transparent_31%),radial-gradient(circle_at_48%_98%,rgba(244,244,245,0.88),transparent_35%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(161,161,170,0.14),transparent_25%),radial-gradient(circle_at_80%_75%,rgba(212,212,216,0.2),transparent_30%)] animate-[ambientPulse_14s_ease-in-out_infinite]" />
 
-      <svg className="absolute -top-20 -left-20 w-[42rem] h-[42rem] opacity-40" viewBox="0 0 600 600" fill="none" aria-hidden>
+      <motion.div
+        aria-hidden
+        className="absolute -top-40 -right-24 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.75),rgba(228,228,231,0.1)_55%,transparent_75%)] blur-3xl"
+        animate={reduceMotion ? undefined : { x: [0, -36, 0], y: [0, 26, 0], scale: [1, 1.08, 1], rotate: [0, 8, 0] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        aria-hidden
+        className="absolute -bottom-40 -left-24 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle_at_60%_40%,rgba(214,211,209,0.5),rgba(231,229,228,0.14)_52%,transparent_72%)] blur-3xl"
+        animate={reduceMotion ? undefined : { x: [0, 28, 0], y: [0, -22, 0], scale: [1, 1.06, 1], rotate: [0, -7, 0] }}
+        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
+      <svg className="absolute -top-20 -left-20 w-[42rem] h-[42rem] opacity-35" viewBox="0 0 600 600" fill="none" aria-hidden>
         <motion.path
           stroke="currentColor"
           className="text-zinc-300"
@@ -27,7 +42,7 @@ export default function AnimatedBackground() {
         />
       </svg>
 
-      <svg className="absolute -bottom-28 -right-28 w-[34rem] h-[34rem] opacity-45" viewBox="0 0 600 600" fill="none" aria-hidden>
+      <svg className="absolute -bottom-28 -right-28 w-[34rem] h-[34rem] opacity-35" viewBox="0 0 600 600" fill="none" aria-hidden>
         <motion.path
           stroke="currentColor"
           className="text-zinc-300"

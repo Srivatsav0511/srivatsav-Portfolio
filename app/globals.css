@@ -3,30 +3,85 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #f8fafc;
-  --foreground: #09090b;
+  --background: #f3f4f6;
+  --foreground: #0a0a0a;
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --font-sf-pro-text: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-sf-pro-display: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-mono-stack: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-cursive-display: "Segoe Script", "Apple Chancery", "Lucida Handwriting", cursive;
 }
 
 html.dark {
-  --background: #edf2f7;
+  --background: #eceff3;
   --foreground: #0a0a0a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sf-pro-text);
+  --font-mono: var(--font-mono-stack);
 }
 
 body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), 'SF Pro Display', 'Segoe UI', sans-serif;
+  font-family: var(--font-sf-pro-text);
   text-rendering: geometricPrecision;
+  line-height: 1.45;
   transition: background-color 0.35s var(--ease-smooth), color 0.35s var(--ease-smooth);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-sf-pro-display);
+}
+
+.cursive-display {
+  font-family: var(--font-cursive-display);
+}
+
+.typing-greeting {
+  display: inline-flex;
+  align-items: baseline;
+  min-height: 1em;
+  white-space: nowrap;
+}
+
+.typing-caret {
+  display: inline-block;
+  margin-left: 2px;
+  font-weight: 400;
+  animation: caret-blink 0.8s step-end infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  46%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ambientPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(1.04);
+  }
 }
 
 html {
@@ -55,9 +110,175 @@ button {
   transition: transform 0.24s var(--ease-smooth), box-shadow 0.28s var(--ease-smooth), background-color 0.28s var(--ease-smooth), color 0.28s var(--ease-smooth), border-color 0.28s var(--ease-smooth);
 }
 
+.glass-surface {
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 22px 54px -38px rgba(15, 23, 42, 0.45);
+}
+
 button:active,
 a:active {
   transform: translateY(1px) scale(0.99);
+}
+
+.app-store-badge {
+  --badge-border-color: transparent;
+  --badge-bg: #000000;
+  --badge-fg: #ffffff;
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 8px;
+  min-height: 40px;
+  padding-left: 12px;
+  padding-right: 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--badge-border-color);
+  background-color: var(--badge-bg);
+  color: var(--badge-fg);
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  transform-origin: center;
+  transition: all 0.18s ease;
+}
+
+.app-store-badge--black {
+  --badge-bg: #000000;
+  --badge-fg: #ffffff;
+  --badge-border-color: transparent;
+}
+
+.app-store-badge--outlined {
+  --badge-bg: transparent;
+  --badge-fg: #ffffff;
+  --badge-border-color: #ffffff;
+}
+
+.app-store-badge:hover {
+  transform: scale(1.03);
+}
+
+.app-store-badge:active {
+  transform: scale(0.97);
+  filter: brightness(0.85);
+}
+
+.app-store-badge:focus-visible {
+  outline: 3px solid #0071e3;
+  outline-offset: 3px;
+}
+
+.app-store-badge__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  width: 18px;
+  line-height: 0;
+}
+
+.app-store-badge__logo-svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.app-store-badge__text {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1;
+}
+
+.app-store-badge__eyebrow {
+  font-family: "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.08;
+}
+
+.app-store-badge__title {
+  margin-top: 1px;
+  font-family: "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.05;
+}
+
+.google-play-badge {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 8px;
+  min-height: 40px;
+  padding-left: 12px;
+  padding-right: 14px;
+  border-radius: 8px;
+  border: 1.5px solid transparent;
+  background-color: #000000;
+  color: #ffffff;
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  transform-origin: center;
+  transition: all 0.18s ease;
+}
+
+.google-play-badge:hover {
+  transform: scale(1.03);
+}
+
+.google-play-badge:active {
+  transform: scale(0.97);
+  filter: brightness(0.85);
+}
+
+.google-play-badge:focus-visible {
+  outline: 3px solid #0071e3;
+  outline-offset: 3px;
+}
+
+.google-play-badge__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 22px;
+}
+
+.google-play-badge__icon-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.google-play-badge__text {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1;
+}
+
+.google-play-badge__eyebrow {
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+}
+
+.google-play-badge__title {
+  margin-top: 1px;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.08;
 }
 
 .icon-stroke-anim {
@@ -76,5 +297,17 @@ a:active {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .app-store-badge:hover,
+  .app-store-badge:active,
+  .google-play-badge:hover,
+  .google-play-badge:active {
+    filter: none;
+    transform: none;
+  }
+
+  .typing-caret {
+    animation: none;
   }
 }
