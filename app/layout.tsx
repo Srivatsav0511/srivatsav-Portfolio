@@ -16,6 +16,14 @@ export const metadata: Metadata = {
   title: 'Srivatsav',
   description:
     'Professional portfolio of Srivatsav featuring mobile and web products, including FactRead, Holdboard, Pureclick, CodeClarity, and QuickCV.',
+  icons: {
+    icon: [
+      { url: '/favicon.ico?v=2' },
+      { url: '/icon.png?v=2', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico?v=2',
+    apple: '/apple-icon.png?v=2',
+  },
 };
 
 export default function RootLayout({

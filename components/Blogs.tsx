@@ -9,12 +9,13 @@ import SectionHeading from './SectionHeading';
 export default function Blogs() {
   const posts = [
     {
-      title: 'Holdboard: Clipboard, Reimagined',
+      title: 'Holdboard: Clipboard, From your Keyboard.',
       excerpt:
-        'Engineering a secure clipboard vault with Face ID protection, structured folders, and low-friction retrieval for real workflows.',
+        'Engineering a secure clipboard vault with Face ID protection, structured folders, and keyboard access so clips can be used anywhere while typing.',
       date: 'Apr 2026',
       project: 'iOS / Utility',
-      image: '/holdboard/holdboard-icon.png',
+      image: '/holdboard/holdboardicon.png',
+      imageMode: 'icon',
       href: '/blog/holdboard',
       readTime: '8 min read',
       privacyHref: '/privacy/holdboard',
@@ -25,18 +26,20 @@ export default function Blogs() {
         'Building an iOS reading app with layered typography systems, multilingual narration, and adaptive readability controls.',
       date: 'Apr 2026',
       project: 'iOS / Reading',
-      image: '/factread/factreadicon.png',
+      image: '/factread/factreadIcon.png',
+      imageMode: 'icon',
       href: '/blog/factread',
       readTime: '7 min read',
       privacyHref: '/privacy/factread',
     },
     {
-      title: 'MoneyFormula: Every Formula, One App',
+      title: 'MoneyFormula: Finance Calc',
       excerpt:
         'How MoneyFormula simplifies daily finance calculations with fast inputs, clear outputs, saved history, and instant category search.',
       date: 'Apr 2026',
       project: 'iOS / Finance',
       image: '/moneyformula/moneyformula-icon.png',
+      imageMode: 'icon',
       href: '/blog/moneyformula',
       readTime: '6 min read',
       privacyHref: '/privacy/moneyformula',
@@ -48,6 +51,7 @@ export default function Blogs() {
       date: 'Jan 2026',
       project: 'Android',
       image: '/pureclick/pureclick-icon.png',
+      imageMode: 'icon',
       href: '/blog/pureclick',
       readTime: '6 min read',
       privacyHref: '/privacy/pureclick-walls',
@@ -59,6 +63,7 @@ export default function Blogs() {
       date: 'Nov 2025',
       project: 'AI / Web',
       image: '/codeclarity/codeclarity-cover.png',
+      imageMode: 'cover',
       href: '/blog/codeclarity',
       readTime: '6 min read',
     },
@@ -69,6 +74,7 @@ export default function Blogs() {
       date: 'Sept 2025',
       project: 'Web / Productivity',
       image: '/quickcv/quickcv-cover.png',
+      imageMode: 'cover',
       href: '/blog/quickcv',
       readTime: '5 min read',
     },
@@ -89,7 +95,14 @@ export default function Blogs() {
             className="group flex flex-col md:flex-row items-center gap-8 md:gap-10 p-6 md:p-8 rounded-[32px] border border-white bg-white/80 backdrop-blur-xl transition-all duration-500 hover:shadow-[0_24px_70px_-45px_rgba(0,0,0,0.45)]"
           >
             <div className="relative w-full md:w-[36%] aspect-[16/10] rounded-3xl overflow-hidden shadow-sm bg-zinc-100 border border-zinc-200/70">
-              <Image src={post.image} alt={post.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                className={`transition-transform duration-700 group-hover:scale-105 ${
+                  post.imageMode === 'icon' ? 'object-contain p-4 bg-white' : 'object-cover'
+                }`}
+              />
             </div>
 
             <div className="flex-1 space-y-4">

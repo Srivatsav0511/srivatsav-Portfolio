@@ -3,14 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function FactReadBlog() {
-  const screenshots = [
-    '/factread/factread-1.png',
-    '/factread/factread-2.png',
-    '/factread/factread-3.png',
-    '/factread/factread-4.png',
-    '/factread/factread-5.png',
-  ];
-
   return (
     <article className="min-h-screen bg-white text-zinc-900 selection:bg-zinc-200">
       <div className="fixed top-4 left-4 md:top-8 md:left-8 z-50">
@@ -27,12 +19,8 @@ export default function FactReadBlog() {
       </header>
 
       <div className="max-w-6xl mx-auto px-5 md:px-6 mb-12 md:mb-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-          {screenshots.map((src, index) => (
-            <div key={src} className="relative aspect-[9/19] rounded-2xl overflow-hidden border border-zinc-100 shadow-sm">
-              <Image src={src} alt={`FactRead screenshot ${index + 1}`} fill className="object-cover" priority={index < 2} />
-            </div>
-          ))}
+        <div className="relative aspect-[16/9] rounded-3xl overflow-hidden border border-zinc-200 shadow-sm bg-zinc-50">
+          <Image src="/factread/factread-blog-cover.png" alt="FactRead showcase" fill className="object-contain" priority />
         </div>
       </div>
 
