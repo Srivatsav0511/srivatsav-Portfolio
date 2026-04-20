@@ -1,10 +1,8 @@
 import type { ReactNode } from 'react';
-import BlogProgress from '@/components/BlogProgress';
 
-export default function BlogLayout({ children }: { children: ReactNode }) {
+export default function PrivacyLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <BlogProgress />
       {children}
       <footer className="border-t border-zinc-200 bg-white px-5 py-6 text-center">
         <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em]">

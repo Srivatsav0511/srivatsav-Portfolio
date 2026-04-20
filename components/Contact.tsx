@@ -78,7 +78,9 @@ export default function Contact() {
         </div>
 
         <div className="mt-14 pt-8 border-t border-zinc-200/80 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.35em]">© 2026 Srivatsav Karamala</p>
+          <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em] text-center md:text-left">
+            © 2026 All rights reserved. Srivatsav Karamala
+          </p>
           <p className="text-zinc-400 text-sm">Designed and engineered for premium product storytelling.</p>
         </div>
       </div>
