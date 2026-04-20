@@ -6,7 +6,7 @@ export default function CodeClarityBlog() {
   return (
     <article className="min-h-screen bg-white text-zinc-900 selection:bg-emerald-100">
       <div className="fixed top-8 left-8 z-50">
-        <Link href="/" className="group flex items-center gap-2 bg-white/80 backdrop-blur-md border border-zinc-200 px-4 py-2 rounded-full text-zinc-600 hover:text-black transition-all shadow-sm">
+        <Link href="/#blogs" className="group flex items-center gap-2 bg-white/80 backdrop-blur-md border border-zinc-200 px-4 py-2 rounded-full text-zinc-600 hover:text-black transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-sm font-bold">Back</span>
         </Link>

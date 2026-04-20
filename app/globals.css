@@ -1,9 +1,16 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #f5f7fa;
-  --foreground: #111827;
+  --background: #f8fafc;
+  --foreground: #09090b;
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.dark {
+  --background: #edf2f7;
+  --foreground: #0a0a0a;
 }
 
 @theme inline {
@@ -19,6 +26,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), 'SF Pro Display', 'Segoe UI', sans-serif;
   text-rendering: geometricPrecision;
+  transition: background-color 0.35s var(--ease-smooth), color 0.35s var(--ease-smooth);
 }
 
 html {
@@ -35,5 +43,38 @@ section {
 }
 
 ::selection {
-  background: #c6efff;
+  background: #e4e4e7;
+}
+
+html.dark ::selection {
+  background: #d4dbe6;
+}
+
+a,
+button {
+  transition: transform 0.24s var(--ease-smooth), box-shadow 0.28s var(--ease-smooth), background-color 0.28s var(--ease-smooth), color 0.28s var(--ease-smooth), border-color 0.28s var(--ease-smooth);
+}
+
+button:active,
+a:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.icon-stroke-anim {
+  transition: transform 0.32s var(--ease-smooth), stroke-width 0.25s var(--ease-smooth);
+}
+
+.icon-stroke-anim:hover {
+  transform: scale(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -30,9 +30,9 @@ export default function Contact() {
               >
                 <div className="flex items-center gap-3">
                   <Mail size={18} className="text-zinc-700 group-hover:text-white" />
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-zinc-500">Email</p>
-                    <p className="font-bold text-zinc-900 group-hover:text-white">karamalasrivatsav@gmail.com</p>
+                    <p className="font-bold text-zinc-900 group-hover:text-white break-all text-sm md:text-base">karamalasrivatsav@gmail.com</p>
                   </div>
                 </div>
                 <ArrowUpRight size={18} className="text-zinc-400 group-hover:text-white transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
