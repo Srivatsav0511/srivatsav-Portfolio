@@ -32,7 +32,7 @@ export default function FactReadBlog() {
       <header className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 pt-24 md:pt-28 pb-8 md:pb-10 text-center">
         <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="text-center">
           <div className="mx-auto mb-5 inline-flex rounded-2xl border border-zinc-200 bg-white p-2.5 shadow-sm">
-            <Image src="/factread/factreadIcon.png" alt="FactRead icon" width={64} height={64} className="rounded-xl" />
+            <Image src="/factread/factread-Icon.png" alt="FactRead icon" width={64} height={64} className="rounded-xl" />
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-black">FactRead</h1>

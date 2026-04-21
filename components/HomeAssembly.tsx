@@ -30,15 +30,9 @@ export default function HomeAssembly() {
       <div className="pointer-events-none absolute inset-0 opacity-[0.16] [background-size:24px_24px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.5)_1px,transparent_1px)]" />
 
       <CustomCursor />
+      <Navbar />
 
       <motion.div className="relative z-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reduceMotion ? 0.01 : 0.5 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 14, filter: 'blur(4px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ duration: reduceMotion ? 0.01 : 0.55, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Navbar />
-        </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 18, filter: 'blur(4px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}

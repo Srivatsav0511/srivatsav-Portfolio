@@ -23,12 +23,16 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-3.5 md:top-5 left-1/2 -translate-x-1/2 z-[110] w-full px-4 md:px-6 flex justify-center">
+    <nav className="sticky top-3.5 md:top-5 z-[110] w-full px-4 md:px-6 flex justify-center">
       <motion.div
         style={{ width }}
         className="flex items-center justify-between gap-4 glass-surface px-4 md:px-6 py-2.5 md:py-3 rounded-full max-w-[1040px]"
       >
-        <Link href="/#about" data-cursor="Open" className="flex items-center gap-3 group md:pr-6 md:border-r border-zinc-200/70 shrink-0">
+        <Link
+          href="/#about"
+          data-cursor="Open"
+          className="flex items-center gap-3 group md:pr-6 md:border-r border-zinc-200/70 shrink-0 cursor-pointer"
+        >
           <div className="bg-zinc-900 p-1.5 rounded-lg transition-transform group-hover:rotate-12">
             <LayoutGrid size={14} className="text-white" />
           </div>
@@ -37,7 +41,12 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-7 text-[10px] uppercase tracking-[0.2em] font-black text-zinc-700">
           {navLinks.map((link) => (
-            <Link key={link.name} data-cursor="Open" href={link.href} className="hover:text-black transition-colors">
+            <Link
+              key={link.name}
+              data-cursor="Open"
+              href={link.href}
+              className="hover:text-black transition-colors cursor-pointer"
+            >
               {link.name}
             </Link>
           ))}
@@ -47,7 +56,7 @@ export default function Navbar() {
           <Link
             href="/#contact"
             data-cursor="Open"
-            className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black text-white text-xs font-bold tracking-wide hover:bg-zinc-800 transition-colors"
+            className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black text-white text-xs font-bold tracking-wide hover:bg-zinc-800 transition-colors cursor-pointer"
           >
             Let&apos;s Talk
             <ArrowUpRight size={14} />
@@ -67,7 +76,7 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="text-sm uppercase tracking-widest font-black text-zinc-700 hover:text-black"
+                className="text-sm uppercase tracking-widest font-black text-zinc-700 hover:text-black cursor-pointer"
               >
                 {link.name}
               </Link>

@@ -3,11 +3,9 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { ShieldCheck, Layers3, Gauge, Globe } from 'lucide-react';
-import { Caveat } from 'next/font/google';
 import { triggerSubtleHaptic } from './subtleHaptics';
 
 const GREETINGS = ['HELLO,', 'HOLA,', 'NAMASTE,', 'BONJOUR,', 'CIAO,', 'SALAAM,'];
-const caveat = Caveat({ subsets: ['latin'], weight: ['600'] });
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -112,14 +110,17 @@ export default function Hero() {
         <motion.div className="lg:col-span-7" style={{ x: titleX, y: titleY }}>
           <div className="h-14 md:h-24 overflow-y-hidden flex items-end">
             <motion.h2
-              className={`${caveat.className} typing-greeting text-3xl md:text-6xl font-semibold tracking-tight text-zinc-700 italic pr-4`}
+              className="typing-greeting text-3xl md:text-6xl font-semibold tracking-tight text-zinc-700 italic pr-4"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45 }}
               aria-live="polite"
             >
-              {typedGreeting}
-              <span className="typing-caret" aria-hidden>|</span>
+              <span className="cursive-display inline-flex items-baseline">
+                {typedGreeting}
+                <span className="typing-caret" aria-hidden>|</span>
+              </span>
+              <span className="ml-2 font-sans font-semibold not-italic">I&apos;m</span>
             </motion.h2>
           </div>
 
