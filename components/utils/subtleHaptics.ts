@@ -8,7 +8,10 @@ export function triggerSubtleHaptic() {
   if (now - lastPulseAt < 260) return;
   lastPulseAt = now;
 
+  const studioMode = document.documentElement.classList.contains('studio-mode-on');
+  const vibration = studioMode ? 14 : 8;
+
   if ('vibrate' in navigator) {
-    navigator.vibrate(8);
+    navigator.vibrate(vibration);
   }
 }

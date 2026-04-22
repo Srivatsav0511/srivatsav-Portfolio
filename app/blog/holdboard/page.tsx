@@ -16,8 +16,8 @@ export default function HoldboardBlog() {
 
   return (
     <article className="min-h-screen bg-zinc-50 text-zinc-900 selection:bg-zinc-200">
-      <div className="fixed top-4 left-4 md:top-8 md:left-8 z-50">
-        <Link href="/#blogs" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
+      <div className="sticky top-4 md:top-8 z-50 w-fit ml-4 md:ml-8">
+        <Link href="/#work" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-xs md:text-sm font-bold">Back</span>
         </Link>
@@ -68,7 +68,7 @@ export default function HoldboardBlog() {
         {[
           {
             title: 'Why I built Holdboard',
-            body: 'I built Holdboard to solve a daily problem: valuable clipboard content disappears too quickly and becomes hard to reuse. I wanted a system that keeps copied content available, structured, and fast to access without interrupting ongoing work.',
+            body: 'I built Holdboard after switching to iOS and realizing clipboard management was still a constant pain in everyday work. I copy links, OTPs, snippets, and notes all day, but important items kept getting replaced before I could reuse them. Existing clipboard tools were either too limited or too cluttered for real usage. I wanted one app that felt simple, private, and fast enough to trust as a daily utility, not just a one-time experiment.',
           },
           {
             title: 'How the product works',

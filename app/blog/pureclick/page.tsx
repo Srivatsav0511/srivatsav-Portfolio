@@ -17,8 +17,8 @@ export default function PureClickBlog() {
   return (
     <article className="min-h-screen bg-zinc-50 text-zinc-900 selection:bg-zinc-200">
 
-      <div className="fixed top-4 left-4 md:top-8 md:left-8 z-50">
-        <Link href="/#blogs" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
+      <div className="sticky top-4 md:top-8 z-50 w-fit ml-4 md:ml-8">
+        <Link href="/#work" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-xs md:text-sm font-bold">Back</span>
         </Link>
@@ -69,7 +69,7 @@ export default function PureClickBlog() {
         {[
           {
             title: 'Why I built Pureclick',
-            body: 'I wanted a wallpaper app that respects users. Most alternatives felt overloaded with ads and clutter, so I focused on speed, clean browsing, and visual quality first.',
+            body: 'I built Pureclick because most wallpaper apps felt heavy, ad-driven, and frustrating even before finding a good wallpaper. I wanted a calmer experience where visual quality is the priority and browsing feels smooth from the first swipe. The product started as a personal need for better wallpapers without noisy UI patterns. Over time it became a focused app built around speed, clean discovery, and reliable preview behavior.',
           },
           {
             title: 'How it works',

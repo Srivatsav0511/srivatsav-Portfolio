@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { LayoutGrid, Menu, X, ArrowUpRight } from 'lucide-react';
+import { LayoutGrid, Menu, X, ArrowUpRight, Clock3 } from 'lucide-react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import Link from 'next/link';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [compact, setCompact] = useState(false);
+  const [timeLabel, setTimeLabel] = useState('');
   const { scrollY } = useScroll();
   const width = useSpring(compact ? 960 : 1040, { stiffness: 180, damping: 25 });
 
@@ -15,10 +16,26 @@ export default function Navbar() {
     return scrollY.on('change', (y) => setCompact(y > 18));
   }, [scrollY]);
 
+  useEffect(() => {
+    const formatTime = () => {
+      setTimeLabel(
+        new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        })
+      );
+    };
+
+    formatTime();
+    const timer = window.setInterval(formatTime, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+
   const navLinks = [
     { name: 'About', href: '/#about' },
     { name: 'Work', href: '/#work' },
-    { name: 'Blogs', href: '/#blogs' },
     { name: 'Contact', href: '/#contact' },
   ];
 
@@ -37,6 +54,17 @@ export default function Navbar() {
             <LayoutGrid size={14} className="text-white" />
           </div>
           <span className="font-bold text-xs md:text-sm tracking-tight text-zinc-900 whitespace-nowrap">SRIVATSAV</span>
+
+          {compact ? (
+            <motion.div
+              initial={{ opacity: 0, y: -6, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              className="inline-flex items-center gap-1.5 rounded-[12px] border border-zinc-200 bg-white/85 px-3 py-1.5 text-[10px] md:text-xs font-semibold text-zinc-700 shadow-sm"
+            >
+              <Clock3 size={12} />
+              <span className="font-mono tabular-nums tracking-normal">{timeLabel}</span>
+            </motion.div>
+          ) : null}
         </Link>
 
         <div className="hidden md:flex items-center gap-7 text-[10px] uppercase tracking-[0.2em] font-black text-zinc-700">
@@ -62,7 +90,7 @@ export default function Navbar() {
             <ArrowUpRight size={14} />
           </Link>
 
-          <button onClick={() => setIsOpen((v) => !v)} className="md:hidden p-1 text-black">
+          <button onClick={() => setIsOpen((v) => !v)} className="md:hidden p-1 text-black" data-cursor="Menu">
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>

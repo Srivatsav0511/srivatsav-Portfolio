@@ -22,8 +22,8 @@ export default function MoneyFormulaBlog() {
   return (
     <article className="min-h-screen bg-zinc-50 text-zinc-900 selection:bg-zinc-200">
 
-      <div className="fixed top-4 left-4 md:top-8 md:left-8 z-50">
-        <Link href="/#blogs" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
+      <div className="sticky top-4 md:top-8 z-50 w-fit ml-4 md:ml-8">
+        <Link href="/#work" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-xs md:text-sm font-bold">Back</span>
         </Link>
@@ -74,7 +74,7 @@ export default function MoneyFormulaBlog() {
         {[
           {
             title: 'Why I built MoneyFormula',
-            body: 'I built MoneyFormula because finance calculations are usually scattered across multiple websites and tools with inconsistent interfaces and unclear output.',
+            body: 'I built MoneyFormula after repeatedly jumping between random websites, notes, and calculators for basic financial planning. The results were often hard to trust, and every tool used a different format, which slowed down simple decisions. I wanted a single place where everyday formulas felt clear, consistent, and quick to run. The app was designed so users can move from question to confident answer in seconds without spreadsheet-level friction.',
           },
           {
             title: 'What users get',

@@ -5,8 +5,8 @@ import Link from 'next/link';
 export default function QuickCVBlog() {
   return (
     <article className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-zinc-700">
-      <div className="fixed top-4 left-4 md:top-8 md:left-8 z-50">
-        <Link href="/#blogs" className="group flex items-center gap-2 bg-zinc-900 border border-zinc-700 px-4 py-2 rounded-full text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all shadow-sm">
+      <div className="sticky top-4 md:top-8 z-50 w-fit ml-4 md:ml-8">
+        <Link href="/#work" className="group flex items-center gap-2 bg-zinc-900 border border-zinc-700 px-4 py-2 rounded-full text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-sm font-bold">Back</span>
         </Link>
@@ -40,12 +40,10 @@ export default function QuickCVBlog() {
         <section className="space-y-4 border-b border-zinc-800 pb-8">
           <h2 className="text-2xl font-bold text-white">Why I built this app</h2>
           <p className="text-zinc-300 leading-relaxed">
-            I built QuickCV because many resume tools are either expensive or complicated for first-time users. I wanted a product that gives people confidence quickly,
-            especially when they are already stressed during job applications.
+            I built QuickCV after seeing friends spend hours on resume tools that were either expensive, confusing, or both. Job searching is already stressful, so the tool itself should not add more friction or anxiety.
           </p>
           <p className="text-zinc-300 leading-relaxed">
-            The main idea was to reduce friction. Users should not need to understand design systems just to produce a strong resume. They should focus on their content,
-            and the tool should handle layout quality for them.
+            My goal was simple: users should focus on their story, not formatting mechanics. I wanted a builder that gives instant confidence with clean structure, dependable export, and practical templates that work in real hiring flows.
           </p>
         </section>
 

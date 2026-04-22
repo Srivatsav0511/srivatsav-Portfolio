@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, Clock3 } from 'lucide-react';
+import { Clock3 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -127,20 +127,13 @@ export default function Blogs() {
               </div>
               <p className="text-zinc-600 text-base md:text-lg leading-relaxed max-w-2xl">{post.excerpt}</p>
 
-              <div className="flex flex-wrap items-center gap-3">
-                <Link href={post.href} data-cursor="Open" className="inline-flex items-center gap-3 pt-2 text-[12px] font-black uppercase tracking-widest text-black">
-                  Read Full Breakdown
-                  <span className="w-8 h-8 rounded-full border border-zinc-200 flex items-center justify-center transition-all group-hover:bg-black group-hover:text-white group-hover:border-black">
-                    <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
-                  </span>
-                </Link>
-
-                {post.privacyHref ? (
+              {post.privacyHref ? (
+                <div className="flex flex-wrap items-center gap-3">
                   <Link href={post.privacyHref} className="inline-flex items-center px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-wider border border-zinc-300 text-zinc-700 hover:bg-zinc-100 transition-colors">
                     Privacy Policy
                   </Link>
-                ) : null}
-              </div>
+                </div>
+              ) : null}
             </div>
           </motion.article>
         ))}

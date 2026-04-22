@@ -22,8 +22,8 @@ export default function FactReadBlog() {
   return (
     <article className="min-h-screen bg-zinc-50 text-zinc-900 selection:bg-zinc-200">
 
-      <div className="fixed top-4 left-4 md:top-8 md:left-8 z-50">
-        <Link href="/#blogs" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
+      <div className="sticky top-4 md:top-8 z-50 w-fit ml-4 md:ml-8">
+        <Link href="/#work" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-xs md:text-sm font-bold">Back</span>
         </Link>
@@ -74,7 +74,7 @@ export default function FactReadBlog() {
         {[
           {
             title: 'Why I built FactRead',
-            body: 'I built FactRead to make learning small, consistent, and distraction-free. Instead of long feeds and content clutter, users get one complete fact card at a time with a clear reading flow.',
+            body: 'I built FactRead because most learning apps try to do too many things at once and end up feeling noisy. I wanted a format that fits real life where people learn in short bursts between tasks, travel, and work. Instead of endless feeds and distraction loops, the app focuses on one fact at a time with clear progression. The goal was to make learning feel light and repeatable so users can come back daily without fatigue.',
           },
           {
             title: 'How it helps users',

@@ -5,8 +5,8 @@ import Link from 'next/link';
 export default function CodeClarityBlog() {
   return (
     <article className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-zinc-700">
-      <div className="fixed top-4 left-4 md:top-8 md:left-8 z-50">
-        <Link href="/#blogs" className="group flex items-center gap-2 bg-zinc-900 border border-zinc-700 px-4 py-2 rounded-full text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all shadow-sm">
+      <div className="sticky top-4 md:top-8 z-50 w-fit ml-4 md:ml-8">
+        <Link href="/#work" className="group flex items-center gap-2 bg-zinc-900 border border-zinc-700 px-4 py-2 rounded-full text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-sm font-bold">Back</span>
         </Link>
@@ -40,11 +40,10 @@ export default function CodeClarityBlog() {
         <section className="space-y-4 border-b border-zinc-800 pb-8">
           <h2 className="text-2xl font-bold text-white">Why I built this app</h2>
           <p className="text-zinc-300 leading-relaxed">
-            I built CodeClarity because I wanted a faster way to reason about code while actively building products. Many AI tools are useful but too conversational when the real need is
-            structured, actionable explanation.
+            I built CodeClarity because I kept wasting time decoding unfamiliar code during active product development. Most AI tools were helpful, but many responses felt too conversational when what I actually needed was a crisp engineering breakdown.
           </p>
           <p className="text-zinc-300 leading-relaxed">
-            This project was an attempt to close that gap: less noise, more signal. The goal was to help developers move from confusion to implementation decisions as quickly as possible.
+            I wanted something closer to how real developers think while debugging: less noise, more signal, and clear next actions. This project was my attempt to turn that need into a usable workflow that moves people from confusion to implementation decisions quickly.
           </p>
         </section>
 
