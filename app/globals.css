@@ -8,7 +8,7 @@
   --font-sf-pro-text: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   --font-sf-pro-display: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   --font-mono-stack: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --font-cursive-display: "Apple Chancery", "Lucida Handwriting", "Segoe Script", cursive;
+  --font-cursive-display: "Bradley Hand", "Segoe Print", "Comic Sans MS", "Marker Felt", cursive;
 }
 
 @theme inline {
@@ -35,10 +35,6 @@ h4,
 h5,
 h6 {
   font-family: var(--font-sf-pro-display);
-}
-
-.cursive-display {
-  font-family: var(--font-cursive-display);
 }
 
 .greeting-script {
