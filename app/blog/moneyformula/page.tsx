@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { AppStoreBadge } from '@/components/StoreBadges';
+import { AppStoreBadge } from '@/components/ui/StoreBadges';
 
 const screenshots = [
   '/moneyformula/moneyformula-1.png',

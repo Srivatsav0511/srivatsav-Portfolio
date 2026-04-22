@@ -2,14 +2,14 @@
 
 import { useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import AnimatedBackground from '@/components/AnimatedBackground';
-import Blogs from '@/components/Blogs';
-import Contact from '@/components/Contact';
-import CustomCursor from '@/components/CustomCursor';
-import Hero from '@/components/Hero';
-import Navbar from '@/components/Navbar';
-import WaveDivider from '@/components/WaveDivider';
-import Work from '@/components/Work';
+import AnimatedBackground from '@/components/layout/AnimatedBackground';
+import Blogs from '@/components/sections/Blogs';
+import Contact from '@/components/sections/Contact';
+import CustomCursor from '@/components/layout/CustomCursor';
+import Hero from '@/components/sections/Hero';
+import Navbar from '@/components/layout/Navbar';
+import WaveDivider from '@/components/layout/WaveDivider';
+import Work from '@/components/sections/Work';
 
 export default function HomeAssembly() {
   const reduceMotion = useReducedMotion();
@@ -25,7 +25,7 @@ export default function HomeAssembly() {
   }, []);
 
   return (
-    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-zinc-200 dark:selection:bg-zinc-700 overflow-x-clip">
+    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-zinc-200 overflow-x-clip">
       <AnimatedBackground />
       <div className="pointer-events-none absolute inset-0 opacity-[0.16] [background-size:24px_24px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.5)_1px,transparent_1px)]" />
 

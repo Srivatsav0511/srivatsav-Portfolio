@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { GooglePlayBadge } from '@/components/StoreBadges';
+import { GooglePlayBadge } from '@/components/ui/StoreBadges';
 
 const screenshots = ['/pureclick/pureclick-1.png', '/pureclick/pureclick-2.png', '/pureclick/pureclick-3.png', '/pureclick/pureclick-4.png'];
 

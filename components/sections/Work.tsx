@@ -4,8 +4,8 @@ import { ArrowUpRight, Globe, Smartphone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
-import SectionHeading from './SectionHeading';
-import { triggerSubtleHaptic } from './subtleHaptics';
+import SectionHeading from '@/components/ui/SectionHeading';
+import { triggerSubtleHaptic } from '@/components/utils/subtleHaptics';
 
 type Project = {
   title: string;
@@ -291,7 +291,7 @@ export default function Work() {
 
   return (
     <section id="work" className="py-24 md:py-28 px-6 max-w-7xl mx-auto">
-      <SectionHeading title="Work" subtitle="Selected products with focused visual storytelling and clean interaction design." />
+      <SectionHeading title="Work" subtitle="Products with focused visual storytelling and clean interaction design." />
 
       <div className="space-y-5 md:space-y-6">
         {projects.map((project, index) => (

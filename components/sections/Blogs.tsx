@@ -4,7 +4,7 @@ import { ArrowRight, Clock3 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import SectionHeading from './SectionHeading';
+import SectionHeading from '@/components/ui/SectionHeading';
 
 export default function Blogs() {
   const posts = [

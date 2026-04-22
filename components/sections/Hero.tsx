@@ -3,7 +3,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { ShieldCheck, Layers3, Gauge, Globe } from 'lucide-react';
-import { triggerSubtleHaptic } from './subtleHaptics';
+import { triggerSubtleHaptic } from '@/components/utils/subtleHaptics';
 
 const GREETINGS = ['HELLO,', 'HOLA,', 'NAMASTE,', 'BONJOUR,', 'CIAO,', 'SALAAM,'];
 
@@ -116,7 +116,7 @@ export default function Hero() {
               transition={{ duration: 0.45 }}
               aria-live="polite"
             >
-              <span className="cursive-display inline-flex items-baseline">
+              <span className="greeting-script inline-flex items-baseline">
                 {typedGreeting}
                 <span className="typing-caret" aria-hidden>|</span>
               </span>

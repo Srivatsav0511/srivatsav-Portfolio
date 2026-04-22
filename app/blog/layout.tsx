@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import BlogProgress from '@/components/BlogProgress';
+import BlogProgress from '@/components/layout/BlogProgress';
 
 export default function BlogLayout({ children }: { children: ReactNode }) {
   return (

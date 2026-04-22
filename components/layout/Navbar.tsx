@@ -62,7 +62,7 @@ export default function Navbar() {
             <ArrowUpRight size={14} />
           </Link>
 
-          <button onClick={() => setIsOpen((v) => !v)} className="md:hidden p-1 text-black dark:text-zinc-100">
+          <button onClick={() => setIsOpen((v) => !v)} className="md:hidden p-1 text-black">
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
