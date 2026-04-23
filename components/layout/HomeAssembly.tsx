@@ -109,6 +109,22 @@ export default function HomeAssembly() {
   }, []);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.pointerType !== 'touch') return;
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+      const interactive = target.closest('button, a, [role="button"], [data-haptic="true"]');
+      if (!interactive) return;
+      triggerSubtleHaptic();
+    };
+
+    window.addEventListener('pointerdown', onPointerDown, { passive: true });
+    return () => window.removeEventListener('pointerdown', onPointerDown);
+  }, []);
+
+  useEffect(() => {
     if (!playIconIntro || reduceMotion) return;
 
     const introDurationMs = 1800;

@@ -1,14 +1,40 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LayoutGrid, Menu, X, ArrowUpRight, Clock3 } from 'lucide-react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import Link from 'next/link';
+
+function getGreetingLine(date: Date) {
+  const hour = date.getHours();
+
+  if (hour >= 6 && hour < 12) {
+    return 'Good morning, legend. Your ideas woke up before the sun.';
+  }
+
+  if (hour >= 12 && hour < 17) {
+    return 'Lunch is temporary. Great products are forever.';
+  }
+
+  if (hour >= 17 && hour < 21) {
+    return 'Sunset outside, grindset inside.';
+  }
+
+  if (hour >= 21 && hour < 24) {
+    return 'Night shift for the overpowered.';
+  }
+
+  return 'Insomnia? No. Innovation window.';
+}
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [compact, setCompact] = useState(false);
   const [timeLabel, setTimeLabel] = useState('');
+  const [greetingLine, setGreetingLine] = useState('');
+  const [showGreeting, setShowGreeting] = useState(false);
+  const greetingRef = useRef('');
+  const hideGreetingTimerRef = useRef<number | null>(null);
   const { scrollY } = useScroll();
   const width = useSpring(compact ? 960 : 1040, { stiffness: 180, damping: 25 });
 
@@ -18,19 +44,37 @@ export default function Navbar() {
 
   useEffect(() => {
     const formatTime = () => {
+      const now = new Date();
       setTimeLabel(
-        new Date().toLocaleTimeString([], {
+        now.toLocaleTimeString([], {
           hour: '2-digit',
           minute: '2-digit',
           second: '2-digit',
           hour12: true,
         })
       );
+      const nextGreeting = getGreetingLine(now);
+      if (greetingRef.current !== nextGreeting) {
+        greetingRef.current = nextGreeting;
+        setGreetingLine(nextGreeting);
+        setShowGreeting(true);
+        if (hideGreetingTimerRef.current) {
+          window.clearTimeout(hideGreetingTimerRef.current);
+        }
+        hideGreetingTimerRef.current = window.setTimeout(() => {
+          setShowGreeting(false);
+        }, 4200);
+      }
     };
 
     formatTime();
     const timer = window.setInterval(formatTime, 1000);
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearInterval(timer);
+      if (hideGreetingTimerRef.current) {
+        window.clearTimeout(hideGreetingTimerRef.current);
+      }
+    };
   }, []);
 
   const navLinks = [
@@ -95,6 +139,20 @@ export default function Navbar() {
           </button>
         </div>
       </motion.div>
+
+      <AnimatePresence>
+        {showGreeting && greetingLine ? (
+          <motion.div
+            initial={{ opacity: 0, y: -8, scale: 0.985 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.985 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute left-1/2 top-full mt-2 w-[calc(100%-2rem)] max-w-[760px] -translate-x-1/2 rounded-2xl border border-white/85 bg-white/80 px-4 py-2.5 text-center shadow-[0_24px_60px_-44px_rgba(15,23,42,0.7)] backdrop-blur-xl"
+          >
+            <p className="text-sm md:text-[15px] font-semibold tracking-tight text-zinc-900">{greetingLine}</p>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
 
       {isOpen && (
         <div className="absolute top-20 left-4 right-4 glass-surface rounded-3xl p-6 md:hidden animate-in fade-in zoom-in duration-300">

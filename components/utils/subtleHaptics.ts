@@ -9,9 +9,13 @@ export function triggerSubtleHaptic() {
   lastPulseAt = now;
 
   const studioMode = document.documentElement.classList.contains('studio-mode-on');
-  const vibration = studioMode ? 14 : 8;
+  const vibration = studioMode ? [26, 14, 22] : [18];
 
   if ('vibrate' in navigator) {
-    navigator.vibrate(vibration);
+    const accepted = navigator.vibrate(vibration);
+    if (!accepted) {
+      // Some mobile browsers ignore short or patterned pulses in low-power/quiet states.
+      navigator.vibrate(studioMode ? 30 : 20);
+    }
   }
 }
