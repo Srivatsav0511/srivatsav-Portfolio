@@ -98,9 +98,9 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '4%',
     size: 60,
     delay: 0.05,
-    duration: 1.86,
-    xPath: [0, -54, 24, -8],
-    sideHitAt: 0.46,
+    duration: 2.35,
+    xPath: [0, -120, 34, -10],
+    sideHitAt: 0.39,
     floorHitAt: 0.9,
     spin: [-18, -32, -10, 8],
   },
@@ -109,9 +109,9 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '20%',
     size: 64,
     delay: 0.13,
-    duration: 1.94,
-    xPath: [0, 52, -20, 7],
-    sideHitAt: 0.46,
+    duration: 2.42,
+    xPath: [0, 140, -30, 8],
+    sideHitAt: 0.39,
     floorHitAt: 0.9,
     spin: [-12, 22, -8, 10],
   },
@@ -120,9 +120,9 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '36%',
     size: 62,
     delay: 0.2,
-    duration: 1.9,
-    xPath: [0, -50, 20, -6],
-    sideHitAt: 0.46,
+    duration: 2.38,
+    xPath: [0, -132, 32, -8],
+    sideHitAt: 0.39,
     floorHitAt: 0.9,
     spin: [-16, -24, -8, 9],
   },
@@ -131,9 +131,9 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '52%',
     size: 66,
     delay: 0.28,
-    duration: 1.96,
-    xPath: [0, 56, -24, 8],
-    sideHitAt: 0.46,
+    duration: 2.45,
+    xPath: [0, 132, -34, 10],
+    sideHitAt: 0.39,
     floorHitAt: 0.9,
     spin: [-14, 24, -7, 12],
   },
@@ -142,9 +142,9 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '68%',
     size: 58,
     delay: 0.35,
-    duration: 1.9,
-    xPath: [0, -52, 20, -7],
-    sideHitAt: 0.46,
+    duration: 2.4,
+    xPath: [0, -120, 28, -7],
+    sideHitAt: 0.39,
     floorHitAt: 0.9,
     spin: [-14, -22, -6, 9],
   },
@@ -153,9 +153,9 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '84%',
     size: 60,
     delay: 0.42,
-    duration: 1.94,
-    xPath: [0, 50, -20, 7],
-    sideHitAt: 0.46,
+    duration: 2.44,
+    xPath: [0, 118, -30, 8],
+    sideHitAt: 0.39,
     floorHitAt: 0.9,
     spin: [-16, 24, -8, 11],
   },
@@ -175,8 +175,21 @@ export default function HomeAssembly() {
     if (typeof window === 'undefined') return;
     const shouldPlay = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!shouldPlay) return;
-    const timer = window.setTimeout(() => setPlayIconIntro(true), 0);
-    return () => window.clearTimeout(timer);
+
+    const isTouchPrimary = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    if (!isTouchPrimary) {
+      const timer = window.setTimeout(() => setPlayIconIntro(true), 0);
+      return () => window.clearTimeout(timer);
+    }
+
+    const startOnFirstTouch = () => {
+      setPlayIconIntro(true);
+      triggerImpactHaptic();
+      window.removeEventListener('pointerdown', startOnFirstTouch);
+    };
+
+    window.addEventListener('pointerdown', startOnFirstTouch, { passive: true });
+    return () => window.removeEventListener('pointerdown', startOnFirstTouch);
   }, []);
 
   useEffect(() => {
@@ -337,9 +350,8 @@ export default function HomeAssembly() {
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: reduceMotion ? 0.01 : 0.6 }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: reduceMotion ? 0.01 : 0.6, delay: reduceMotion ? 0 : 0.12 }}
         >
           <Work />
         </motion.div>

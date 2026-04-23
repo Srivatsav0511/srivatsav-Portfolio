@@ -60,9 +60,8 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 24, filter: 'blur(6px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      viewport={{ once: true, amount: 0.2 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
       onViewportEnter={() => triggerSubtleHaptic()}
       className="py-7 md:py-10 border-b border-zinc-200/80 last:border-b-0"
