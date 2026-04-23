@@ -28,6 +28,18 @@ const DESKTOP_INTRO_SLOWDOWN = 2.05;
 const MOBILE_INTRO_SLOWDOWN = 1.45;
 const INTRO_STAGGER_SLOWDOWN = 1.18;
 
+function isHeroSectionVisible() {
+  if (typeof window === 'undefined') return false;
+
+  const hero = document.getElementById('about');
+  if (!hero) return window.scrollY <= 24;
+
+  const rect = hero.getBoundingClientRect();
+  const visiblePixels = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+  const visibleRatio = visiblePixels / Math.min(rect.height || 1, window.innerHeight);
+  return visibleRatio >= 0.45 && window.scrollY <= Math.max(window.innerHeight * 0.55, 220);
+}
+
 const ICON_RAIN_ITEMS_DESKTOP = [
   {
     src: '/holdboard/holdboardicon.png',
@@ -199,24 +211,19 @@ export default function HomeAssembly() {
     };
 
     const isTouchPrimary = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-    if (isTouchPrimary) {
-      const onFirstTouchStart = () => {
-        startIntro(true);
-        window.removeEventListener('pointerdown', onFirstTouchStart);
-      };
-      window.addEventListener('pointerdown', onFirstTouchStart, { passive: true });
-      return () => {
-        window.removeEventListener('pointerdown', onFirstTouchStart);
-      };
-    }
-
-    const startTimer = window.setTimeout(() => {
-      startIntro(false);
-    }, 0);
+    let rafA = 0;
+    let rafB = 0;
+    rafA = window.requestAnimationFrame(() => {
+      rafB = window.requestAnimationFrame(() => {
+        if (!isHeroSectionVisible()) return;
+        startIntro(isTouchPrimary);
+      });
+    });
 
     return () => {
       setPlayIconIntro(false);
-      window.clearTimeout(startTimer);
+      window.cancelAnimationFrame(rafA);
+      window.cancelAnimationFrame(rafB);
     };
   }, []);
 
@@ -228,6 +235,24 @@ export default function HomeAssembly() {
     media.addEventListener('change', sync);
     return () => media.removeEventListener('change', sync);
   }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !playIconIntro) return;
+
+    const syncIntroToHeroVisibility = () => {
+      if (!isHeroSectionVisible()) {
+        setPlayIconIntro(false);
+      }
+    };
+
+    window.addEventListener('scroll', syncIntroToHeroVisibility, { passive: true });
+    window.addEventListener('resize', syncIntroToHeroVisibility);
+
+    return () => {
+      window.removeEventListener('scroll', syncIntroToHeroVisibility);
+      window.removeEventListener('resize', syncIntroToHeroVisibility);
+    };
+  }, [playIconIntro]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
