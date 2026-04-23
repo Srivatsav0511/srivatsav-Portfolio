@@ -257,9 +257,6 @@ export default function HomeAssembly() {
       setShowBootIntro(false);
       setShowSettledEdgeIcons(true);
     }, introDurationMs);
-    const revealDoneTimer = window.setTimeout(() => {
-      setShowWhiteReveal(false);
-    }, introDurationMs + 900);
 
     const playImpactAudio = () => {
       try {
@@ -300,12 +297,19 @@ export default function HomeAssembly() {
 
     return () => {
       window.clearTimeout(doneTimer);
-      window.clearTimeout(revealDoneTimer);
       sideImpactTimers.forEach((timer) => window.clearTimeout(timer));
       floorImpactTimers.forEach((timer) => window.clearTimeout(timer));
       entryImpactTimers.forEach((timer) => window.clearTimeout(timer));
     };
   }, [playIconIntro, reduceMotion, iconRainItems]);
+
+  useEffect(() => {
+    if (!showWhiteReveal) return;
+    const revealTimer = window.setTimeout(() => {
+      setShowWhiteReveal(false);
+    }, 900);
+    return () => window.clearTimeout(revealTimer);
+  }, [showWhiteReveal]);
 
   return (
     <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-zinc-200 overflow-x-clip">
