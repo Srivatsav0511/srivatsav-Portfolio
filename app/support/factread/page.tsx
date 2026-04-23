@@ -1,4 +1,4 @@
-import { ArrowLeft, CircleHelp, Mail } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, CircleHelp, Mail } from 'lucide-react';
 import Link from 'next/link';
 
 export default function FactReadSupportPage() {
@@ -47,8 +47,12 @@ export default function FactReadSupportPage() {
           <section>
             <h2 className="text-xl font-bold text-black mb-2">Legal</h2>
             <div className="flex flex-wrap items-center gap-4 text-sm font-semibold">
-              <Link href="/privacy/factread" className="underline underline-offset-4 hover:text-black">
+              <Link
+                href="/privacy/factread"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 underline underline-offset-4 decoration-1 transition-colors hover:text-blue-500"
+              >
                 Privacy Policy
+                <ArrowUpRight size={14} />
               </Link>
             </div>
           </section>

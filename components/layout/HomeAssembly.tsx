@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion';
 import Image from 'next/image';
 import AnimatedBackground from '@/components/layout/AnimatedBackground';
 import Contact from '@/components/sections/Contact';
@@ -24,6 +24,9 @@ type IconDropItem = {
 };
 
 const FIRST_OPEN_SHOCK_KEY = 'home-intro-shock-v1';
+const DESKTOP_INTRO_SLOWDOWN = 2.05;
+const MOBILE_INTRO_SLOWDOWN = 1.45;
+const INTRO_STAGGER_SLOWDOWN = 1.18;
 
 const ICON_RAIN_ITEMS_DESKTOP = [
   {
@@ -169,11 +172,10 @@ export default function HomeAssembly() {
   const progressX = useSpring(scrollYProgress, { stiffness: 110, damping: 25, mass: 0.35 });
 
   const [playIconIntro, setPlayIconIntro] = useState(false);
-  const [showBootIntro, setShowBootIntro] = useState(false);
-  const [showWhiteReveal, setShowWhiteReveal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const introActive = playIconIntro && !reduceMotion;
   const iconRainItems = isMobile ? ICON_RAIN_ITEMS_MOBILE : ICON_RAIN_ITEMS_DESKTOP;
+  const introSlowdown = isMobile ? MOBILE_INTRO_SLOWDOWN : DESKTOP_INTRO_SLOWDOWN;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -181,7 +183,6 @@ export default function HomeAssembly() {
     if (!shouldPlay) return;
 
     const startIntro = (withShock: boolean) => {
-      setShowBootIntro(true);
       setPlayIconIntro(true);
       if (!withShock) return;
       try {
@@ -215,7 +216,6 @@ export default function HomeAssembly() {
 
     return () => {
       setPlayIconIntro(false);
-      setShowBootIntro(false);
       window.clearTimeout(startTimer);
     };
   }, []);
@@ -248,12 +248,12 @@ export default function HomeAssembly() {
   useEffect(() => {
     if (!playIconIntro || reduceMotion) return;
 
+    const getScaledDelayMs = (item: IconDropItem) => Math.floor(item.delay * INTRO_STAGGER_SLOWDOWN * 1000);
+    const getScaledDurationMs = (item: IconDropItem) => Math.floor(item.duration * introSlowdown * 1000);
     const introDurationMs =
-      Math.max(...iconRainItems.map((item) => Math.floor((item.delay + item.duration) * 1000))) + 220;
+      Math.max(...iconRainItems.map((item) => getScaledDelayMs(item) + getScaledDurationMs(item))) + 260;
     const doneTimer = window.setTimeout(() => {
-      setShowWhiteReveal(true);
       setPlayIconIntro(false);
-      setShowBootIntro(false);
     }, introDurationMs);
 
     const playImpactAudio = () => {
@@ -284,13 +284,13 @@ export default function HomeAssembly() {
     };
 
     const sideImpactTimers = iconRainItems.map((item) =>
-      window.setTimeout(pulseImpact, Math.floor((item.delay + item.duration * item.sideHitAt) * 1000))
+      window.setTimeout(pulseImpact, getScaledDelayMs(item) + Math.floor(getScaledDurationMs(item) * item.sideHitAt))
     );
     const floorImpactTimers = iconRainItems.map((item) =>
-      window.setTimeout(pulseImpact, Math.floor((item.delay + item.duration * item.floorHitAt) * 1000))
+      window.setTimeout(pulseImpact, getScaledDelayMs(item) + Math.floor(getScaledDurationMs(item) * item.floorHitAt))
     );
     const entryImpactTimers = iconRainItems.map((item) =>
-      window.setTimeout(pulseImpact, Math.floor((item.delay + item.duration * 0.2) * 1000))
+      window.setTimeout(pulseImpact, getScaledDelayMs(item) + Math.floor(getScaledDurationMs(item) * 0.24))
     );
 
     return () => {
@@ -299,15 +299,7 @@ export default function HomeAssembly() {
       floorImpactTimers.forEach((timer) => window.clearTimeout(timer));
       entryImpactTimers.forEach((timer) => window.clearTimeout(timer));
     };
-  }, [playIconIntro, reduceMotion, iconRainItems]);
-
-  useEffect(() => {
-    if (!showWhiteReveal) return;
-    const revealTimer = window.setTimeout(() => {
-      setShowWhiteReveal(false);
-    }, 900);
-    return () => window.clearTimeout(revealTimer);
-  }, [showWhiteReveal]);
+  }, [playIconIntro, reduceMotion, iconRainItems, introSlowdown]);
 
   return (
     <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-zinc-200 overflow-x-clip">
@@ -319,22 +311,7 @@ export default function HomeAssembly() {
       <div className="pointer-events-none absolute inset-0 opacity-[0.3] md:opacity-[0.22] [background-size:24px_24px] [background-image:linear-gradient(to_right,rgba(161,161,170,0.22)_1px,transparent_1px),linear-gradient(to_bottom,rgba(161,161,170,0.2)_1px,transparent_1px)]" />
 
       {playIconIntro ? (
-        <div
-          className={`pointer-events-none fixed inset-0 overflow-hidden ${showBootIntro ? 'z-[290] bg-zinc-950' : 'z-[190]'}`}
-        >
-          {showBootIntro ? (
-            <motion.div
-              className="absolute inset-0 bg-zinc-950"
-              initial={{ opacity: 1 }}
-              animate={{ opacity: 1 }}
-            />
-          ) : null}
-          <motion.div
-            className={`absolute inset-0 ${showBootIntro ? 'bg-transparent' : 'bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.95),rgba(255,255,255,0.15)_42%,rgba(255,255,255,0)_72%)]'}`}
-            initial={{ opacity: 1 }}
-            animate={{ opacity: showBootIntro ? 0 : 0 }}
-            transition={{ duration: reduceMotion ? 0.2 : 1.9, ease: [0.22, 1, 0.36, 1] }}
-          />
+        <div className="pointer-events-none fixed inset-0 z-[190] overflow-hidden">
           {iconRainItems.map((item, idx) => (
             <motion.div
               key={`${item.src}-${idx}`}
@@ -342,50 +319,53 @@ export default function HomeAssembly() {
               style={{ left: item.left, width: item.size, height: item.size }}
               initial={{ x: 0, y: '-28vh', rotate: item.spin[0], scale: 0.8, opacity: 0 }}
               animate={{
-                x: item.xPath,
-                y: ['-24vh', '44vh', '96vh', '124vh'],
-                rotate: item.spin,
-                scale: [0.86, 1, 1.08, 0.9],
-                opacity: [0, 1, 1, 0],
+                x: [0, item.xPath[1] * 0.7, item.xPath[1], item.xPath[2], item.xPath[3], item.xPath[3] * 0.62, item.xPath[3] * 0.42],
+                y: ['-28vh', '-8vh', '26vh', '68vh', '95vh', '84vh', '108vh'],
+                rotate: [item.spin[0], item.spin[1] * 0.5, item.spin[1], item.spin[2], item.spin[3], item.spin[3] * 0.45, item.spin[3] * 0.2],
+                scale: [0.84, 0.98, 1.02, 0.98, 1.08, 0.94, 0.96],
+                opacity: [0, 0.95, 1, 1, 1, 0.96, 0],
               }}
               transition={{
-                duration: item.duration,
-                delay: item.delay,
-                ease: [0.16, 0.92, 0.32, 1],
-                opacity: { duration: item.duration + 0.16, delay: item.delay },
-                times: [0, 0.52, 0.88, 1],
+                duration: item.duration * introSlowdown,
+                delay: item.delay * INTRO_STAGGER_SLOWDOWN,
+                ease: 'linear',
+                times: [0, 0.12, 0.32, 0.64, 0.82, 0.9, 1],
               }}
             >
               <motion.div
-                className="relative h-full w-full overflow-hidden rounded-[22px] bg-white/85 shadow-[0_34px_70px_-40px_rgba(15,23,42,0.85)] backdrop-blur-xl"
-                animate={{ scale: [1, 1, 1.1, 0.98], boxShadow: ['0_34px_70px_-40px_rgba(15,23,42,0.85)', '0_34px_70px_-40px_rgba(15,23,42,0.85)', '0_20px_44px_-24px_rgba(15,23,42,0.95)', '0_10px_24px_-18px_rgba(15,23,42,0.7)'] }}
-                transition={{ duration: item.duration, delay: item.delay, times: [0, item.sideHitAt, item.floorHitAt, 1] }}
+                className="relative h-full w-full"
+                animate={{
+                  scale: [1, 1, 1, 1.01, 1.08, 0.92, 0.98],
+                  filter: [
+                    'drop-shadow(0 28px 40px rgba(15,23,42,0.22))',
+                    'drop-shadow(0 28px 40px rgba(15,23,42,0.22))',
+                    'drop-shadow(0 24px 36px rgba(15,23,42,0.3))',
+                    'drop-shadow(0 18px 30px rgba(15,23,42,0.34))',
+                    'drop-shadow(0 12px 24px rgba(15,23,42,0.38))',
+                    'drop-shadow(0 10px 20px rgba(15,23,42,0.28))',
+                    'drop-shadow(0 8px 16px rgba(15,23,42,0.18))',
+                  ],
+                }}
+                transition={{
+                  duration: item.duration * introSlowdown,
+                  delay: item.delay * INTRO_STAGGER_SLOWDOWN,
+                  ease: 'linear',
+                  times: [0, 0.12, 0.32, 0.64, 0.82, 0.9, 1],
+                }}
               >
-                <Image src={item.src} alt="App icon" fill sizes="68px" className="object-contain p-1.5" priority />
+                <Image src={item.src} alt="App icon" fill sizes="68px" className="object-contain" priority />
               </motion.div>
             </motion.div>
           ))}
         </div>
       ) : null}
 
-      <AnimatePresence>
-        {showWhiteReveal ? (
-          <motion.div
-            className="pointer-events-none fixed inset-0 z-[285] bg-[var(--background)]"
-            initial={{ y: '100%' }}
-            animate={{ y: '0%' }}
-            exit={{ y: '-100%' }}
-            transition={{ duration: reduceMotion ? 0.01 : 0.82, ease: [0.16, 1, 0.3, 1] }}
-          />
-        ) : null}
-      </AnimatePresence>
-
       <Navbar />
 
       <motion.div
-        className={`relative z-10 ${showBootIntro || showWhiteReveal ? 'pointer-events-none' : ''}`}
+        className="relative z-10"
         initial={{ opacity: 0, filter: 'blur(4px)' }}
-        animate={{ opacity: showBootIntro || showWhiteReveal ? 0 : 1, filter: showBootIntro || showWhiteReveal ? 'blur(4px)' : 'blur(0px)' }}
+        animate={{ opacity: 1, filter: 'blur(0px)' }}
         transition={{ duration: reduceMotion ? 0.01 : 0.72, ease: [0.22, 1, 0.36, 1] }}
       >
         <motion.div

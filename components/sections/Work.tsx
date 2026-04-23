@@ -173,7 +173,7 @@ export default function Work() {
 
   return (
     <section id="work" className="mx-auto max-w-7xl px-6 py-24 md:py-28">
-      <SectionHeading title="Work" subtitle="A minimal selection of products and the stories behind them." />
+      <SectionHeading title="Work" subtitle="Products with pulse, stories with scars, outcomes with proof." />
 
       <div className="mt-2">
         {projects.map((project, index) => (

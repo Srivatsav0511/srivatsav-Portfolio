@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -109,8 +109,12 @@ export default function MoneyFormulaBlog() {
           <h3 className="mt-2 text-xl md:text-2xl font-bold tracking-tight text-black">Download the app and review privacy details</h3>
           <div className="mt-5 flex flex-col items-center gap-3">
             <AppStoreBadge href="https://apps.apple.com/us/search?term=MoneyFormula" />
-            <Link href="/privacy/moneyformula" className="text-sm font-semibold text-zinc-700 underline underline-offset-4 hover:text-black transition-colors">
+            <Link
+              href="/privacy/moneyformula"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 underline underline-offset-4 decoration-1 transition-colors hover:text-blue-500"
+            >
               Privacy Policy
+              <ArrowUpRight size={14} />
             </Link>
           </div>
         </div>
