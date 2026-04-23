@@ -111,7 +111,7 @@ export default function Hero({ introActive = false }: { introActive?: boolean })
     <section
       ref={sectionRef}
       id="about"
-      className="relative min-h-screen flex items-center px-6 max-w-7xl mx-auto pt-24 pb-8"
+      className="relative min-h-screen flex items-start lg:items-center px-6 max-w-7xl mx-auto pt-32 md:pt-28 lg:pt-24 pb-8"
       onMouseMove={(e) => {
         const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
         mx.set((e.clientX - rect.left - rect.width / 2) / 14);

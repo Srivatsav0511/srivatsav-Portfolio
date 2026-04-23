@@ -178,7 +178,7 @@ export default function HomeAssembly() {
         style={{ scaleX: progressX }}
       />
       <AnimatedBackground />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.16] [background-size:24px_24px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.5)_1px,transparent_1px)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.3] md:opacity-[0.22] [background-size:24px_24px] [background-image:linear-gradient(to_right,rgba(161,161,170,0.22)_1px,transparent_1px),linear-gradient(to_bottom,rgba(161,161,170,0.2)_1px,transparent_1px)]" />
 
       {playIconIntro ? (
         <div className="pointer-events-none fixed inset-0 z-[190] overflow-hidden">

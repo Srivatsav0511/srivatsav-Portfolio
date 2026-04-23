@@ -9,8 +9,11 @@ export default function AnimatedBackground() {
 
   return (
     <motion.div className="pointer-events-none absolute inset-0 overflow-hidden" style={{ y }}>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,rgba(255,255,255,0.92),transparent_30%),radial-gradient(circle_at_84%_14%,rgba(228,228,231,0.52),transparent_31%),radial-gradient(circle_at_48%_98%,rgba(244,244,245,0.88),transparent_35%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(161,161,170,0.14),transparent_25%),radial-gradient(circle_at_80%_75%,rgba(212,212,216,0.2),transparent_30%)] animate-[ambientPulse_14s_ease-in-out_infinite]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,rgba(255,255,255,0.98),transparent_31%),radial-gradient(circle_at_84%_14%,rgba(228,228,231,0.62),transparent_34%),radial-gradient(circle_at_48%_98%,rgba(244,244,245,0.94),transparent_37%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(161,161,170,0.2),transparent_27%),radial-gradient(circle_at_80%_75%,rgba(212,212,216,0.28),transparent_33%)] animate-[ambientPulse_14s_ease-in-out_infinite]" />
+      <div className="absolute -left-[36%] top-[6%] h-[32rem] w-[32rem] rounded-full border border-zinc-300/45 md:border-zinc-300/38" />
+      <div className="absolute -left-[24%] top-[18%] h-[24rem] w-[24rem] rounded-full border border-zinc-300/32 md:border-zinc-300/26" />
+      <div className="absolute -right-[32%] bottom-[12%] h-[26rem] w-[26rem] rounded-full border border-zinc-300/34 md:border-zinc-300/28" />
 
       <motion.div
         aria-hidden
@@ -25,11 +28,11 @@ export default function AnimatedBackground() {
         transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
       />
 
-      <svg className="absolute -top-20 -left-20 w-[42rem] h-[42rem] opacity-35" viewBox="0 0 600 600" fill="none" aria-hidden>
+      <svg className="absolute -top-20 -left-20 w-[38rem] h-[38rem] md:w-[42rem] md:h-[42rem] opacity-55 md:opacity-46" viewBox="0 0 600 600" fill="none" aria-hidden>
         <motion.path
           stroke="currentColor"
-          className="text-zinc-300"
-          strokeWidth="1.2"
+          className="text-zinc-300/85"
+          strokeWidth="1.35"
           d="M145 88C260 34 436 67 504 178C565 278 530 440 414 507C290 577 124 532 67 410C17 303 30 153 145 88Z"
           animate={{
             d: [
@@ -42,11 +45,11 @@ export default function AnimatedBackground() {
         />
       </svg>
 
-      <svg className="absolute -bottom-28 -right-28 w-[34rem] h-[34rem] opacity-35" viewBox="0 0 600 600" fill="none" aria-hidden>
+      <svg className="absolute -bottom-28 -right-28 w-[30rem] h-[30rem] md:w-[34rem] md:h-[34rem] opacity-52 md:opacity-44" viewBox="0 0 600 600" fill="none" aria-hidden>
         <motion.path
           stroke="currentColor"
-          className="text-zinc-300"
-          strokeWidth="1.1"
+          className="text-zinc-300/85"
+          strokeWidth="1.25"
           d="M120 185C169 74 322 28 443 79C548 124 592 245 553 350C510 462 394 548 272 548C151 551 44 467 32 347C20 285 78 231 120 185Z"
           animate={{
             d: [
