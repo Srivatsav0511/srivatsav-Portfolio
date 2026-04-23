@@ -38,6 +38,7 @@ export default function HoldboardBlog() {
 
           <div className="mt-6">
             <AppStoreBadge href="https://apps.apple.com/us/app/holdboard/id6761117827" />
+            <p className="mt-3 text-xs md:text-sm font-semibold tracking-tight text-zinc-600">$0.99 one-time purchase. No subscription.</p>
           </div>
         </motion.div>
       </header>
@@ -67,24 +68,79 @@ export default function HoldboardBlog() {
       <main className="relative z-10 max-w-3xl mx-auto px-5 md:px-6 pb-16 md:pb-20 space-y-10">
         {[
           {
-            title: 'Why I built Holdboard',
-            body: 'I built Holdboard after switching to iOS and realizing clipboard management was still a constant pain in everyday work. I copy links, OTPs, snippets, and notes all day, but important items kept getting replaced before I could reuse them. Existing clipboard tools were either too limited or too cluttered for real usage. I wanted one app that felt simple, private, and fast enough to trust as a daily utility, not just a one-time experiment.',
+            title: 'Why Holdboard was built',
+            body: 'Holdboard started from a repeat pain in real work sessions: copied content is temporary, but tasks are not. During debugging, payments, support chats, and content writing, I needed more than one active clip. iOS clipboard behavior is intentionally simple, so critical items like OTPs and links were frequently lost when I copied the next item. I built Holdboard to solve this gap with a product that feels quick during normal typing, but reliable and private when content is sensitive.',
+            points: [
+              'Primary goal: preserve useful copied content across rapid context switching.',
+              'Product goal: reduce tap count between copy, organize, and reuse operations.',
+              'Security goal: protect sensitive entries without degrading common flows.',
+            ],
           },
           {
-            title: 'How the product works',
-            body: 'Holdboard captures and organizes saved clips into clear groups. Users can bookmark important items, protect sensitive entries with Face ID, and quickly retrieve clips when needed. The workflow is optimized for repeat usage, not one-time storage.',
+            title: 'App workflow',
+            body: 'The app is designed as a loop users repeat all day, not as a one-time archive. Every step optimizes for fast return-to-task behavior.',
+            points: [
+              'Capture: user copies content, then opens Holdboard app or keyboard extension to save it intentionally.',
+              'Normalize: clip is converted into a consistent model (type, source, timestamp, metadata).',
+              'Classify: clip is assigned to group/tag so retrieval remains predictable at scale.',
+              'Protect: users can lock entries behind Face ID and separate private from regular clips.',
+              'Retrieve: from keyboard or app, user pastes/copies instantly with minimal context switching.',
+              'Retain/Clean: optional auto-delete policies remove stale clips and keep vault quality high.',
+            ],
           },
           {
-            title: 'Keyboard-first experience',
-            body: 'The Holdboard keyboard extension makes the app practical in real life. You can open your clips while typing in other apps, filter by content type, and insert or copy instantly without switching context.',
+            title: 'Architecture overview',
+            body: 'Holdboard is intentionally split into small modules so each responsibility is isolated and easier to harden. This reduced regression risk while iterating quickly.',
+            points: [
+              'Main App module: library view, tagging, edit/delete actions, settings, Face ID gate, and retention controls.',
+              'Keyboard Extension module: low-latency list rendering, quick search/filter, and immediate paste/copy actions.',
+              'Storage module: normalized clip schema, duplicate detection, ordering, and policy-based expiry.',
+              'Security module: lock state transitions, protected action checks, and sensitive-surface masking.',
+              'Sync boundary: app and keyboard share only necessary data paths to reduce accidental leak/overexposure.',
+            ],
           },
           {
-            title: 'Problems faced while building',
-            body: 'The hardest parts were duplicate handling, mixed content rendering, and balancing security with speed. I had to tune lock boundaries carefully so private data stayed protected while normal usage remained frictionless.',
+            title: 'Main challenge: keyboard extension',
+            body: 'The keyboard extension was the hardest engineering area. It runs in a constrained environment where users still expect instant response. Any delay feels broken because this happens mid-typing.',
+            points: [
+              'Runtime constraints: tighter memory/time limits than the full app made heavy UI/state patterns unsafe.',
+              'State handoff: app-to-keyboard communication required strict boundaries to avoid stale or inconsistent data.',
+              'UX pressure: retrieval had to be near-instant even with large clip history.',
+              'Privacy pressure: sensitive clips needed guardrails without interrupting every normal action.',
+            ],
           },
           {
-            title: 'AI tools used',
-            body: 'I used Codex to accelerate refactoring and implementation quality during development. Final product behavior, privacy boundaries, and UX decisions were reviewed and validated manually.',
+            title: 'GIF support and richer media handling',
+            body: 'After stabilizing text-first workflows, I implemented GIF/media support. This looked simple in UI, but required repeated fixes around rendering and payload handling in keyboard context.',
+            points: [
+              'Rendering consistency issues appeared across different source apps and paste targets.',
+              'Preview behavior needed fallback logic when full media rendering was not reliable.',
+              'Insertion reliability required multiple passes to prevent partial/failed paste outcomes.',
+            ],
+          },
+          {
+            title: 'Auto-delete logic: repeated bug-fix cycles',
+            body: 'Auto-delete looked straightforward but became one of the most iterative systems. Early logic removed clips in edge cases where users expected retention.',
+            points: [
+              'Initial bug class: expiry and manual actions collided, causing unexpected removals.',
+              'Second bug class: ordering/race issues created inconsistent cleanup timing.',
+              'Fix approach: separate retention evaluation from UI mutation path and revalidate before delete.',
+              'Result: predictable retention behavior with lower risk of accidental loss.',
+            ],
+          },
+          {
+            title: 'Background limits and App Store constraints',
+            body: 'A core constraint is platform policy. Continuous, always-on clipboard background behavior is not a safe shipping strategy for App Store review. Product design had to align with acceptable iOS behavior from day one.',
+            points: [
+              'The app does not attempt permanent background clipboard monitoring.',
+              'Capture is intentionally user-driven: open app or keyboard to save/manage clips.',
+              'This keeps the feature set policy-safe and lowers rejection risk.',
+              'Tradeoff accepted: slightly more explicit user action in exchange for reliable, shippable behavior.',
+            ],
+          },
+          {
+            title: 'Build outcome',
+            body: 'Holdboard shipped as a keyboard-first clipboard system focused on practical reliability: fast retrieval, explicit capture, and strong privacy boundaries. Instead of overpromising impossible background behavior, the product is scoped around what iOS supports consistently and what can pass review safely. That scope made the app stable enough for real daily use.',
           },
         ].map((item, index) => (
           <motion.section
@@ -97,9 +153,32 @@ export default function HoldboardBlog() {
           >
             <h2 className="text-xl font-bold text-black">{item.title}</h2>
             <p className="text-zinc-700 leading-relaxed">{item.body}</p>
+            {'points' in item && item.points ? (
+              <ul className="mt-3 space-y-2">
+                {item.points.map((point) => (
+                  <li key={point} className="text-zinc-700 leading-relaxed pl-4 relative">
+                    <span className="absolute left-0 top-[0.62em] h-1.5 w-1.5 rounded-full bg-zinc-400" aria-hidden />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </motion.section>
         ))}
       </main>
+
+      <section className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 pb-20 md:pb-24">
+        <div className="rounded-3xl border border-zinc-200 bg-white/85 p-6 md:p-8 text-center shadow-sm">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-black">Get Holdboard</p>
+          <h3 className="mt-2 text-xl md:text-2xl font-bold tracking-tight text-black">Download the app and review privacy details</h3>
+          <div className="mt-5 flex flex-col items-center gap-3">
+            <AppStoreBadge href="https://apps.apple.com/us/app/holdboard/id6761117827" />
+            <Link href="/privacy/holdboard" className="text-sm font-semibold text-zinc-700 underline underline-offset-4 hover:text-black transition-colors">
+              Privacy Policy
+            </Link>
+          </div>
+        </div>
+      </section>
     </article>
   );
 }

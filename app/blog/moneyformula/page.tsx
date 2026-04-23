@@ -102,6 +102,19 @@ export default function MoneyFormulaBlog() {
           </motion.section>
         ))}
       </main>
+
+      <section className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 pb-20 md:pb-24">
+        <div className="rounded-3xl border border-zinc-200 bg-white/85 p-6 md:p-8 text-center shadow-sm">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-black">Get MoneyFormula</p>
+          <h3 className="mt-2 text-xl md:text-2xl font-bold tracking-tight text-black">Download the app and review privacy details</h3>
+          <div className="mt-5 flex flex-col items-center gap-3">
+            <AppStoreBadge href="https://apps.apple.com/us/search?term=MoneyFormula" />
+            <Link href="/privacy/moneyformula" className="text-sm font-semibold text-zinc-700 underline underline-offset-4 hover:text-black transition-colors">
+              Privacy Policy
+            </Link>
+          </div>
+        </div>
+      </section>
     </article>
   );
 }

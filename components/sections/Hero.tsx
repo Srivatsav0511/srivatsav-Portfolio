@@ -171,18 +171,18 @@ export default function Hero({ introActive = false }: { introActive?: boolean })
         </motion.div>
 
         <motion.div
-          className="lg:col-span-5 xl:col-span-4 lg:justify-self-end w-full max-w-[360px]"
+          className="lg:col-span-5 xl:col-span-4 lg:justify-self-end w-full max-w-[300px]"
           style={{ x: cardX, y: cardY }}
           initial={{ opacity: 0, y: 16, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.5, delay: 0.12 }}
         >
-          <div className="glass-surface rounded-[24px] p-4 md:rounded-[28px] md:p-5">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Local Time / IST</p>
-            <h4 className="mt-2 text-[2rem] md:text-[2.4rem] font-mono font-bold leading-none tracking-tight text-black tabular-nums">{timeLabel}</h4>
-            <p className="mt-2 text-[11px] font-semibold tracking-wide text-zinc-600">{dateLabel}</p>
-            <div className="mt-3 h-px w-full bg-zinc-200/80" />
+          <div className="glass-surface rounded-[22px] pl-3.5 pr-2.5 py-3.5 text-center md:rounded-[24px] md:pl-4 md:pr-3 md:py-4">
+            <p className="text-[9px] font-black uppercase tracking-[0.24em] text-zinc-400">Local Time / IST</p>
+            <h4 className="mt-1.5 text-[1.7rem] md:text-[2rem] font-mono font-bold leading-none tracking-tight text-black tabular-nums">{timeLabel}</h4>
+            <p className="mt-1.5 text-[10px] font-semibold tracking-wide text-zinc-600">{dateLabel}</p>
+            <div className="mt-2.5 mx-auto h-px w-[92%] bg-zinc-200/80" />
           </div>
         </motion.div>
       </div>

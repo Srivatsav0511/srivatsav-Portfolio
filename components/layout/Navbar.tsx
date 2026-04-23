@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LayoutGrid, Menu, X, ArrowUpRight, Clock3 } from 'lucide-react';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import Link from 'next/link';
@@ -32,15 +32,18 @@ export default function Navbar() {
   const [compact, setCompact] = useState(false);
   const [timeLabel, setTimeLabel] = useState('');
   const [greetingLine, setGreetingLine] = useState('');
-  const [showGreeting, setShowGreeting] = useState(false);
-  const greetingRef = useRef('');
-  const hideGreetingTimerRef = useRef<number | null>(null);
+  const [showGreeting, setShowGreeting] = useState(true);
   const { scrollY } = useScroll();
   const width = useSpring(compact ? 960 : 1040, { stiffness: 180, damping: 25 });
 
   useEffect(() => {
     return scrollY.on('change', (y) => setCompact(y > 18));
   }, [scrollY]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setShowGreeting(false), 4200);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const formatTime = () => {
@@ -53,28 +56,12 @@ export default function Navbar() {
           hour12: true,
         })
       );
-      const nextGreeting = getGreetingLine(now);
-      if (greetingRef.current !== nextGreeting) {
-        greetingRef.current = nextGreeting;
-        setGreetingLine(nextGreeting);
-        setShowGreeting(true);
-        if (hideGreetingTimerRef.current) {
-          window.clearTimeout(hideGreetingTimerRef.current);
-        }
-        hideGreetingTimerRef.current = window.setTimeout(() => {
-          setShowGreeting(false);
-        }, 4200);
-      }
+      setGreetingLine(getGreetingLine(now));
     };
 
     formatTime();
     const timer = window.setInterval(formatTime, 1000);
-    return () => {
-      window.clearInterval(timer);
-      if (hideGreetingTimerRef.current) {
-        window.clearTimeout(hideGreetingTimerRef.current);
-      }
-    };
+    return () => window.clearInterval(timer);
   }, []);
 
   const navLinks = [
