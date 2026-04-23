@@ -26,13 +26,13 @@ export function triggerImpactHaptic() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const now = Date.now();
-  if (now - lastImpactPulseAt < 90) return;
+  if (now - lastImpactPulseAt < 55) return;
   lastImpactPulseAt = now;
 
   if ('vibrate' in navigator) {
-    const accepted = navigator.vibrate([34, 18, 44]);
+    const accepted = navigator.vibrate([46, 20, 62]);
     if (!accepted) {
-      navigator.vibrate(48);
+      navigator.vibrate(76);
     }
   }
 }
