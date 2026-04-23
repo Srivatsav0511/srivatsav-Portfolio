@@ -9,7 +9,7 @@ import Hero from '@/components/sections/Hero';
 import Navbar from '@/components/layout/Navbar';
 import WaveDivider from '@/components/layout/WaveDivider';
 import Work from '@/components/sections/Work';
-import { triggerSubtleHaptic } from '@/components/utils/subtleHaptics';
+import { triggerImpactHaptic, triggerSubtleHaptic } from '@/components/utils/subtleHaptics';
 
 type IconDropItem = {
   src: string;
@@ -23,7 +23,7 @@ type IconDropItem = {
   spin: [number, number, number, number];
 };
 
-const ICON_RAIN_ITEMS = [
+const ICON_RAIN_ITEMS_DESKTOP = [
   {
     src: '/holdboard/holdboardicon.png',
     left: '10%',
@@ -92,13 +92,84 @@ const ICON_RAIN_ITEMS = [
   },
 ] as const satisfies IconDropItem[];
 
+const ICON_RAIN_ITEMS_MOBILE = [
+  {
+    src: '/holdboard/holdboardicon.png',
+    left: '4%',
+    size: 60,
+    delay: 0.05,
+    duration: 1.86,
+    xPath: [0, -54, 24, -8],
+    sideHitAt: 0.46,
+    floorHitAt: 0.9,
+    spin: [-18, -32, -10, 8],
+  },
+  {
+    src: '/factread/factread-Icon.png',
+    left: '20%',
+    size: 64,
+    delay: 0.13,
+    duration: 1.94,
+    xPath: [0, 52, -20, 7],
+    sideHitAt: 0.46,
+    floorHitAt: 0.9,
+    spin: [-12, 22, -8, 10],
+  },
+  {
+    src: '/moneyformula/moneyformula-icon.png',
+    left: '36%',
+    size: 62,
+    delay: 0.2,
+    duration: 1.9,
+    xPath: [0, -50, 20, -6],
+    sideHitAt: 0.46,
+    floorHitAt: 0.9,
+    spin: [-16, -24, -8, 9],
+  },
+  {
+    src: '/pureclick/pureclick-icon.png',
+    left: '52%',
+    size: 66,
+    delay: 0.28,
+    duration: 1.96,
+    xPath: [0, 56, -24, 8],
+    sideHitAt: 0.46,
+    floorHitAt: 0.9,
+    spin: [-14, 24, -7, 12],
+  },
+  {
+    src: '/holdboard/holdboardicon.png',
+    left: '68%',
+    size: 58,
+    delay: 0.35,
+    duration: 1.9,
+    xPath: [0, -52, 20, -7],
+    sideHitAt: 0.46,
+    floorHitAt: 0.9,
+    spin: [-14, -22, -6, 9],
+  },
+  {
+    src: '/factread/factread-Icon.png',
+    left: '84%',
+    size: 60,
+    delay: 0.42,
+    duration: 1.94,
+    xPath: [0, 50, -20, 7],
+    sideHitAt: 0.46,
+    floorHitAt: 0.9,
+    spin: [-16, 24, -8, 11],
+  },
+] as const satisfies IconDropItem[];
+
 export default function HomeAssembly() {
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const progressX = useSpring(scrollYProgress, { stiffness: 110, damping: 25, mass: 0.35 });
 
   const [playIconIntro, setPlayIconIntro] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const introActive = playIconIntro && !reduceMotion;
+  const iconRainItems = isMobile ? ICON_RAIN_ITEMS_MOBILE : ICON_RAIN_ITEMS_DESKTOP;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -106,6 +177,15 @@ export default function HomeAssembly() {
     if (!shouldPlay) return;
     const timer = window.setTimeout(() => setPlayIconIntro(true), 0);
     return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const media = window.matchMedia('(max-width: 768px)');
+    const sync = () => setIsMobile(media.matches);
+    sync();
+    media.addEventListener('change', sync);
+    return () => media.removeEventListener('change', sync);
   }, []);
 
   useEffect(() => {
@@ -127,7 +207,8 @@ export default function HomeAssembly() {
   useEffect(() => {
     if (!playIconIntro || reduceMotion) return;
 
-    const introDurationMs = 1800;
+    const introDurationMs =
+      Math.max(...iconRainItems.map((item) => Math.floor((item.delay + item.duration) * 1000))) + 220;
     const doneTimer = window.setTimeout(() => setPlayIconIntro(false), introDurationMs);
 
     const playImpactAudio = () => {
@@ -153,14 +234,14 @@ export default function HomeAssembly() {
     };
 
     const pulseImpact = () => {
-      triggerSubtleHaptic();
+      triggerImpactHaptic();
       playImpactAudio();
     };
 
-    const sideImpactTimers = ICON_RAIN_ITEMS.map((item) =>
+    const sideImpactTimers = iconRainItems.map((item) =>
       window.setTimeout(pulseImpact, Math.floor((item.delay + item.duration * item.sideHitAt) * 1000))
     );
-    const floorImpactTimers = ICON_RAIN_ITEMS.map((item) =>
+    const floorImpactTimers = iconRainItems.map((item) =>
       window.setTimeout(pulseImpact, Math.floor((item.delay + item.duration * item.floorHitAt) * 1000))
     );
 
@@ -169,7 +250,7 @@ export default function HomeAssembly() {
       sideImpactTimers.forEach((timer) => window.clearTimeout(timer));
       floorImpactTimers.forEach((timer) => window.clearTimeout(timer));
     };
-  }, [playIconIntro, reduceMotion]);
+  }, [playIconIntro, reduceMotion, iconRainItems]);
 
   return (
     <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-zinc-200 overflow-x-clip">
@@ -203,7 +284,7 @@ export default function HomeAssembly() {
             animate={{ opacity: 0 }}
             transition={{ duration: reduceMotion ? 0.2 : 1.75, ease: [0.22, 1, 0.36, 1] }}
           />
-          {ICON_RAIN_ITEMS.map((item, idx) => (
+          {iconRainItems.map((item, idx) => (
             <motion.div
               key={`${item.src}-${idx}`}
               className="absolute top-[-15%] will-change-transform"

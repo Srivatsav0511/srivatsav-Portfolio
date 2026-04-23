@@ -13,7 +13,7 @@ function getGreetingLine(date: Date) {
   }
 
   if (hour >= 12 && hour < 17) {
-    return 'Lunch is temporary. Great products are forever.';
+    return 'Caught you free at noon. Visit the site, tap the apps, thank me later.';
   }
 
   if (hour >= 17 && hour < 21) {

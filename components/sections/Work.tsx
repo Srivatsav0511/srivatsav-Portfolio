@@ -16,13 +16,20 @@ type Project = {
   blogLink: string;
 };
 
-function ProjectMedia({ project }: { project: Project }) {
+function ProjectMedia({ project, eager = false }: { project: Project; eager?: boolean }) {
   const previews = project.screenshots.slice(0, 3);
 
   if (previews.length === 1) {
     return (
       <div className="relative w-full aspect-[16/10] overflow-hidden rounded-3xl border border-white/70 bg-white/60 shadow-[0_28px_70px_-55px_rgba(15,23,42,0.7)] backdrop-blur-xl">
-        <Image src={previews[0]} alt={`${project.title} preview`} fill className="object-cover" />
+        <Image
+          src={previews[0]}
+          alt={`${project.title} preview`}
+          fill
+          sizes="(max-width: 768px) 92vw, (max-width: 1024px) 58vw, 42vw"
+          priority={eager}
+          className="object-cover"
+        />
       </div>
     );
   }
@@ -34,7 +41,14 @@ function ProjectMedia({ project }: { project: Project }) {
           key={`${project.title}-${idx}`}
           className="relative aspect-[9/18] overflow-hidden rounded-[20px] border border-white/75 bg-white/70 shadow-[0_20px_48px_-38px_rgba(15,23,42,0.7)] backdrop-blur-xl"
         >
-          <Image src={src} alt={`${project.title} screenshot ${idx + 1}`} fill className="object-cover" />
+          <Image
+            src={src}
+            alt={`${project.title} screenshot ${idx + 1}`}
+            fill
+            sizes="(max-width: 768px) 28vw, (max-width: 1200px) 18vw, 14vw"
+            priority={eager && idx === 0}
+            className="object-cover"
+          />
         </div>
       ))}
     </div>
@@ -55,7 +69,7 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
     >
       <div className="grid items-center gap-6 md:grid-cols-12 md:gap-8">
         <div className="md:col-span-7">
-          <ProjectMedia project={project} />
+          <ProjectMedia project={project} eager={index < 2} />
         </div>
 
         <div className="md:col-span-5 space-y-4 md:space-y-5">
