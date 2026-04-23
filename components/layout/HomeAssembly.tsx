@@ -9,7 +9,7 @@ import Hero from '@/components/sections/Hero';
 import Navbar from '@/components/layout/Navbar';
 import WaveDivider from '@/components/layout/WaveDivider';
 import Work from '@/components/sections/Work';
-import { triggerImpactHaptic, triggerSubtleHaptic } from '@/components/utils/subtleHaptics';
+import { triggerImpactHaptic, triggerShockHaptic, triggerSubtleHaptic } from '@/components/utils/subtleHaptics';
 
 type IconDropItem = {
   src: string;
@@ -22,6 +22,8 @@ type IconDropItem = {
   floorHitAt: number;
   spin: [number, number, number, number];
 };
+
+const FIRST_OPEN_SHOCK_KEY = 'home-intro-shock-v1';
 
 const ICON_RAIN_ITEMS_DESKTOP = [
   {
@@ -98,7 +100,7 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '4%',
     size: 60,
     delay: 0.05,
-    duration: 2.35,
+    duration: 1.92,
     xPath: [0, -120, 34, -10],
     sideHitAt: 0.39,
     floorHitAt: 0.9,
@@ -109,7 +111,7 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '20%',
     size: 64,
     delay: 0.13,
-    duration: 2.42,
+    duration: 1.98,
     xPath: [0, 140, -30, 8],
     sideHitAt: 0.39,
     floorHitAt: 0.9,
@@ -120,7 +122,7 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '36%',
     size: 62,
     delay: 0.2,
-    duration: 2.38,
+    duration: 1.96,
     xPath: [0, -132, 32, -8],
     sideHitAt: 0.39,
     floorHitAt: 0.9,
@@ -131,7 +133,7 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '52%',
     size: 66,
     delay: 0.28,
-    duration: 2.45,
+    duration: 2.02,
     xPath: [0, 132, -34, 10],
     sideHitAt: 0.39,
     floorHitAt: 0.9,
@@ -142,7 +144,7 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '68%',
     size: 58,
     delay: 0.35,
-    duration: 2.4,
+    duration: 1.98,
     xPath: [0, -120, 28, -7],
     sideHitAt: 0.39,
     floorHitAt: 0.9,
@@ -153,7 +155,7 @@ const ICON_RAIN_ITEMS_MOBILE = [
     left: '84%',
     size: 60,
     delay: 0.42,
-    duration: 2.44,
+    duration: 2.0,
     xPath: [0, 118, -30, 8],
     sideHitAt: 0.39,
     floorHitAt: 0.9,
@@ -167,6 +169,7 @@ export default function HomeAssembly() {
   const progressX = useSpring(scrollYProgress, { stiffness: 110, damping: 25, mass: 0.35 });
 
   const [playIconIntro, setPlayIconIntro] = useState(false);
+  const [showBootIntro, setShowBootIntro] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const introActive = playIconIntro && !reduceMotion;
   const iconRainItems = isMobile ? ICON_RAIN_ITEMS_MOBILE : ICON_RAIN_ITEMS_DESKTOP;
@@ -176,20 +179,36 @@ export default function HomeAssembly() {
     const shouldPlay = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!shouldPlay) return;
 
-    const isTouchPrimary = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-    if (!isTouchPrimary) {
-      const timer = window.setTimeout(() => setPlayIconIntro(true), 0);
-      return () => window.clearTimeout(timer);
-    }
-
-    const startOnFirstTouch = () => {
+    const startTimer = window.setTimeout(() => {
+      setShowBootIntro(true);
       setPlayIconIntro(true);
-      triggerImpactHaptic();
-      window.removeEventListener('pointerdown', startOnFirstTouch);
+    }, 0);
+
+    const introTotalMs = 3000;
+    const doneTimer = window.setTimeout(() => {
+      setPlayIconIntro(false);
+      setShowBootIntro(false);
+    }, introTotalMs);
+
+    const triggerFirstTouchShock = () => {
+      try {
+        const hadShock = window.sessionStorage.getItem(FIRST_OPEN_SHOCK_KEY) === '1';
+        if (!hadShock) {
+          window.sessionStorage.setItem(FIRST_OPEN_SHOCK_KEY, '1');
+          triggerShockHaptic();
+        }
+      } catch {
+        triggerImpactHaptic();
+      }
+      window.removeEventListener('pointerdown', triggerFirstTouchShock);
     };
 
-    window.addEventListener('pointerdown', startOnFirstTouch, { passive: true });
-    return () => window.removeEventListener('pointerdown', startOnFirstTouch);
+    window.addEventListener('pointerdown', triggerFirstTouchShock, { passive: true });
+    return () => {
+      window.clearTimeout(startTimer);
+      window.clearTimeout(doneTimer);
+      window.removeEventListener('pointerdown', triggerFirstTouchShock);
+    };
   }, []);
 
   useEffect(() => {
@@ -275,7 +294,27 @@ export default function HomeAssembly() {
       <div className="pointer-events-none absolute inset-0 opacity-[0.3] md:opacity-[0.22] [background-size:24px_24px] [background-image:linear-gradient(to_right,rgba(161,161,170,0.22)_1px,transparent_1px),linear-gradient(to_bottom,rgba(161,161,170,0.2)_1px,transparent_1px)]" />
 
       {playIconIntro ? (
-        <div className="pointer-events-none fixed inset-0 z-[190] overflow-hidden">
+        <div
+          className={`pointer-events-none fixed inset-0 overflow-hidden ${showBootIntro ? 'z-[290] bg-zinc-950' : 'z-[190]'}`}
+        >
+          {showBootIntro ? (
+            <motion.div
+              className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(56,189,248,0.18),rgba(2,6,23,0.96)_52%,rgba(2,6,23,1)_100%)]"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+            />
+          ) : null}
+          <motion.div
+            className={`absolute inset-0 ${showBootIntro ? 'bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.12),rgba(255,255,255,0.02)_42%,rgba(255,255,255,0)_72%)]' : 'bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.95),rgba(255,255,255,0.15)_42%,rgba(255,255,255,0)_72%)]'}`}
+            initial={{ opacity: 1 }}
+            animate={{ opacity: showBootIntro ? 0.35 : 0 }}
+            transition={{ duration: reduceMotion ? 0.2 : 1.9, ease: [0.22, 1, 0.36, 1] }}
+          />
+          <motion.div
+            className="absolute inset-x-0 top-0 h-2 bg-[radial-gradient(circle_at_50%_0%,rgba(56,189,248,0.85),rgba(56,189,248,0.2),rgba(56,189,248,0))]"
+            animate={{ opacity: [0.2, 0.8, 0.24], scaleX: [0.95, 1.04, 0.96] }}
+            transition={{ duration: 1.8, ease: 'easeInOut' }}
+          />
           <motion.div
             className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,rgba(56,189,248,0.12),rgba(56,189,248,0.65),rgba(56,189,248,0.12))] blur-[1px]"
             animate={{ opacity: [0.15, 0.75, 0.18, 0.82, 0.1], scaleY: [1, 1.05, 1, 1.04, 1] }}
@@ -290,12 +329,6 @@ export default function HomeAssembly() {
             className="absolute bottom-0 left-0 right-0 h-3 bg-[radial-gradient(circle_at_50%_50%,rgba(56,189,248,0.58),rgba(56,189,248,0.1),rgba(56,189,248,0))]"
             animate={{ opacity: [0.14, 0.55, 0.2, 0.72, 0.1], scaleX: [0.9, 1.03, 0.95, 1.06, 0.9] }}
             transition={{ duration: 1.9, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.95),rgba(255,255,255,0.15)_42%,rgba(255,255,255,0)_72%)]"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0.2 : 1.75, ease: [0.22, 1, 0.36, 1] }}
           />
           {iconRainItems.map((item, idx) => (
             <motion.div
@@ -327,12 +360,39 @@ export default function HomeAssembly() {
               </motion.div>
             </motion.div>
           ))}
+          {showBootIntro ? (
+            <div className="absolute inset-0 z-20 flex items-center justify-center px-6">
+              <motion.div
+                initial={{ opacity: 0, y: 18, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full max-w-[420px] rounded-[28px] border border-white/24 bg-white/6 px-5 py-6 text-center shadow-[0_30px_90px_-44px_rgba(8,47,73,0.72)] backdrop-blur-2xl"
+              >
+                <p className="text-[10px] font-black uppercase tracking-[0.34em] text-zinc-300">Experience Loading</p>
+                <h3 className="mt-2 text-3xl md:text-[2.5rem] font-bold tracking-[0.02em] text-white">SRIVATSAV</h3>
+                <p className="mt-2 text-xs md:text-sm font-medium text-zinc-300">Liquid glass motion · tactile intro · premium reveal</p>
+                <div className="mx-auto mt-5 h-1.5 w-full max-w-[270px] overflow-hidden rounded-full bg-white/18">
+                  <motion.div
+                    className="h-full w-full origin-left bg-[linear-gradient(90deg,rgba(56,189,248,0.42),rgba(56,189,248,0.98),rgba(255,255,255,0.9))]"
+                    initial={{ scaleX: 0.08, opacity: 0.5 }}
+                    animate={{ scaleX: 1, opacity: 1 }}
+                    transition={{ duration: 2.25, ease: [0.16, 1, 0.3, 1] }}
+                  />
+                </div>
+              </motion.div>
+            </div>
+          ) : null}
         </div>
       ) : null}
 
       <Navbar />
 
-      <motion.div className="relative z-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reduceMotion ? 0.01 : 0.5 }}>
+      <motion.div
+        className={`relative z-10 ${showBootIntro ? 'pointer-events-none' : ''}`}
+        initial={{ opacity: 0, filter: 'blur(4px)' }}
+        animate={{ opacity: showBootIntro ? 0 : 1, filter: showBootIntro ? 'blur(4px)' : 'blur(0px)' }}
+        transition={{ duration: reduceMotion ? 0.01 : 0.72, ease: [0.22, 1, 0.36, 1] }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 18, filter: 'blur(4px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}

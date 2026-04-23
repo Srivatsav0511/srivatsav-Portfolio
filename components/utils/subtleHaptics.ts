@@ -26,13 +26,25 @@ export function triggerImpactHaptic() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const now = Date.now();
-  if (now - lastImpactPulseAt < 120) return;
+  if (now - lastImpactPulseAt < 90) return;
   lastImpactPulseAt = now;
 
   if ('vibrate' in navigator) {
-    const accepted = navigator.vibrate([24, 16, 30]);
+    const accepted = navigator.vibrate([34, 18, 44]);
     if (!accepted) {
-      navigator.vibrate(34);
+      navigator.vibrate(48);
+    }
+  }
+}
+
+export function triggerShockHaptic() {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  if ('vibrate' in navigator) {
+    const accepted = navigator.vibrate([70, 28, 90]);
+    if (!accepted) {
+      navigator.vibrate(110);
     }
   }
 }
