@@ -41,8 +41,18 @@ export default function Navbar() {
   }, [scrollY]);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setShowGreeting(false), 4200);
-    return () => window.clearTimeout(timer);
+    const hero = document.getElementById('about');
+    if (!hero) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowGreeting(entry.isIntersecting);
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(hero);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {

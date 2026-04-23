@@ -171,7 +171,6 @@ export default function HomeAssembly() {
   const [playIconIntro, setPlayIconIntro] = useState(false);
   const [showBootIntro, setShowBootIntro] = useState(false);
   const [showWhiteReveal, setShowWhiteReveal] = useState(false);
-  const [showSettledEdgeIcons, setShowSettledEdgeIcons] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const introActive = playIconIntro && !reduceMotion;
   const iconRainItems = isMobile ? ICON_RAIN_ITEMS_MOBILE : ICON_RAIN_ITEMS_DESKTOP;
@@ -255,7 +254,6 @@ export default function HomeAssembly() {
       setShowWhiteReveal(true);
       setPlayIconIntro(false);
       setShowBootIntro(false);
-      setShowSettledEdgeIcons(true);
     }, introDurationMs);
 
     const playImpactAudio = () => {
@@ -359,7 +357,7 @@ export default function HomeAssembly() {
               }}
             >
               <motion.div
-                className="relative h-full w-full overflow-hidden rounded-[22px] border border-white/75 bg-white/85 shadow-[0_34px_70px_-40px_rgba(15,23,42,0.85)] backdrop-blur-xl"
+                className="relative h-full w-full overflow-hidden rounded-[22px] bg-white/85 shadow-[0_34px_70px_-40px_rgba(15,23,42,0.85)] backdrop-blur-xl"
                 animate={{ scale: [1, 1, 1.1, 0.98], boxShadow: ['0_34px_70px_-40px_rgba(15,23,42,0.85)', '0_34px_70px_-40px_rgba(15,23,42,0.85)', '0_20px_44px_-24px_rgba(15,23,42,0.95)', '0_10px_24px_-18px_rgba(15,23,42,0.7)'] }}
                 transition={{ duration: item.duration, delay: item.delay, times: [0, item.sideHitAt, item.floorHitAt, 1] }}
               >
@@ -381,27 +379,6 @@ export default function HomeAssembly() {
           />
         ) : null}
       </AnimatePresence>
-
-      {showSettledEdgeIcons ? (
-        <div className="pointer-events-none fixed inset-0 z-[180]">
-          <motion.div
-            className="absolute left-2 md:left-4 bottom-24 md:bottom-28 h-12 w-12 md:h-14 md:w-14 rounded-2xl border border-white/80 bg-white/88 shadow-[0_18px_40px_-26px_rgba(15,23,42,0.7)] backdrop-blur-xl"
-            initial={{ opacity: 0, y: 12, scale: 0.86 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Image src="/holdboard/holdboardicon.png" alt="Settled icon left" fill sizes="56px" className="object-contain p-1.5" />
-          </motion.div>
-          <motion.div
-            className="absolute right-2 md:right-4 bottom-24 md:bottom-28 h-12 w-12 md:h-14 md:w-14 rounded-2xl border border-white/80 bg-white/88 shadow-[0_18px_40px_-26px_rgba(15,23,42,0.7)] backdrop-blur-xl"
-            initial={{ opacity: 0, y: 12, scale: 0.86 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1], delay: 0.06 }}
-          >
-            <Image src="/factread/factread-Icon.png" alt="Settled icon right" fill sizes="56px" className="object-contain p-1.5" />
-          </motion.div>
-        </div>
-      ) : null}
 
       <Navbar />
 
