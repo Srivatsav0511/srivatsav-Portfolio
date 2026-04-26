@@ -162,10 +162,7 @@ export default function Hero({ introActive = false }: { introActive?: boolean })
             className="mb-5 md:mb-6 max-w-3xl text-base md:text-xl font-normal tracking-tight text-zinc-700 leading-tight"
           >
             <p>
-              I&apos;m a tech enthusiast who loves building apps that feel interactive and alive. I focus on creating cool products
-              with clean UI, smooth flows, and practical value. Most of my ideas start from real-world problems I notice in daily
-              life. I care deeply about making products that feel simple, fast, and enjoyable to use. My goal is to ship useful apps
-              people genuinely come back to every day.
+             I build apps for fun and ship products that make daily life easier. I care about clean UI, smooth interactions, and things that just work.
             </p>
           </motion.div>
         </motion.div>
