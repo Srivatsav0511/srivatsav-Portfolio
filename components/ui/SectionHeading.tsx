@@ -21,13 +21,6 @@ export default function SectionHeading({ title, subtitle }: { title: string; sub
         ))}
       </h2>
       {subtitle ? <p className="text-zinc-500 text-sm md:text-[15px] mb-4 max-w-3xl">{subtitle}</p> : null}
-      <motion.div
-        className="h-[1px] w-full bg-zinc-300/70"
-        initial={{ scaleX: 0, transformOrigin: 'left' }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true, amount: 0.9 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-      />
     </div>
   );
 }

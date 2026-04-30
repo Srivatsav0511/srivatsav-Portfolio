@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion';
 import Image from 'next/image';
-import AnimatedBackground from '@/components/layout/AnimatedBackground';
 import Contact from '@/components/sections/Contact';
 import Hero from '@/components/sections/Hero';
 import Navbar from '@/components/layout/Navbar';
@@ -195,6 +194,21 @@ export default function HomeAssembly() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    const navEntry = window.performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+    if (navEntry?.type !== 'reload') return;
+
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
     const shouldPlay = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!shouldPlay) return;
 
@@ -310,12 +324,9 @@ export default function HomeAssembly() {
   return (
     <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-zinc-200 overflow-x-clip">
       <motion.div
-        className="fixed left-0 top-0 z-[230] h-[3px] w-full origin-left bg-gradient-to-r from-sky-500 via-blue-500 to-cyan-400"
+        className="fixed left-0 top-0 z-[230] h-[3px] w-full origin-left bg-blue-600"
         style={{ scaleX: progressX }}
       />
-      <AnimatedBackground />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.3] md:opacity-[0.22] [background-size:24px_24px] [background-image:linear-gradient(to_right,rgba(161,161,170,0.22)_1px,transparent_1px),linear-gradient(to_bottom,rgba(161,161,170,0.2)_1px,transparent_1px)]" />
-
       {playIconIntro ? (
         <div className="pointer-events-none fixed inset-0 z-[190] overflow-hidden">
           {iconRainItems.map((item, idx) => (
@@ -382,15 +393,7 @@ export default function HomeAssembly() {
         >
           <Hero introActive={introActive} />
         </motion.div>
-        <motion.div
-          className="room-threshold"
-          initial={{ opacity: 0, scaleX: 0.94 }}
-          whileInView={{ opacity: 1, scaleX: 1 }}
-          viewport={{ once: true, amount: 0.9 }}
-          transition={{ duration: reduceMotion ? 0.01 : 0.52 }}
-        >
-          <WaveDivider />
-        </motion.div>
+        <WaveDivider />
         <motion.div
           className="premium-section room-section room-work"
           variants={sectionReveal}
@@ -401,15 +404,7 @@ export default function HomeAssembly() {
         >
           <Work />
         </motion.div>
-        <motion.div
-          className="room-threshold"
-          initial={{ opacity: 0, scaleX: 0.94 }}
-          whileInView={{ opacity: 1, scaleX: 1 }}
-          viewport={{ once: true, amount: 0.9 }}
-          transition={{ duration: reduceMotion ? 0.01 : 0.52 }}
-        >
-          <WaveDivider />
-        </motion.div>
+        <WaveDivider />
         <motion.div
           className="premium-section room-section room-contact"
           variants={sectionReveal}

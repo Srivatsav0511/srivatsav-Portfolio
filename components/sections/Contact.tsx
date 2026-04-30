@@ -31,7 +31,6 @@ export default function Contact() {
           <p className="mb-4 max-w-3xl text-sm text-zinc-500 md:text-[15px]">
             If you want to build a product that feels clear, fast, and premium in real usage, let&apos;s talk.
           </p>
-          <div className="h-[1px] w-full bg-zinc-300/70" />
         </div>
 
         <div className="relative overflow-hidden rounded-[34px] border border-white/80 bg-white/76 p-6 shadow-[0_30px_90px_-58px_rgba(15,23,42,0.85)] backdrop-blur-xl md:p-8">
@@ -88,7 +87,7 @@ export default function Contact() {
 
         </div>
 
-        <div className="mt-8 flex flex-col items-center gap-2 border-t border-zinc-200/70 pt-5 text-center">
+        <div className="mt-8 flex flex-col items-center gap-2 pt-2 text-center">
           <p className="text-sm text-zinc-500">Made with caffeine, curiosity, and too many test builds.</p>
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">© 2026 Srivatsav Karamala</p>
         </div>
