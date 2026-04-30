@@ -21,7 +21,7 @@ function ProjectMedia({ project, eager = false }: { project: Project; eager?: bo
 
   if (previews.length === 1) {
     return (
-      <div className="relative w-full aspect-[16/10] overflow-hidden rounded-3xl border border-white/70 bg-white/60 shadow-[0_28px_70px_-55px_rgba(15,23,42,0.7)] backdrop-blur-xl">
+      <div className="cinematic-media relative w-full aspect-[16/10] overflow-hidden rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl">
         <Image
           src={previews[0]}
           alt={`${project.title} preview`}
@@ -39,7 +39,7 @@ function ProjectMedia({ project, eager = false }: { project: Project; eager?: bo
       {previews.map((src, idx) => (
         <div
           key={`${project.title}-${idx}`}
-          className="relative aspect-[9/18] overflow-hidden rounded-[20px] border border-white/75 bg-white/70 shadow-[0_20px_48px_-38px_rgba(15,23,42,0.7)] backdrop-blur-xl"
+          className="cinematic-media relative aspect-[9/18] overflow-hidden rounded-[20px] border border-white/75 bg-white/70 backdrop-blur-xl"
         >
           <Image
             src={src}
@@ -73,7 +73,7 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
 
         <div className="md:col-span-5 space-y-4 md:space-y-5">
           <p className="text-[10px] font-black uppercase tracking-[0.16em] text-zinc-500">{project.subtitle}</p>
-          <h3 className="text-2xl md:text-[2rem] leading-tight font-semibold tracking-tight text-zinc-900">{project.title}</h3>
+          <h3 className="premium-display text-2xl md:text-[2rem] leading-tight font-semibold text-zinc-900">{project.title}</h3>
           <p className="max-w-[52ch] text-sm md:text-[15px] leading-relaxed text-zinc-600">{project.description}</p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -98,8 +98,6 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
             ) : (
               <Link
                 href={project.link}
-                target="_blank"
-                rel="noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-900 underline underline-offset-4 decoration-1 transition-colors hover:text-zinc-600"
               >
                 View Product

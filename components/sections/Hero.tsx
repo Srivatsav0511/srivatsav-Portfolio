@@ -8,6 +8,7 @@ const GREETINGS = ['HELLO,', 'HOLA,', 'NAMASTE,', 'BONJOUR,', 'CIAO,', 'SALAAM,'
 
 export default function Hero({ introActive = false }: { introActive?: boolean }) {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const didPulseForCycleRef = useRef(false);
   const [index, setIndex] = useState(0);
   const [typedGreeting, setTypedGreeting] = useState('');
   const [phase, setPhase] = useState<'typing' | 'holding' | 'deleting'>('typing');
@@ -66,10 +67,19 @@ export default function Hero({ introActive = false }: { introActive?: boolean })
   }, []);
 
   useEffect(() => {
-    if (isHeroInView && phase === 'typing' && typedGreeting.length > 0) {
+    if (!isHeroInView || phase !== 'typing' || typedGreeting.length === 0) return;
+    // Keep tactile feedback intentional: one subtle pulse per greeting cycle.
+    if (!didPulseForCycleRef.current) {
+      didPulseForCycleRef.current = true;
       triggerSubtleHaptic();
     }
   }, [isHeroInView, phase, typedGreeting]);
+
+  useEffect(() => {
+    if (typedGreeting.length === 0) {
+      didPulseForCycleRef.current = false;
+    }
+  }, [typedGreeting]);
 
   useEffect(() => {
     const activeGreeting = GREETINGS[index];
@@ -149,7 +159,7 @@ export default function Hero({ introActive = false }: { introActive?: boolean })
             }
             viewport={{ once: true, amount: 0.7 }}
             transition={{ duration: introActive ? 0.82 : 0.45, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-8xl font-bold mt-1.5 mb-5 md:mb-6 tracking-tight text-black leading-[0.9] md:leading-[0.86] text-balance"
+            className="premium-display text-5xl md:text-8xl font-bold mt-1.5 mb-5 md:mb-6 text-black leading-[0.9] md:leading-[0.86] text-balance"
           >
             Srivatsav.
           </motion.h1>
@@ -159,7 +169,7 @@ export default function Hero({ introActive = false }: { introActive?: boolean })
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.7 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mb-5 md:mb-6 max-w-3xl text-base md:text-xl font-normal tracking-tight text-zinc-700 leading-tight"
+            className="mb-5 md:mb-6 max-w-3xl text-base md:text-xl font-normal text-zinc-700 leading-tight"
           >
             <p>
              I build apps for fun and ship products that make daily life easier. I care about clean UI, smooth interactions, and things that just work.

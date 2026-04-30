@@ -68,6 +68,10 @@ export default function HoldboardBlog() {
       <main className="relative z-10 max-w-3xl mx-auto px-5 md:px-6 pb-16 md:pb-20 space-y-10">
         {[
           {
+            title: 'Tech stack',
+            body: 'SwiftUI, iOS, LocalAuthentication.',
+          },
+          {
             title: 'Why Holdboard was built',
             body: 'Holdboard started from a repeat pain in real work sessions: copied content is temporary, but tasks are not. During debugging, payments, support chats, and content writing, I needed more than one active clip. iOS clipboard behavior is intentionally simple, so critical items like OTPs and links were frequently lost when I copied the next item. I built Holdboard to solve this gap with a product that feels quick during normal typing, but reliable and private when content is sensitive.',
             points: [
@@ -125,7 +129,7 @@ export default function HoldboardBlog() {
               'Initial bug class: expiry and manual actions collided, causing unexpected removals.',
               'Second bug class: ordering/race issues created inconsistent cleanup timing.',
               'Fix approach: separate retention evaluation from UI mutation path and revalidate before delete.',
-              'Result: predictable retention behavior with lower risk of accidental loss.',
+              'Outcome: predictable retention behavior with lower risk of accidental loss.',
             ],
           },
           {

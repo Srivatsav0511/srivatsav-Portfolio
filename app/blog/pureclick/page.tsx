@@ -68,6 +68,10 @@ export default function PureClickBlog() {
       <main className="relative z-10 max-w-3xl mx-auto px-5 md:px-6 pb-16 md:pb-20 space-y-10">
         {[
           {
+            title: 'Tech stack',
+            body: 'React Native, Android.',
+          },
+          {
             title: 'Why I built Pureclick',
             body: 'I built Pureclick because most wallpaper apps felt heavy, ad-driven, and frustrating even before finding a good wallpaper. I wanted a calmer experience where visual quality is the priority and browsing feels smooth from the first swipe. The product started as a personal need for better wallpapers without noisy UI patterns. Over time it became a focused app built around speed, clean discovery, and reliable preview behavior.',
           },

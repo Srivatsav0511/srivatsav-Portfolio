@@ -26,6 +26,13 @@ export default function CodeClarityBlog() {
 
       <main className="relative z-10 max-w-3xl mx-auto px-6 pb-20 space-y-10">
         <section className="space-y-4 border-b border-zinc-800 pb-8">
+          <h2 className="text-2xl font-bold text-white">Tech stack</h2>
+          <p className="text-zinc-300 leading-relaxed">
+            Next.js, React, OpenAI API.
+          </p>
+        </section>
+
+        <section className="space-y-4 border-b border-zinc-800 pb-8">
           <h2 className="text-2xl font-bold text-white">Detailed overview</h2>
           <p className="text-zinc-300 leading-relaxed">
             CodeClarity is a developer-focused web tool that turns raw source code into structured explanations. Instead of generic responses, the output is formatted for practical use:

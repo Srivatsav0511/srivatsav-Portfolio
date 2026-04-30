@@ -188,6 +188,10 @@ export default function HomeAssembly() {
   const introActive = playIconIntro && !reduceMotion;
   const iconRainItems = isMobile ? ICON_RAIN_ITEMS_MOBILE : ICON_RAIN_ITEMS_DESKTOP;
   const introSlowdown = isMobile ? MOBILE_INTRO_SLOWDOWN : DESKTOP_INTRO_SLOWDOWN;
+  const sectionReveal = {
+    hidden: { opacity: 0, y: 34, scale: 0.985, filter: 'blur(10px)' },
+    visible: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -241,7 +245,7 @@ export default function HomeAssembly() {
 
     const syncIntroToHeroVisibility = () => {
       if (!isHeroSectionVisible()) {
-        setPlayIconIntro(false);
+        setPlayIconIntro((prev) => (prev ? false : prev));
       }
     };
 
@@ -281,31 +285,8 @@ export default function HomeAssembly() {
       setPlayIconIntro(false);
     }, introDurationMs);
 
-    const playImpactAudio = () => {
-      try {
-        const AudioCtx = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-        if (!AudioCtx) return;
-        const ctx = new AudioCtx();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(120, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(68, ctx.currentTime + 0.08);
-        gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.09, ctx.currentTime + 0.012);
-        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.09);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.1);
-      } catch {
-        // Ignore when autoplay/audio contexts are blocked.
-      }
-    };
-
     const pulseImpact = () => {
       triggerImpactHaptic();
-      playImpactAudio();
     };
 
     const sideImpactTimers = iconRainItems.map((item) =>
@@ -394,6 +375,7 @@ export default function HomeAssembly() {
         transition={{ duration: reduceMotion ? 0.01 : 0.72, ease: [0.22, 1, 0.36, 1] }}
       >
         <motion.div
+          className="premium-section room-section room-hero"
           initial={{ opacity: 0, y: 18, filter: 'blur(4px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: reduceMotion ? 0.01 : 0.62, delay: reduceMotion ? 0 : 0.08, ease: [0.22, 1, 0.36, 1] }}
@@ -401,6 +383,7 @@ export default function HomeAssembly() {
           <Hero introActive={introActive} />
         </motion.div>
         <motion.div
+          className="room-threshold"
           initial={{ opacity: 0, scaleX: 0.94 }}
           whileInView={{ opacity: 1, scaleX: 1 }}
           viewport={{ once: true, amount: 0.9 }}
@@ -409,13 +392,17 @@ export default function HomeAssembly() {
           <WaveDivider />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ duration: reduceMotion ? 0.01 : 0.6, delay: reduceMotion ? 0 : 0.12 }}
+          className="premium-section room-section room-work"
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.18 }}
+          transition={{ duration: reduceMotion ? 0.01 : 0.74, delay: reduceMotion ? 0 : 0.04, ease: [0.16, 1, 0.3, 1] }}
         >
           <Work />
         </motion.div>
         <motion.div
+          className="room-threshold"
           initial={{ opacity: 0, scaleX: 0.94 }}
           whileInView={{ opacity: 1, scaleX: 1 }}
           viewport={{ once: true, amount: 0.9 }}
@@ -424,10 +411,12 @@ export default function HomeAssembly() {
           <WaveDivider />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          className="premium-section room-section room-contact"
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: reduceMotion ? 0.01 : 0.6 }}
+          transition={{ duration: reduceMotion ? 0.01 : 0.74, ease: [0.16, 1, 0.3, 1] }}
         >
           <Contact />
         </motion.div>

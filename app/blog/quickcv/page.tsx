@@ -26,6 +26,13 @@ export default function QuickCVBlog() {
 
       <main className="relative z-10 max-w-3xl mx-auto px-6 pb-20 space-y-10">
         <section className="space-y-4 border-b border-zinc-800 pb-8">
+          <h2 className="text-2xl font-bold text-white">Tech stack</h2>
+          <p className="text-zinc-300 leading-relaxed">
+            React, CSS, Netlify.
+          </p>
+        </section>
+
+        <section className="space-y-4 border-b border-zinc-800 pb-8">
           <h2 className="text-2xl font-bold text-white">Detailed overview</h2>
           <p className="text-zinc-300 leading-relaxed">
             QuickCV is a web-based resume builder that gives users a live preview while they edit content. The product focuses on practical speed:

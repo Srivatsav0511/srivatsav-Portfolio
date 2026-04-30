@@ -23,12 +23,6 @@ const contactChannels = [
 ] as const;
 
 export default function Contact() {
-  const lastUpdated = new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(new Date());
-
   return (
     <section id="contact" className="px-6 py-24 md:py-28">
       <div className="mx-auto max-w-7xl">
@@ -41,8 +35,8 @@ export default function Contact() {
         </div>
 
         <div className="relative overflow-hidden rounded-[34px] border border-white/80 bg-white/76 p-6 shadow-[0_30px_90px_-58px_rgba(15,23,42,0.85)] backdrop-blur-xl md:p-8">
-          <div className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-sky-200/45 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-zinc-200/55 blur-3xl" />
+          <div className="pointer-events-none absolute right-0 top-0 h-24 w-2/3 bg-gradient-to-l from-sky-100/60 to-transparent blur-2xl" />
+          <div className="pointer-events-none absolute bottom-0 left-0 h-24 w-2/3 bg-gradient-to-r from-stone-100/80 to-transparent blur-2xl" />
 
           <div className="relative grid grid-cols-1 gap-7 md:grid-cols-12 md:gap-8">
             <div className="md:col-span-7">
@@ -94,12 +88,9 @@ export default function Contact() {
 
         </div>
 
-        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-zinc-200/70 pt-5 md:flex-row">
-          <p className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 md:text-left">© 2026 Srivatsav Karamala</p>
-          <div className="flex flex-col items-center gap-1 text-sm text-zinc-500 md:items-end">
-            <p>Made with caffeine, curiosity, and too many test builds.</p>
-            <p className="text-[10px] font-black uppercase tracking-[0.16em] text-zinc-400">Last Updated {lastUpdated}</p>
-          </div>
+        <div className="mt-8 flex flex-col items-center gap-2 border-t border-zinc-200/70 pt-5 text-center">
+          <p className="text-sm text-zinc-500">Made with caffeine, curiosity, and too many test builds.</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">© 2026 Srivatsav Karamala</p>
         </div>
       </div>
     </section>

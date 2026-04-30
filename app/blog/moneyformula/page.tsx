@@ -73,6 +73,10 @@ export default function MoneyFormulaBlog() {
       <main className="relative z-10 max-w-3xl mx-auto px-5 md:px-6 pb-16 md:pb-20 space-y-10">
         {[
           {
+            title: 'Tech stack',
+            body: 'SwiftUI, iOS.',
+          },
+          {
             title: 'Why I built MoneyFormula',
             body: 'I built MoneyFormula after repeatedly jumping between random websites, notes, and calculators for basic financial planning. The results were often hard to trust, and every tool used a different format, which slowed down simple decisions. I wanted a single place where everyday formulas felt clear, consistent, and quick to run. The app was designed so users can move from question to confident answer in seconds without spreadsheet-level friction.',
           },

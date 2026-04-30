@@ -131,7 +131,14 @@ export default function Navbar() {
             <ArrowUpRight size={14} />
           </Link>
 
-          <button onClick={() => setIsOpen((v) => !v)} className="md:hidden p-1 text-black" data-cursor="Menu">
+          <button
+            onClick={() => setIsOpen((v) => !v)}
+            className="md:hidden p-1 text-black"
+            data-cursor="Menu"
+            aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isOpen}
+            aria-controls="mobile-nav-menu"
+          >
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
@@ -152,7 +159,7 @@ export default function Navbar() {
       </AnimatePresence>
 
       {isOpen && (
-        <div className="absolute top-20 left-4 right-4 glass-surface rounded-3xl p-6 md:hidden animate-in fade-in zoom-in duration-300">
+        <div id="mobile-nav-menu" className="absolute top-20 left-4 right-4 glass-surface rounded-3xl p-6 md:hidden animate-in fade-in zoom-in duration-300">
           <div className="flex flex-col gap-5 text-center">
             {navLinks.map((link) => (
               <Link

@@ -73,6 +73,10 @@ export default function FactReadBlog() {
       <main className="relative z-10 max-w-3xl mx-auto px-5 md:px-6 pb-16 md:pb-20 space-y-10">
         {[
           {
+            title: 'Tech stack',
+            body: 'SwiftUI, iOS, AVFoundation.',
+          },
+          {
             title: 'Why I built FactRead',
             body: 'I built FactRead because most learning apps try to do too many things at once and end up feeling noisy. I wanted a format that fits real life where people learn in short bursts between tasks, travel, and work. Instead of endless feeds and distraction loops, the app focuses on one fact at a time with clear progression. The goal was to make learning feel light and repeatable so users can come back daily without fatigue.',
           },

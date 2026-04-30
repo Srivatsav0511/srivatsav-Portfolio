@@ -5,8 +5,20 @@
   --background: #f2f4f7;
   --foreground: #0a0a0a;
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-glass-sm: 14px;
+  --radius-glass-md: 22px;
+  --radius-glass-lg: 32px;
+  --glass-border: rgba(255, 255, 255, 0.92);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-bg-strong: rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 24px 56px -36px rgba(15, 23, 42, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.84), inset 0 -1px 0 rgba(255, 255, 255, 0.42);
+  --glass-shadow-deep: 0 38px 92px -58px rgba(15, 23, 42, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  --section-py-mobile: 5rem;
+  --section-py-desktop: 7rem;
   --font-sf-pro-text: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  --font-sf-pro-display: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-sf-pro-display: "SF Pro Display", "New York", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-editorial-display: "New York", "Iowan Old Style", "SF Pro Display", Georgia, serif;
   --font-mono-stack: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-cursive-display: "Bradley Hand", "Segoe Print", "Comic Sans MS", "Marker Felt", cursive;
 }
@@ -35,6 +47,7 @@ h4,
 h5,
 h6 {
   font-family: var(--font-sf-pro-display);
+  letter-spacing: 0;
 }
 
 .greeting-script {
@@ -104,11 +117,129 @@ button {
 }
 
 .glass-surface {
-  border: 1px solid rgba(255, 255, 255, 0.96);
-  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-strong);
   -webkit-backdrop-filter: blur(18px) saturate(122%);
   backdrop-filter: blur(18px) saturate(122%);
-  box-shadow: 0 24px 56px -36px rgba(15, 23, 42, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(255, 255, 255, 0.46);
+  box-shadow: var(--glass-shadow);
+}
+
+.premium-section {
+  position: relative;
+  isolation: isolate;
+}
+
+.premium-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.72;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.36), transparent 18%),
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  mask-image: linear-gradient(180deg, transparent, black 12%, black 84%, transparent);
+  z-index: -1;
+}
+
+.cinematic-media {
+  position: relative;
+  box-shadow: var(--glass-shadow-deep);
+}
+
+.cinematic-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.24), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 28%, rgba(15, 23, 42, 0.08));
+  mix-blend-mode: soft-light;
+}
+
+.premium-display {
+  font-family: var(--font-editorial-display);
+  letter-spacing: 0;
+}
+
+.room-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -1px 0 rgba(15, 23, 42, 0.07);
+}
+
+.room-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.room-section::before,
+.room-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.room-section::before {
+  opacity: 0.72;
+  background-size: 26px 26px, 100% 100%;
+  background-position: center;
+  mix-blend-mode: multiply;
+}
+
+.room-section::after {
+  opacity: 0.86;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.76), transparent 10%, transparent 88%, rgba(255, 255, 255, 0.54)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.7), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.5));
+}
+
+.room-hero {
+  background:
+    linear-gradient(135deg, rgba(247, 249, 252, 0.98), rgba(229, 235, 244, 0.94) 46%, rgba(244, 246, 249, 0.98));
+}
+
+.room-hero::before {
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.13) 1px, transparent 1px),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.82), transparent 52%);
+}
+
+.room-work {
+  background:
+    linear-gradient(135deg, rgba(235, 241, 236, 0.98), rgba(247, 249, 241, 0.94) 45%, rgba(226, 236, 232, 0.98));
+}
+
+.room-work::before {
+  background-image:
+    linear-gradient(45deg, rgba(71, 85, 105, 0.08) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82), transparent 56%);
+}
+
+.room-contact {
+  background:
+    linear-gradient(135deg, rgba(245, 239, 232, 0.98), rgba(250, 248, 244, 0.96) 42%, rgba(231, 235, 239, 0.98));
+}
+
+.room-contact::before {
+  background-image:
+    linear-gradient(to bottom, rgba(120, 113, 108, 0.11) 1px, transparent 1px),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.84), transparent 58%);
+}
+
+.room-threshold {
+  position: relative;
+  z-index: 2;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.88), transparent),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(15, 23, 42, 0.04), rgba(255, 255, 255, 0.18));
+  -webkit-backdrop-filter: blur(14px) saturate(116%);
+  backdrop-filter: blur(14px) saturate(116%);
 }
 
 button:active,
