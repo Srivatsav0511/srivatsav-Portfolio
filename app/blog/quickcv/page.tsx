@@ -6,7 +6,7 @@ export default function QuickCVBlog() {
   return (
     <article className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-zinc-700">
       <div className="sticky top-4 md:top-8 z-50 w-fit ml-4 md:ml-8">
-        <Link href="/#work" className="group flex items-center gap-2 bg-zinc-900 border border-zinc-700 px-4 py-2 rounded-full text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all shadow-sm">
+        <Link href="/blogs" replace className="group flex items-center gap-2 bg-zinc-900 border border-zinc-700 px-4 py-2 rounded-full text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-sm font-bold">Back</span>
         </Link>
@@ -25,14 +25,14 @@ export default function QuickCVBlog() {
       </div>
 
       <main className="relative z-10 max-w-3xl mx-auto px-6 pb-20 space-y-10">
-        <section className="space-y-4 border-b border-zinc-800 pb-8">
+        <section className="space-y-4">
           <h2 className="text-2xl font-bold text-white">Tech stack</h2>
           <p className="text-zinc-300 leading-relaxed">
             React, CSS, Netlify.
           </p>
         </section>
 
-        <section className="space-y-4 border-b border-zinc-800 pb-8">
+        <section className="space-y-4">
           <h2 className="text-2xl font-bold text-white">Detailed overview</h2>
           <p className="text-zinc-300 leading-relaxed">
             QuickCV is a web-based resume builder that gives users a live preview while they edit content. The product focuses on practical speed:
@@ -44,7 +44,7 @@ export default function QuickCVBlog() {
           </p>
         </section>
 
-        <section className="space-y-4 border-b border-zinc-800 pb-8">
+        <section className="space-y-4">
           <h2 className="text-2xl font-bold text-white">Why I built this app</h2>
           <p className="text-zinc-300 leading-relaxed">
             I built QuickCV after seeing friends spend hours on resume tools that were either expensive, confusing, or both. Job searching is already stressful, so the tool itself should not add more friction or anxiety.
@@ -54,7 +54,7 @@ export default function QuickCVBlog() {
           </p>
         </section>
 
-        <section className="space-y-4 border-b border-zinc-800 pb-8">
+        <section className="space-y-4">
           <h2 className="text-2xl font-bold text-white">Problems I faced while building</h2>
           <p className="text-zinc-300 leading-relaxed">
             PDF export quality was the biggest challenge. Browser-generated PDFs can become blurry or inconsistent depending on device and scaling settings.

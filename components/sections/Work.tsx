@@ -1,183 +1,163 @@
 'use client';
 
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import Link from 'next/link';
-import SectionHeading from '@/components/ui/SectionHeading';
-import { triggerSubtleHaptic } from '@/components/utils/subtleHaptics';
 
 type Project = {
   title: string;
-  subtitle: string;
+  icon: string;
+  kind: 'mobile' | 'web';
+  date: string;
   description: string;
-  screenshots: string[];
-  link: string;
-  blogLink: string;
+  media: { src: string; alt: string; type: 'desktop' | 'mobile' }[];
+  productLink: string;
 };
 
-function ProjectMedia({ project, eager = false }: { project: Project; eager?: boolean }) {
-  const previews = project.screenshots.slice(0, 3);
-
-  if (previews.length === 1) {
-    return (
-      <div className="cinematic-media relative w-full aspect-[16/10] overflow-hidden rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl">
-        <Image
-          src={previews[0]}
-          alt={`${project.title} preview`}
-          fill
-          sizes="(max-width: 768px) 92vw, (max-width: 1024px) 58vw, 42vw"
-          priority={eager}
-          className="object-cover"
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="grid grid-cols-3 gap-3">
-      {previews.map((src, idx) => (
-        <div
-          key={`${project.title}-${idx}`}
-          className="cinematic-media relative aspect-[9/18] overflow-hidden rounded-[20px] border border-white/75 bg-white/70 backdrop-blur-xl"
-        >
-          <Image
-            src={src}
-            alt={`${project.title} screenshot ${idx + 1}`}
-            fill
-            sizes="(max-width: 768px) 28vw, (max-width: 1200px) 18vw, 14vw"
-            priority={eager && idx === 0}
-            className="object-cover"
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function WorkCard({ project, index }: { project: Project; index: number }) {
-  const isExternal = project.link.startsWith('http');
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
-      onViewportEnter={() => triggerSubtleHaptic()}
-      className="py-7 md:py-10 border-b border-zinc-200/80 last:border-b-0"
-    >
-      <div className="grid items-center gap-6 md:grid-cols-12 md:gap-8">
-        <div className="md:col-span-7">
-          <ProjectMedia project={project} eager={index < 2} />
-        </div>
-
-        <div className="md:col-span-5 space-y-4 md:space-y-5">
-          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-zinc-500">{project.subtitle}</p>
-          <h3 className="premium-display text-2xl md:text-[2rem] leading-tight font-semibold text-zinc-900">{project.title}</h3>
-          <p className="max-w-[52ch] text-sm md:text-[15px] leading-relaxed text-zinc-600">{project.description}</p>
-
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <Link
-              href={project.blogLink}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 underline underline-offset-4 decoration-1 transition-colors hover:text-blue-500"
-            >
-              Read Post
-              <ArrowUpRight size={14} />
-            </Link>
-
-            {isExternal ? (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-900 underline underline-offset-4 decoration-1 transition-colors hover:text-zinc-600"
-              >
-                View Product
-                <ArrowUpRight size={14} />
-              </a>
-            ) : (
-              <Link
-                href={project.link}
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-900 underline underline-offset-4 decoration-1 transition-colors hover:text-zinc-600"
-              >
-                View Product
-                <ArrowUpRight size={14} />
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
-    </motion.article>
-  );
-}
+const projects: Project[] = [
+  {
+    title: 'Holdboard',
+    icon: '/holdboard/holdboardicon.png',
+    kind: 'mobile',
+    date: 'Feb 2026',
+    description:
+      'Holdboard is a privacy-first clipboard manager built for people who copy constantly across apps and workflows. It keeps every clip structured in a clean vault so nothing useful gets lost.',
+    media: [{ src: '/holdboard/holdboard-cover.jpg', alt: 'Holdboard preview', type: 'desktop' }],
+    productLink: 'https://apps.apple.com/us/app/holdboard/id6761117827',
+  },
+  {
+    title: 'FactRead',
+    icon: '/factread/factread-Icon.png',
+    kind: 'mobile',
+    date: 'Mar 2026',
+    description:
+      'FactRead turns learning into a swipe flow where every screen is built for focus instead of clutter. The layout balances speed with depth so daily reading stays consistent and easy to return to.',
+    media: [
+      { src: '/factread/factread-1.png', alt: 'FactRead screenshot 1', type: 'mobile' },
+      { src: '/factread/factread-2.png', alt: 'FactRead screenshot 2', type: 'mobile' },
+      { src: '/factread/factread-3.png', alt: 'FactRead screenshot 3', type: 'mobile' },
+    ],
+    productLink: 'https://apps.apple.com/us/app/factread-swipe-to-read/id6762402891',
+  },
+  {
+    title: 'MoneyFormula',
+    icon: '/moneyformula/moneyformula-icon.png',
+    kind: 'mobile',
+    date: 'Mar 2026',
+    description:
+      'MoneyFormula gives practical finance calculators in one place for daily use. Users can run quick calculations for planning, tax, and investment decisions with clear outputs.',
+    media: [
+      { src: '/moneyformula/moneyformula-1.png', alt: 'MoneyFormula screenshot 1', type: 'mobile' },
+      { src: '/moneyformula/moneyformula-2.png', alt: 'MoneyFormula screenshot 2', type: 'mobile' },
+      { src: '/moneyformula/moneyformula-3.png', alt: 'MoneyFormula screenshot 3', type: 'mobile' },
+    ],
+    productLink: 'https://apps.apple.com/us/search?term=MoneyFormula',
+  },
+  {
+    title: 'Pureclick Walls',
+    icon: '/pureclick/pureclick-icon.png',
+    kind: 'mobile',
+    date: 'Dec 2025',
+    description:
+      'Pureclick helps users quickly compare options and complete purchases with less friction. It is designed to make discovery, decision-making, and checkout feel lightweight and clear.',
+    media: [
+      { src: '/pureclick/pureclick-1.png', alt: 'Pureclick screenshot 1', type: 'mobile' },
+      { src: '/pureclick/pureclick-2.png', alt: 'Pureclick screenshot 2', type: 'mobile' },
+      { src: '/pureclick/pureclick-3.png', alt: 'Pureclick screenshot 3', type: 'mobile' },
+    ],
+    productLink: 'https://play.google.com/store/apps/details?id=com.srivatsav.pureclick',
+  },
+  {
+    title: 'CodeClarity',
+    icon: '/codeclarity/codeclarity-cover.png',
+    kind: 'web',
+    date: 'Nov 2025',
+    description:
+      'CodeClarity helps developers understand complex snippets by translating raw code into structured, readable reasoning. The interface is tuned for speed so users can move from confusion to action quickly.',
+    media: [{ src: '/codeclarity/codeclarity-cover.png', alt: 'CodeClarity preview', type: 'desktop' }],
+    productLink: 'https://codeclarity-ai.vercel.app/',
+  },
+  {
+    title: 'Quick CV',
+    icon: '/quickcv/quickcv-cover.png',
+    kind: 'web',
+    date: 'Oct 2025',
+    description:
+      'Quick CV is designed for candidates who need professional resumes without wasting time on rigid editors. The full flow is streamlined so users can create, refine, and export quickly.',
+    media: [{ src: '/quickcv/quickcv-cover.png', alt: 'Quick CV preview', type: 'desktop' }],
+    productLink: 'https://quickcv1.netlify.app/',
+  },
+];
 
 export default function Work() {
-  const projects: Project[] = [
-    {
-      title: 'Holdboard',
-      subtitle: 'iOS Clipboard Utility',
-      description:
-        'Holdboard is a privacy-first clipboard manager built for people who copy constantly across apps and workflows. It keeps every clip structured in a clean vault so nothing useful gets lost in the scroll. Sensitive snippets are protected with Face ID, while retrieval stays fast enough for real daily use. The experience is tuned to feel calm, reliable, and intentionally lightweight from first launch.',
-      screenshots: ['/holdboard/holdboard-cover.jpg'],
-      link: 'https://apps.apple.com/us/app/holdboard/id6761117827',
-      blogLink: '/blog/holdboard',
-    },
-    {
-      title: 'FactRead',
-      subtitle: 'iOS Reading App',
-      description:
-        'FactRead turns learning into a swipe flow where every screen is built for focus instead of clutter. Readers can move quickly through curated facts, switch narration modes, and tune typography for comfort in long sessions. The layout balances speed with depth, so discovery feels smooth without losing context. It is designed to make daily reading consistent, memorable, and easy to return to.',
-      screenshots: ['/factread/factread-1.png', '/factread/factread-2.png', '/factread/factread-3.png'],
-      link: 'https://apps.apple.com/us/app/factread-swipe-to-read/id6762402891',
-      blogLink: '/blog/factread',
-    },
-    {
-      title: 'MoneyFormula',
-      subtitle: 'iOS Finance Utility',
-      description:
-        'MoneyFormula is built for fast financial decisions when you need precise outputs without spreadsheet friction. It brings common investment, tax, and planning formulas into one focused workflow with quick entry and instant clarity. Search, saved history, and reusable inputs reduce repeated effort for everyday scenarios. The product stays practical, no-noise, and optimized for confident decisions in minutes.',
-      screenshots: ['/moneyformula/moneyformula-1.png', '/moneyformula/moneyformula-2.png', '/moneyformula/moneyformula-3.png'],
-      link: 'https://apps.apple.com/us/app/moneyformula-finance-calc/id6762509637',
-      blogLink: '/blog/moneyformula',
-    },
-    {
-      title: 'Pureclick Walls',
-      subtitle: 'Android Wallpaper App',
-      description:
-        'Pureclick Walls focuses on visual quality and browsing speed so wallpaper discovery feels premium from the first tap. Collections are curated for consistency, while preview interactions are tuned to keep the experience fluid. Performance work behind the scenes keeps image-heavy screens responsive even during deep browsing. The app is shaped to feel immersive, fast, and visually clean end to end.',
-      screenshots: ['/pureclick/pureclick-1.png', '/pureclick/pureclick-2.png', '/pureclick/pureclick-3.png'],
-      link: 'https://play.google.com/store/apps/details?id=com.pureclickwalls.app&hl=en',
-      blogLink: '/blog/pureclick',
-    },
-    {
-      title: 'CodeClarity',
-      subtitle: 'AI Web App',
-      description:
-        'CodeClarity helps developers understand complex snippets by translating raw code into structured, readable reasoning. Instead of generic summaries, it highlights what matters, why it matters, and what to do next. The interface is tuned for speed so users can move from confusion to action with minimal context switching. It is built as a practical companion for real-world debugging, learning, and review.',
-      screenshots: ['/codeclarity/codeclarity-cover.png'],
-      link: 'https://codeclarity-ai.vercel.app/',
-      blogLink: '/blog/codeclarity',
-    },
-    {
-      title: 'Quick CV',
-      subtitle: 'Web Resume Builder',
-      description:
-        'Quick CV is designed for candidates who need professional resumes without wasting time on rigid editors. It offers real-time previewing, clean visual hierarchy, and export-ready output that stays consistent in print. Templates are tuned for practical readability while remaining friendly to automated screening systems. The full flow is streamlined so users can create, refine, and ship a strong resume quickly.',
-      screenshots: ['/quickcv/quickcv-cover.png'],
-      link: 'https://quickcv1.netlify.app/',
-      blogLink: '/blog/quickcv',
-    },
-  ];
-
   return (
-    <section id="work" className="mx-auto max-w-7xl px-6 py-24 md:py-28">
-      <SectionHeading title="Work" subtitle="Products with pulse, stories with scars, outcomes with proof." />
+    <motion.section
+      id="work"
+      className="mx-auto max-w-7xl px-6 py-24 md:py-28"
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="mb-10 md:mb-12">
+        <h2 className="mb-2.5 flex flex-wrap gap-x-2 text-[15px] font-black uppercase tracking-[0.28em] text-zinc-700 md:text-[16px]">Work</h2>
+        <p className="mb-4 max-w-3xl text-sm text-zinc-500 md:text-[15px]">Products with pulse, stories with scars, outcomes with proof.</p>
+      </div>
 
       <div className="mt-2">
         {projects.map((project, index) => (
-          <WorkCard key={project.title} project={project} index={index} />
+          <motion.article
+            key={project.title}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.6, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -4 }}
+            className="group border-b border-zinc-200/80 py-8 last:border-b-0 md:py-12"
+          >
+            <div className="grid items-center gap-7 md:grid-cols-12 md:gap-10">
+              <div className="md:col-span-7">
+                {project.media[0].type === 'desktop' ? (
+                  <div className="cinematic-media relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl transition duration-300 group-hover:shadow-[0_40px_80px_-50px_rgba(15,23,42,0.5)]">
+                    <Image src={project.media[0].src} alt={project.media[0].alt} fill className="object-cover" sizes="(max-width: 768px) 92vw, (max-width: 1024px) 58vw, 42vw" />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-3 gap-3">
+                    {project.media.map((shot) => (
+                      <div key={shot.src} className="cinematic-media relative aspect-[9/18] overflow-hidden rounded-[20px] border border-white/75 bg-white/70 backdrop-blur-xl transition duration-300 group-hover:shadow-[0_30px_70px_-48px_rgba(15,23,42,0.5)]">
+                        <Image src={shot.src} alt={shot.alt} fill className="object-cover" sizes="(max-width: 768px) 28vw, (max-width: 1200px) 18vw, 14vw" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-4 text-center md:col-span-5 md:space-y-5 md:text-left">
+                <div className="flex items-center justify-center gap-3 md:justify-start">
+                  {project.kind === 'mobile' ? (
+                    <div className="relative h-10 w-10 overflow-hidden rounded-xl">
+                      <Image src={project.icon} alt={`${project.title} icon`} fill className="object-cover" />
+                    </div>
+                  ) : null}
+                  <h3 className="text-3xl font-semibold leading-tight text-zinc-900 md:text-[2.1rem] [font-family:var(--font-sf-pro-display)]">{project.title}</h3>
+                </div>
+                <p className="text-sm font-medium tracking-wide text-zinc-500">{project.date}</p>
+                <p className="mx-auto max-w-[52ch] text-sm leading-relaxed text-zinc-600 md:mx-0 md:text-[15px]">{project.description}</p>
+                <div className="flex flex-wrap items-center justify-center gap-4 pt-2 md:justify-start">
+                  <a
+                    href={project.productLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-900 underline decoration-1 underline-offset-4 transition-colors hover:text-zinc-600"
+                  >
+                    View Product <ArrowUpRight size={14} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.article>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }

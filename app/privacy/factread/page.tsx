@@ -4,15 +4,17 @@ import Link from 'next/link';
 export default function FactReadPrivacyPage() {
   return (
     <article className="min-h-screen bg-zinc-50 text-zinc-900">
-      <div className="max-w-3xl mx-auto px-6 py-12 md:py-16">
+      <div className="sticky top-4 md:top-8 z-50 w-fit ml-4 md:ml-8">
         <Link
-          href="/"
-          className="inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-full text-zinc-600 hover:text-black transition-colors"
+          href="/blog/factread"
+          replace
+          className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm"
         >
-          <ArrowLeft size={16} />
-          <span className="text-sm font-bold">Back to Portfolio</span>
+          <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
+          <span className="text-xs md:text-sm font-bold">Back</span>
         </Link>
-
+      </div>
+      <div className="max-w-3xl mx-auto px-6 py-12 md:py-16">
         <header className="mt-10 mb-10">
           <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-zinc-700 font-black bg-zinc-100 px-3 py-1 rounded-full">
             <ShieldCheck size={14} />

@@ -295,7 +295,7 @@ a:active {
 }
 
 .app-store-badge:focus-visible {
-  outline: 3px solid #0071e3;
+  outline: 3px solid #27272a;
   outline-offset: 3px;
 }
 
@@ -367,7 +367,7 @@ a:active {
 }
 
 .google-play-badge:focus-visible {
-  outline: 3px solid #0071e3;
+  outline: 3px solid #27272a;
   outline-offset: 3px;
 }
 
@@ -436,5 +436,40 @@ a:active {
 
   .typing-caret {
     animation: none;
+  }
+}
+
+main {
+  background: transparent;
+}
+
+main.blogs-page {
+  background: #f8fafc;
+}
+
+.liquid-nav {
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72));
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border-radius: 26px 26px 38px 38px;
+}
+
+.liquid-panel {
+  border: 1px solid rgba(255, 255, 255, 0.84);
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.76));
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  box-shadow: 0 30px 70px -42px rgba(15, 23, 42, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+@media (min-width: 1024px) {
+  .portfolio-scroll {
+    scroll-snap-type: y proximity;
+  }
+
+  .portfolio-scroll > section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 }

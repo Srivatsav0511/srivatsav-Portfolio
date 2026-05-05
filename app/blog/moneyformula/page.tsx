@@ -23,7 +23,7 @@ export default function MoneyFormulaBlog() {
     <article className="min-h-screen bg-zinc-50 text-zinc-900 selection:bg-zinc-200">
 
       <div className="sticky top-4 md:top-8 z-50 w-fit ml-4 md:ml-8">
-        <Link href="/#work" className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
+        <Link href="/blogs" replace className="group flex items-center gap-2 bg-white/90 backdrop-blur-md border border-zinc-200 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-zinc-600 hover:text-black hover:bg-white transition-all shadow-sm">
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           <span className="text-xs md:text-sm font-bold">Back</span>
         </Link>
@@ -31,7 +31,7 @@ export default function MoneyFormulaBlog() {
 
       <header className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 pt-24 md:pt-28 pb-8 md:pb-10 text-center">
         <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="text-center">
-          <div className="mx-auto mb-5 inline-flex rounded-2xl border border-zinc-200 bg-white p-2.5 shadow-sm">
+          <div className="mx-auto mb-5 inline-flex">
             <Image src="/moneyformula/moneyformula-icon.png" alt="MoneyFormula icon" width={64} height={64} className="rounded-xl" />
           </div>
 
@@ -99,7 +99,7 @@ export default function MoneyFormulaBlog() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.28 }}
             transition={{ duration: 0.45, delay: index * 0.04 }}
-            className="space-y-3 border-b border-zinc-200 pb-8 last:border-b-0 last:pb-0"
+            className="space-y-3"
           >
             <h2 className="text-xl font-bold text-black">{item.title}</h2>
             <p className="text-zinc-700 leading-relaxed">{item.body}</p>
@@ -107,21 +107,22 @@ export default function MoneyFormulaBlog() {
         ))}
       </main>
 
-      <section className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 pb-20 md:pb-24">
-        <div className="rounded-3xl border border-zinc-200 bg-white/85 p-6 md:p-8 text-center shadow-sm">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-black">Get MoneyFormula</p>
-          <h3 className="mt-2 text-xl md:text-2xl font-bold tracking-tight text-black">Download the app and review privacy details</h3>
-          <div className="mt-5 flex flex-col items-center gap-3">
-            <AppStoreBadge href="https://apps.apple.com/us/search?term=MoneyFormula" />
-            <Link
-              href="/privacy/moneyformula"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 underline underline-offset-4 decoration-1 transition-colors hover:text-blue-500"
-            >
-              Privacy Policy
-              <ArrowUpRight size={14} />
-            </Link>
-          </div>
+      <section className="relative z-10 mx-auto max-w-4xl px-5 pb-20 md:px-6 md:pb-24">
+        <div className="flex flex-wrap items-center justify-center gap-5 text-sm font-medium text-zinc-600">
+          <Link href="/privacy/moneyformula" className="inline-flex items-center gap-1 hover:text-zinc-900">
+            Privacy
+            <ArrowUpRight size={13} />
+          </Link>
+          <a href="mailto:karamalasrivatsav@gmail.com?subject=MoneyFormula%20Support" className="inline-flex items-center gap-1 hover:text-zinc-900">
+            Support
+            <ArrowUpRight size={13} />
+          </a>
+          <a href="https://apps.apple.com/us/search?term=MoneyFormula" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-zinc-900">
+            App Store
+            <ArrowUpRight size={13} />
+          </a>
         </div>
+        <p className="mt-8 text-center text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">© 2026 Srivatsav Karamala</p>
       </section>
     </article>
   );

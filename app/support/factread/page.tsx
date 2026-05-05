@@ -6,11 +6,12 @@ export default function FactReadSupportPage() {
     <article className="min-h-screen bg-white text-zinc-900">
       <div className="max-w-3xl mx-auto px-6 py-12 md:py-16">
         <Link
-          href="/"
+          href="/blog/factread"
+          replace
           className="inline-flex items-center gap-2 bg-zinc-50 border border-zinc-200 px-4 py-2 rounded-full text-zinc-600 hover:text-black transition-colors"
         >
           <ArrowLeft size={16} />
-          <span className="text-sm font-bold">Back to Portfolio</span>
+          <span className="text-sm font-bold">Back to Story</span>
         </Link>
 
         <header className="mt-10 mb-8">
