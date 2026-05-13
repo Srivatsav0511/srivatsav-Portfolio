@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 
 const greetings = ['Hello', 'Hola', 'Bonjour', 'Ciao', 'Hallo', 'Namaste', 'Konnichiwa'];
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
-  const [time, setTime] = useState('');
   const [nameAnimKey, setNameAnimKey] = useState(0);
   const sectionRef = useRef<HTMLElement | null>(null);
 
@@ -17,17 +17,8 @@ export default function Hero() {
       setIndex((prev) => (prev + 1) % greetings.length);
     }, 1400);
 
-    const clock = () => {
-      const now = new Date();
-      setTime(now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }));
-    };
-
-    clock();
-    const clockTimer = window.setInterval(clock, 1000);
-
     return () => {
       window.clearInterval(greetTimer);
-      window.clearInterval(clockTimer);
     };
   }, []);
 
@@ -93,19 +84,28 @@ export default function Hero() {
             ))}
           </motion.h1>
 
-          <p className="max-w-3xl text-lg leading-relaxed text-zinc-700 md:text-2xl">I build apps that make daily life easier.</p>
-          <p className="mt-2 max-w-3xl text-base leading-relaxed text-zinc-600 md:text-xl">
-            I focus on clean UI, smooth interactions, and products that just work.
+          <p className="max-w-3xl text-base leading-relaxed text-zinc-600 md:text-xl">
+            I build thoughtful apps that make daily life easier with clean interfaces, smooth interactions, and products that simply work.
           </p>
         </div>
 
-        <div className="w-full max-w-[310px] lg:col-span-5 lg:justify-self-end xl:col-span-4">
-          <div className="glass-surface rounded-[24px] bg-[linear-gradient(160deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72))] px-4 py-4 text-center md:px-5 md:py-5">
-            <p className="text-[9px] font-black uppercase tracking-[0.24em] text-zinc-400">Local Time / IST</p>
-            <h4 className="mt-1.5 font-mono text-[1.8rem] font-bold leading-none tracking-tight text-black tabular-nums md:text-[2.1rem]">{time}</h4>
-            <p className="mt-1.5 text-[10px] font-semibold tracking-wide text-zinc-600">Hyderabad, India</p>
-            <div className="mx-auto mt-3 h-px w-[92%] bg-zinc-200/80" />
-          </div>
+        <div className="w-full max-w-[390px] lg:col-span-5 lg:justify-self-end xl:col-span-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="relative mb-4"
+          >
+            <Image
+              src="/about/hero/portrait-frame.png"
+              alt="Srivatsav vector portrait"
+              width={720}
+              height={720}
+              className="block h-auto w-full"
+              priority
+            />
+          </motion.div>
+
         </div>
       </div>
     </section>

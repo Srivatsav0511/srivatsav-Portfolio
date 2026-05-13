@@ -22,7 +22,11 @@ const projects: Project[] = [
     date: 'Feb 2026',
     description:
       'Holdboard is a privacy-first clipboard manager built for people who copy constantly across apps and workflows. It keeps every clip structured in a clean vault so nothing useful gets lost.',
-    media: [{ src: '/holdboard/holdboard-cover.jpg', alt: 'Holdboard preview', type: 'desktop' }],
+    media: [
+      { src: '/holdboard/holdboard-1.png', alt: 'Holdboard screenshot 1', type: 'mobile' },
+      { src: '/holdboard/holdboard-2.png', alt: 'Holdboard screenshot 2', type: 'mobile' },
+      { src: '/holdboard/holdboard-3.png', alt: 'Holdboard screenshot 3', type: 'mobile' },
+    ],
     productLink: 'https://apps.apple.com/us/app/holdboard/id6761117827',
   },
   {
@@ -124,7 +128,7 @@ export default function Work() {
                 ) : (
                   <div className="grid grid-cols-3 gap-3">
                     {project.media.map((shot) => (
-                      <div key={shot.src} className="cinematic-media relative aspect-[9/18] overflow-hidden rounded-[20px] border border-white/75 bg-white/70 backdrop-blur-xl transition duration-300 group-hover:shadow-[0_30px_70px_-48px_rgba(15,23,42,0.5)]">
+                      <div key={shot.src} className="cinematic-media relative aspect-[9/18] overflow-hidden rounded-[20px] bg-transparent transition duration-300 group-hover:shadow-[0_30px_70px_-48px_rgba(15,23,42,0.5)]">
                         <Image src={shot.src} alt={shot.alt} fill className="object-cover" sizes="(max-width: 768px) 28vw, (max-width: 1200px) 18vw, 14vw" />
                       </div>
                     ))}
