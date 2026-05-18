@@ -7,7 +7,11 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { AppStoreBadge } from '@/components/ui/StoreBadges';
 
-const screenshots = ['/holdboard/holdboard-1.png', '/holdboard/holdboard-2.png', '/holdboard/holdboard-3.png'];
+const screenshots = [
+  '/apps/holdboard-ios/previews/preview-01.png',
+  '/apps/holdboard-ios/previews/preview-02.png',
+  '/apps/holdboard-ios/previews/preview-03.png',
+];
 
 export default function HoldboardBlog() {
   const mediaRef = useRef<HTMLDivElement | null>(null);
@@ -26,7 +30,7 @@ export default function HoldboardBlog() {
       <header className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 pt-24 md:pt-28 pb-8 md:pb-10 text-center">
         <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="text-center">
           <div className="mx-auto mb-5 inline-flex">
-            <Image src="/holdboard/holdboardicon.png" alt="Holdboard icon" width={64} height={64} className="rounded-xl" />
+            <Image src="/apps/holdboard-ios/icon.png" alt="Holdboard icon" width={64} height={64} className="rounded-xl" />
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-black">Holdboard</h1>
@@ -45,10 +49,10 @@ export default function HoldboardBlog() {
 
       <section ref={mediaRef} className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 mb-12 md:mb-16">
         <div className="mb-5">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-black">App Screenshots</p>
+          <p className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-black">App Previews</p>
         </div>
 
-        <div className="flex gap-4 overflow-x-auto pb-1 snap-x snap-mandatory md:gap-5">
+        <div className="flex gap-4 overflow-x-auto pb-1 snap-x snap-mandatory md:justify-center md:gap-5 md:overflow-visible md:snap-none">
           {screenshots.map((src, index) => (
             <motion.div
               key={src}
@@ -57,9 +61,9 @@ export default function HoldboardBlog() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.42, delay: index * 0.05 }}
-              className="relative w-[78%] shrink-0 snap-start aspect-[9/19.5] overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm sm:w-[48%] md:w-[24%]"
+              className="relative w-[78%] shrink-0 snap-start aspect-[9/19.5] sm:w-[48%] md:w-[24%]"
             >
-              <Image src={src} alt={`Holdboard screenshot ${index + 1}`} fill className="object-cover" priority />
+              <Image src={src} alt={`Holdboard screenshot ${index + 1}`} fill className="object-contain" priority />
             </motion.div>
           ))}
         </div>

@@ -50,7 +50,7 @@ export default function FactReadBlog() {
 
       <section ref={mediaRef} className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 mb-12 md:mb-16">
         <div className="mb-5">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-black">App Screenshots</p>
+          <p className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-black">App Previews</p>
         </div>
 
         <div className="flex gap-4 md:gap-5 overflow-x-auto pb-1 snap-x snap-mandatory">

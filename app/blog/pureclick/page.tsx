@@ -38,14 +38,14 @@ export default function PureClickBlog() {
           </p>
 
           <div className="mt-6">
-            <GooglePlayBadge href="https://play.google.com/store/apps/details?id=com.pureclickwalls.app&hl=en" />
+            <GooglePlayBadge href="https://play.google.com/store/apps/details?id=com.pureclickwalls.app&pcampaignid=web_share" />
           </div>
         </motion.div>
       </header>
 
       <section ref={mediaRef} className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 mb-12 md:mb-16">
         <div className="mb-5">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-black">App Screenshots</p>
+          <p className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-black">App Previews</p>
         </div>
 
         <div className="flex gap-4 md:gap-5 overflow-x-auto pb-1 snap-x snap-mandatory">
@@ -112,7 +112,7 @@ export default function PureClickBlog() {
             Support
             <ArrowUpRight size={13} />
           </a>
-          <a href="https://play.google.com/store/apps/details?id=com.pureclickwalls.app&hl=en" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-zinc-900">
+          <a href="https://play.google.com/store/apps/details?id=com.pureclickwalls.app&pcampaignid=web_share" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-zinc-900">
             Play Store
             <ArrowUpRight size={13} />
           </a>

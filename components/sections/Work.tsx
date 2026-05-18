@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 type Project = {
   title: string;
@@ -11,21 +12,37 @@ type Project = {
   date: string;
   description: string;
   media: { src: string; alt: string; type: 'desktop' | 'mobile' }[];
+  autoSlide?: boolean;
   productLink: string;
 };
 
 const projects: Project[] = [
   {
-    title: 'Holdboard',
-    icon: '/holdboard/holdboardicon.png',
+    title: 'Holdboard for MacOS',
+    icon: '/apps/holdboard-macos/icon.png',
+    kind: 'mobile',
+    date: 'May 2026',
+    description:
+      'Holdboard for Mac brings clipboard control to desktop with rich previews, fast retrieval, and smart organization for links, files, and media. It is designed for speed during real work, not just storage.',
+    media: [
+      { src: '/apps/holdboard-macos/previews/preview-01.png', alt: 'Holdboard Mac preview 1', type: 'desktop' },
+      { src: '/apps/holdboard-macos/previews/preview-02.png', alt: 'Holdboard Mac preview 2', type: 'desktop' },
+      { src: '/apps/holdboard-macos/previews/preview-03.png', alt: 'Holdboard Mac preview 3', type: 'desktop' },
+    ],
+    autoSlide: true,
+    productLink: 'https://apps.apple.com/us/app/holdboard/id6761117827',
+  },
+  {
+    title: 'Holdboard for iOS',
+    icon: '/apps/holdboard-ios/icon.png',
     kind: 'mobile',
     date: 'Feb 2026',
     description:
       'Holdboard is a privacy-first clipboard manager built for people who copy constantly across apps and workflows. It keeps every clip structured in a clean vault so nothing useful gets lost.',
     media: [
-      { src: '/holdboard/holdboard-1.png', alt: 'Holdboard screenshot 1', type: 'mobile' },
-      { src: '/holdboard/holdboard-2.png', alt: 'Holdboard screenshot 2', type: 'mobile' },
-      { src: '/holdboard/holdboard-3.png', alt: 'Holdboard screenshot 3', type: 'mobile' },
+      { src: '/apps/holdboard-ios/previews/preview-01.png', alt: 'Holdboard screenshot 1', type: 'mobile' },
+      { src: '/apps/holdboard-ios/previews/preview-02.png', alt: 'Holdboard screenshot 2', type: 'mobile' },
+      { src: '/apps/holdboard-ios/previews/preview-03.png', alt: 'Holdboard screenshot 3', type: 'mobile' },
     ],
     productLink: 'https://apps.apple.com/us/app/holdboard/id6761117827',
   },
@@ -55,7 +72,7 @@ const projects: Project[] = [
       { src: '/moneyformula/moneyformula-2.png', alt: 'MoneyFormula screenshot 2', type: 'mobile' },
       { src: '/moneyformula/moneyformula-3.png', alt: 'MoneyFormula screenshot 3', type: 'mobile' },
     ],
-    productLink: 'https://apps.apple.com/us/search?term=MoneyFormula',
+    productLink: 'https://apps.apple.com/in/app/moneyformula-finance-calc/id6762509637',
   },
   {
     title: 'Pureclick Walls',
@@ -69,7 +86,7 @@ const projects: Project[] = [
       { src: '/pureclick/pureclick-2.png', alt: 'Pureclick screenshot 2', type: 'mobile' },
       { src: '/pureclick/pureclick-3.png', alt: 'Pureclick screenshot 3', type: 'mobile' },
     ],
-    productLink: 'https://play.google.com/store/apps/details?id=com.srivatsav.pureclick',
+    productLink: 'https://play.google.com/store/apps/details?id=com.pureclickwalls.app&pcampaignid=web_share',
   },
   {
     title: 'CodeClarity',
@@ -94,10 +111,44 @@ const projects: Project[] = [
 ];
 
 export default function Work() {
+  const [isWorkInView, setIsWorkInView] = useState(false);
+  const [slides, setSlides] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    const autoSlideProjects = projects.filter((project) => project.autoSlide && project.media.length > 1);
+    if (autoSlideProjects.length === 0 || !isWorkInView) return;
+
+    const timer = window.setInterval(() => {
+      setSlides((prev) => {
+        const next = { ...prev };
+        autoSlideProjects.forEach((project) => {
+          const current = prev[project.title] ?? 0;
+          next[project.title] = (current + 1) % project.media.length;
+        });
+        return next;
+      });
+    }, 3000);
+
+    return () => window.clearInterval(timer);
+  }, [isWorkInView]);
+
   return (
     <motion.section
       id="work"
       className="mx-auto max-w-7xl px-6 py-24 md:py-28"
+      onViewportEnter={() => {
+        setIsWorkInView(true);
+        setSlides((prev) => {
+          const next = { ...prev };
+          projects
+            .filter((project) => project.autoSlide && project.media.length > 1)
+            .forEach((project) => {
+              next[project.title] = 0;
+            });
+          return next;
+        });
+      }}
+      onViewportLeave={() => setIsWorkInView(false)}
       initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
@@ -105,7 +156,7 @@ export default function Work() {
     >
       <div className="mb-10 md:mb-12">
         <h2 className="mb-2.5 flex flex-wrap gap-x-2 text-[15px] font-black uppercase tracking-[0.28em] text-zinc-700 md:text-[16px]">Work</h2>
-        <p className="mb-4 max-w-3xl text-sm text-zinc-500 md:text-[15px]">Products with pulse, stories with scars, outcomes with proof.</p>
+        <p className="mb-4 max-w-3xl text-sm text-zinc-500 md:text-[15px]">Built, tested, shipped: products that balance design craft with utility.</p>
       </div>
 
       <div className="mt-2">
@@ -122,15 +173,54 @@ export default function Work() {
             <div className="grid items-center gap-7 md:grid-cols-12 md:gap-10">
               <div className="md:col-span-7">
                 {project.media[0].type === 'desktop' ? (
-                  <div className="cinematic-media relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl transition duration-300 group-hover:shadow-[0_40px_80px_-50px_rgba(15,23,42,0.5)]">
-                    <Image src={project.media[0].src} alt={project.media[0].alt} fill className="object-cover" sizes="(max-width: 768px) 92vw, (max-width: 1024px) 58vw, 42vw" />
-                  </div>
+                  project.autoSlide && project.media.length > 1 ? (
+                    <div>
+                      <div className="cinematic-media relative aspect-[16/10] w-full overflow-hidden rounded-3xl transition duration-300 group-hover:shadow-[0_40px_80px_-50px_rgba(15,23,42,0.5)]">
+                        {project.media.map((shot, shotIndex) => (
+                          <Image
+                            key={shot.src}
+                            src={shot.src}
+                            alt={shot.alt}
+                            fill
+                            className={`object-cover transition-opacity duration-500 ${((slides[project.title] ?? 0) === shotIndex) ? 'opacity-100' : 'opacity-0'}`}
+                            sizes="(max-width: 768px) 92vw, (max-width: 1024px) 58vw, 42vw"
+                          />
+                        ))}
+                      </div>
+                      <div className="mt-3 flex items-center justify-center gap-2">
+                        {project.media.map((shot, dotIndex) => (
+                          <button
+                            key={`${project.title}-${shot.src}`}
+                            type="button"
+                            aria-label={`Go to slide ${dotIndex + 1}`}
+                            onClick={() => setSlides((prev) => ({ ...prev, [project.title]: dotIndex }))}
+                            className={`h-2.5 w-2.5 rounded-full transition ${((slides[project.title] ?? 0) === dotIndex) ? 'bg-zinc-900' : 'bg-zinc-300 hover:bg-zinc-500'}`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="cinematic-media relative aspect-[16/10] w-full overflow-hidden rounded-3xl transition duration-300 group-hover:shadow-[0_40px_80px_-50px_rgba(15,23,42,0.5)]">
+                      <Image src={project.media[0].src} alt={project.media[0].alt} fill className="object-cover" sizes="(max-width: 768px) 92vw, (max-width: 1024px) 58vw, 42vw" />
+                    </div>
+                  )
                 ) : (
                   <div className="grid grid-cols-3 gap-3">
                     {project.media.map((shot) => (
-                      <div key={shot.src} className="cinematic-media relative aspect-[9/18] overflow-hidden rounded-[20px] bg-transparent transition duration-300 group-hover:shadow-[0_30px_70px_-48px_rgba(15,23,42,0.5)]">
-                        <Image src={shot.src} alt={shot.alt} fill className="object-cover" sizes="(max-width: 768px) 28vw, (max-width: 1200px) 18vw, 14vw" />
-                      </div>
+                      (() => {
+                        const isHoldboardIOS = shot.src.includes('/apps/holdboard-ios/');
+                        return (
+                          <div key={shot.src} className="relative aspect-[9/18] overflow-hidden rounded-[28px]">
+                            <Image
+                              src={shot.src}
+                              alt={shot.alt}
+                              fill
+                              className={`rounded-[28px] ${isHoldboardIOS ? 'object-contain' : 'object-cover'}`}
+                              sizes="(max-width: 768px) 28vw, (max-width: 1200px) 18vw, 14vw"
+                            />
+                          </div>
+                        );
+                      })()
                     ))}
                   </div>
                 )}

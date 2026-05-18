@@ -85,7 +85,10 @@ export default function Hero() {
           </motion.h1>
 
           <p className="max-w-3xl text-base leading-relaxed text-zinc-600 md:text-xl">
-            I build thoughtful apps that make daily life easier with clean interfaces, smooth interactions, and products that simply work.
+            I create products people return to, not just try once.
+            I turn complex tasks into intuitive flows with clear value.
+            From idea to launch, I focus on clean design and reliable performance.
+            The goal is simple: reduce friction and make daily use feel effortless.
           </p>
         </div>
 

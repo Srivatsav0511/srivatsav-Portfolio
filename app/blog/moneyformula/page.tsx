@@ -43,14 +43,14 @@ export default function MoneyFormulaBlog() {
           </p>
 
           <div className="mt-6">
-            <AppStoreBadge href="https://apps.apple.com/us/search?term=MoneyFormula" />
+            <AppStoreBadge href="https://apps.apple.com/in/app/moneyformula-finance-calc/id6762509637" />
           </div>
         </motion.div>
       </header>
 
       <section ref={mediaRef} className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 mb-12 md:mb-16">
         <div className="mb-5">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-black">App Screenshots</p>
+          <p className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-black">App Previews</p>
         </div>
 
         <div className="flex gap-4 md:gap-5 overflow-x-auto pb-1 snap-x snap-mandatory">
@@ -117,7 +117,7 @@ export default function MoneyFormulaBlog() {
             Support
             <ArrowUpRight size={13} />
           </a>
-          <a href="https://apps.apple.com/us/search?term=MoneyFormula" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-zinc-900">
+          <a href="https://apps.apple.com/in/app/moneyformula-finance-calc/id6762509637" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-zinc-900">
             App Store
             <ArrowUpRight size={13} />
           </a>
